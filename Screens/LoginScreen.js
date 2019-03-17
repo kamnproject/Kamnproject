@@ -8,6 +8,8 @@ import { ImageBackground } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {KeyboardAvoidingView} from 'react-native';
+import firebase from 'firebase'
+import db from '../db.js'
 export default class LoginScreen extends React.Component {
     re = /^[a-zA-z]+$/
     state={
@@ -15,53 +17,33 @@ export default class LoginScreen extends React.Component {
         username:"",
         password:""
     }
-    loginOrRegister = async () => {
-      let avatar = "default.png"
-      try {
-  
-        await firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
-        // upload this.state.avatar called this.state.email to firebase storage
-        if (this.state.avatar) {
-          avatar = this.state.email
-          await uploadImageAsync("avatars", this.state.avatar, this.state.email)
-        }
-  
-        console.log("avatar upload: ", avatar)
-        const name = this.state.name || this.state.email
-        await db.collection('users').doc(this.state.email).set({ name, avatar, online: true })
-      } catch (error) {
-        // Handle Errors here.
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        // ...
-        console.log(errorCode)
-        console.log(errorMessage)
-        if (errorCode == "auth/email-already-in-use") {
-          try {
-            await firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
+    Login = async ()=> {
+        try { 
 
-            if (this.state.avatar) {
-              avatar = this.state.email
-              await uploadImageAsync("avatars", this.state.avatar, this.state.email)
-              await db.collection('users').doc(this.state.email).update({ avatar })
-            }
-            await db.collection('users').doc(this.state.email).update({ online: true })
-            
-            if(this.state.name) {
-              await db.collection('users').doc(this.state.email).update({ name: this.state.name })
-            }
-            console.log("avatar upload: ", result)
-          } catch (error) {
-  
-            // Handle Errors here.
-            var errorCode = error.code;
-            var errorMessage = error.message;
-            // ...
-            console.log(errorMessage)
-          }
+        await firebase.auth().signInWithEmailAndPassword(this.state.username, this.state.password)
+
+        await db.collection('User').doc(this.state.username).update({online:true})
+
+        this.props.navigation.navigate('Home')
         }
-      }
-    }
+
+        catch (error) {
+
+        // Handle Errors here.
+        var errorCode =error.code;
+
+        var errorMessage =error.message;
+
+        console.log(errorCode)
+
+        console.log(errorMessage)
+
+        // ...
+
+        }// ...
+
+        }
+   
 
   render() {
 
@@ -103,7 +85,7 @@ export default class LoginScreen extends React.Component {
       />
       <Text>{""}</Text>
         <Button
-          onPress={() => this.props.navigation.navigate('Home')}
+          onPress={this.Login}
           title="Login"
           color="#660000"
         />
