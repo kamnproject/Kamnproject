@@ -57,7 +57,7 @@ export default class LoginScreen extends React.Component {
             var errorCode = error.code;
             var errorMessage = error.message;
             // ...
-            console.log("s",errorMessage)
+            console.log(errorMessage)
           }
         }
       }
