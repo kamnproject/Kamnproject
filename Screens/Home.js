@@ -14,14 +14,14 @@ export default class Home extends React.Component {
 
   componentDidMount() {
     // go to db and get all the users
-    db.collection("area")
+    db.collection("area") 
       .onSnapshot(querySnapshot => {
         let users = []
         querySnapshot.forEach(doc => {
           users.push({ id: doc.id, ...doc.data() })
         })
         this.setState({ users })
-        console.log("Current users: ", this.state.users.length)
+        console.log("Current usaers: ", this.state.users.length)
       })
       
 
