@@ -18,17 +18,20 @@ import MapScreen from './Screens/Map.js'
 import SiteMapScreen from './Screens/SiteMap.js'
 import LoginScreen from './Screens/LoginScreen'
 import { Permissions, AppLoading, Asset, Font, Icon } from 'expo';
+import firebase from 'firebase'
 
 
 export default class App extends React.Component {
   state={
     flag:true
   }
+  email = "admin@admin.com"
   async componentWillMount() {
     const prompt = await Permissions.askAsync(Permissions.CAMERA)
     console.log("Camera permission 1: ", prompt)
     const result = await Permissions.getAsync(Permissions.CAMERA_ROLL)
     console.log("Camera permission 2: ", result)
+
   }
   handleChange=()=>{
     this.setState({flag:!!this.state.flag})
@@ -47,14 +50,16 @@ export default class App extends React.Component {
 
 const TabPages = createBottomTabNavigator(
   {
-    Home: HomeScreen,
+    
+    Home:HomeScreen,
     Profile: ProfileScreen,
     Map : MapScreen,
     SiteMap: SiteMapScreen,
   },
   {
+   
     initialRouterName: 'Login',
-    tabBarOptions:{activeTintColor:"#660000",inactiveTintColor:"grey", showLabel:true},
+    tabBarOptions:{style:{backgroundColor:"black"},activeTintColor:"white",inactiveTintColor:"grey", showLabel:false},
    
     defaultNavigationOptions:({navigation})=>( {
       tabBarIcon:({tintColor})=>{
@@ -77,7 +82,7 @@ const TabPages = createBottomTabNavigator(
 const RootStack = createStackNavigator(
   {
     Main: {
-      screen: LoginScreen,
+      screen: TabPages,
     },
     Register: {
       screen: RegisterScreen,
