@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View,Button } from 'react-native';
+import { StyleSheet, Text, View,Button, Alert } from 'react-native';
 import { Header,Overlay,Input } from 'react-native-elements';
 import Entypo from '@expo/vector-icons/Entypo';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
@@ -23,12 +23,11 @@ export default class LoginScreen extends React.Component {
         await firebase.auth().signInWithEmailAndPassword(this.state.username, this.state.password)
 
         await db.collection('User').doc(this.state.username).update({online:true})
-
         this.props.navigation.navigate('Home')
         }
 
         catch (error) {
-
+          Alert.alert("Invaild Username or Pasword")
         // Handle Errors here.
         var errorCode =error.code;
 
