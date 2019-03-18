@@ -52,7 +52,7 @@ export default class Home extends React.Component {
   }
   render() {
     // const currentuser=firebase.auth().currentUser.email
-    const currentuser="admin@admin.com"
+    const currentuser="1admin@admin.com"
     return (
       
       <View style={styles.container}>
@@ -65,7 +65,6 @@ export default class Home extends React.Component {
           centerComponent={{ text: 'Achievement', style: { color: '#fff',fontSize:25 } }}
           rightComponent={<Ionicons name="ios-notifications" color="white" size={30} onPress={() => this.props.navigation.navigate('Profile')}/>}
         />
-
           <View style={{flexDirection:"row"}}>
           <ImageBackground source={this.state.image} style={{ height: '100%'}}>
           <View style={{alignContent:"center",justifyContent:"center",flexDirection:"column"}}>
@@ -308,7 +307,7 @@ export default class Home extends React.Component {
                       backgroundColor: '#DDDDDD',
                       padding: 1,borderRadius:15,backgroundColor:"black",borderColor:"white",borderWidth:2,borderStyle:"solid"
                     }}
-                      onPress={() => this.props.navigation.navigate('Profile')}
+                      onPress={() => this.props.navigation.navigate('Register')}
                     >
                     <View style={{alignItems: 'center',justifyContent:"center"}}>
                     <Ionicons name="md-person-add" borderColor="blue" color="silver" size={30}/>
