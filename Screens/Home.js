@@ -62,7 +62,7 @@ export default class Home extends React.Component {
               backgroundColor="#660000"
               placement="center"
           leftComponent={<Entypo name="mail" color="white" size={30}/>}
-          centerComponent={{ text: 'Achievement', style: { color: '#fff',fontSize:25 } }}
+          centerComponent={{ text: 'Home', style: { color: '#fff',fontSize:25 } }}
           rightComponent={<Ionicons name="ios-notifications" color="white" size={30} onPress={() => this.props.navigation.navigate('Profile')}/>}
         />
           <View style={{flexDirection:"row"}}>
@@ -130,7 +130,7 @@ export default class Home extends React.Component {
                          backgroundColor: '#DDDDDD',
                          padding: 1,borderRadius:15,backgroundColor:"black",borderColor:"white",borderWidth:2,borderStyle:"solid"
                        }}
-                         onPress={() => this.props.navigation.navigate('Profile')}
+                         onPress={() => this.props.navigation.navigate('Ranking')}
                        >
                        <View style={{alignItems: 'center',justifyContent:"center"}}>
                        <AntDesign name="profile" borderColor="blue" color="#ff6666" size={30}/>

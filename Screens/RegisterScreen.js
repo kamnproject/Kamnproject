@@ -13,6 +13,7 @@ import db from '../db.js'
 import {KeyboardAvoidingView} from 'react-native';
 import PasswordInputText from 'react-native-hide-show-password-input';
 
+
 export default class RegisterScreen extends React.Component {
     re = /^[a-zA-z]+$/
     state={

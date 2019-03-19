@@ -15,7 +15,7 @@ import db from "../db.js";
 import { uploadImageAsync } from "../ImageUtils";
 import { ImagePicker } from "expo";
 
-export default class Profile extends React.Component {
+export default class Userprofile extends React.Component {
   state = {
     user: {},
     location: {},
@@ -23,14 +23,6 @@ export default class Profile extends React.Component {
   };
   componentDidMount() {
     let username=this.props.navigation.getParam('username')
-    // go to db and get one the user daily targets
-    if(this.props.navigation.getParam('username')){
-      username=this.props.navigation.getParam('username')
-    }
-    else{
-      username="a@a.com"
-    }
-    
 
     db.collection("User")
       .where(
@@ -51,23 +43,6 @@ export default class Profile extends React.Component {
       });
   }
 
-  pickAvatar = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      allowsEditing: true,
-      aspect: [4, 3]
-    });
-
-    console.log(result);
-
-    if (!result.cancelled) {
-      this.setState({ avatar: result.uri });
-      await uploadImageAsync("avatars", result.uri, this.state.user.id);
-      await db
-        .collection("User")
-        .doc(this.state.user.id)
-        .update({ avatar: this.state.user.id });
-    }
-  };
 
   render() {
     return (
@@ -79,13 +54,14 @@ export default class Profile extends React.Component {
               placement="center"
               leftComponent={
                 <MaterialCommunityIcons
-                  name="face-profile"
+                  name="keyboard-backspace"
                   color="white"
                   size={30}
+                  onPress={() => this.props.navigation.goBack()}
                 />
               }
               centerComponent={{
-                text: "My Profile",
+                text: "User Profile",
                 style: { color: "#fff", fontSize: 25 }
               }}
               rightComponent={
@@ -153,12 +129,7 @@ export default class Profile extends React.Component {
                 style={{ height: 120, width: 120, borderRadius: 150 }}
                 source={require("../assets/home.png")}
               />
-              <MaterialCommunityIcons
-                style={{ paddingLeft: 100 }}
-                name="camera"
-                color="white"
-                size={20}
-              />
+
             </TouchableOpacity>
           </View>
 
