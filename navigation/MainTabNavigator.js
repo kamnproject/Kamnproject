@@ -3,13 +3,18 @@ import { Platform } from 'react-native';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 
 import TabBarIcon from '../components/TabBarIcon';
-import HomeScreen from '../screens/Home';
-import LinksScreen from '../screens/LinksScreen';
-import SettingsScreen from '../screens/SettingsScreen';
-import RankingScreen from '../screens/Ranking';
-import ProfileScreen from '../screens/Profile';
-import MapScreen from '../screens/Map';
-import UserProfileScreen from '../screens/UserProfile'
+import HomeScreen from '../Screens/Home';
+import LinksScreen from '../Screens/LinksScreen';
+import SettingsScreen from '../Screens/SettingsScreen';
+import RegisterScreen from '../Screens/RegisterScreen';
+import RankingScreen from '../Screens/Ranking';
+import ProfileScreen from '../Screens/Profile';
+import MapScreen from '../Screens/Map';
+import UserProfileScreen from '../Screens/UserProfile'
+
+import inboxScreen from '../Screens/inbox'
+import inboxDetails from '../Screens/inboxDetails'
+import createissue from '../Screens/issuecreate'
 
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import Entypo from '@expo/vector-icons/Entypo';
@@ -18,11 +23,17 @@ import Foundation from '@expo/vector-icons/Foundation';
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
   Ranking:RankingScreen,
-  UserProfile:UserProfileScreen
+  UserProfile:UserProfileScreen,
+  Inbox: inboxScreen,
+  createissue:createissue,
+  inboxD:inboxDetails,
+  Register:RegisterScreen
+
 },
 {
   mode: 'modal',
   headerMode: 'none',
+  
 }
 );
 
