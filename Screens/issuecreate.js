@@ -35,7 +35,7 @@ export default class inbox extends React.Component {
        
         report = async () => {
             {
-                db.collection(`User/${this.state.name}/User_issues`).doc().set({ Date: new Date().toString("MM/dd/yyyy hh:mm tt"), Message: this.state.message, Reply: "" })
+                db.collection(`User/${this.state.name}/User_issues`).doc().set({ Date: new Date(), Message: this.state.message, Reply: "" })
                 this.props.navigation.navigate('inbox')
             }
            
@@ -47,7 +47,7 @@ export default class inbox extends React.Component {
 <Header
       backgroundColor="#660000"
       placement="left"
-  leftComponent={<Ionicons name="ios-arrow-round-back" size={30} color="white"onPress={() => this.props.navigation.navigate('inbox')}/>}
+  leftComponent={<Ionicons name="ios-arrow-round-back" size={30} color="white"onPress={() => this.props.navigation.navigate('Inbox')}/>}
   centerComponent={{ text: 'Issue', style: { color: '#fff',fontSize:25 } }}
   rightComponent={<Ionicons name="ios-notifications" color="white" size={30} onPress={() => this.props.navigation.navigate('Profile')}/>}
 />

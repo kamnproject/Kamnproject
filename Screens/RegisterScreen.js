@@ -72,7 +72,7 @@ export default class RegisterScreen extends React.Component {
             Alert.alert("Your passward and confirm passward does not match")
         }
       } catch (error) { 
-        // Handle Errors here.
+        // Handle Errors here. 
         var errorCode = error.code;
         var errorMessage = error.message;
         // ...
