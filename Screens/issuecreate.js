@@ -36,7 +36,7 @@ export default class inbox extends React.Component {
         report = async () => {
             {
                 db.collection(`User/${this.state.name}/User_issues`).doc().set({ Date: new Date(), Message: this.state.message, Reply: "" })
-                this.props.navigation.navigate('inbox')
+                this.props.navigation.navigate('Inbox')
             }
            
         }

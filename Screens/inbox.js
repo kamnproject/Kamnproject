@@ -150,7 +150,8 @@ export default class inbox extends React.Component {
                                  {/* {console.log("m", m.Date.toDate().getDate())} */}
 
                                 <Text style={{ fontWeight: "bold" }}>From {m.username}: {'\n'}</Text>
-                                <Text style={{ fontWeight: "bold" }}>Issue: {m.Message} </Text>
+                                {/* <Text style={{ fontWeight: "bold" }}>Issue: {m.Message} </Text> */}
+                                {/* {m.Message  == !" " ? <Text>{'\n'} </Text>: <Text style={{ fontWeight: "bold" }} >{'\n'}Issue:{m.Message}{'\n'}</Text>} */}
                                 {m.Reply  == !" " ? <Text>{'\n'} </Text>: <Text style={{ fontWeight: "bold" }} >{'\n'}Admin's Reply:{m.Reply}{'\n'}</Text>}
                                 
                                 <Text>Time: {m.Date.toDate().getDate()}{"-"}{m.Date.toDate().getMonth() + 1}{"  :"}{m.Date.toDate().getHours()}{":"}{m.Date.toDate().getMinutes()}</Text>

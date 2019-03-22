@@ -39,7 +39,7 @@ export default class inbox extends React.Component {
        
         reply = () =>{
             db.collection(`User/${this.state.name}/User_issues`).doc(this.state.idd).update({ Reply: this.state.reply })
-            this.props.navigation.navigate('inbox')       
+            this.props.navigation.navigate('Inbox')       
         }
   render() {
     

@@ -8,9 +8,16 @@ import LinksScreen from '../Screens/LinksScreen';
 import SettingsScreen from '../Screens/SettingsScreen';
 import RegisterScreen from '../Screens/RegisterScreen';
 import RankingScreen from '../Screens/Ranking';
+import EOMScreen from '../Screens/EOM';
+import AreaScreen from '../Screens/Area';
+import EmployeeListScreen from '../Screens/EmployeeList';
+import InventoryList from '../Screens/InventoryList';
 import ProfileScreen from '../Screens/Profile';
 import MapScreen from '../Screens/Map';
 import UserProfileScreen from '../Screens/UserProfile'
+import MainInventory from '../Screens/MainInventory'
+
+
 
 import inboxScreen from '../Screens/inbox'
 import inboxDetails from '../Screens/inboxDetails'
@@ -23,11 +30,17 @@ import Foundation from '@expo/vector-icons/Foundation';
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
   Ranking:RankingScreen,
+  EOM:EOMScreen,
   UserProfile:UserProfileScreen,
   Inbox: inboxScreen,
+  InventoryList:InventoryList,
+  EmployeeList:EmployeeListScreen,
   createissue:createissue,
   inboxD:inboxDetails,
-  Register:RegisterScreen
+  Area:AreaScreen,
+  Register:RegisterScreen,
+  Inventory:MainInventory
+
 
 },
 {
