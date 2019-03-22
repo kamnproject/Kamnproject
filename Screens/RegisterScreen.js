@@ -12,6 +12,7 @@ import firebase from 'firebase'
 import db from '../db.js'
 import {KeyboardAvoidingView} from 'react-native';
 import PasswordInputText from 'react-native-hide-show-password-input';
+import { uploadImageAsync } from '../ImageUtils.js'
 
 
 export default class RegisterScreen extends React.Component {
@@ -48,6 +49,10 @@ export default class RegisterScreen extends React.Component {
         await firebase.auth().createUserWithEmailAndPassword(this.state.username, this.state.password)
         // upload this.state.avatar called this.state.email to firebase storage
         console.log("avatar upload: ", profile_pic)
+        if (this.state.avatar) {
+          profile_pic = this.state.email
+          await uploadImageAsync("avatars", this.state.avatar, this.state.email)
+        }
         const name = this.state.name || this.state.username
         const phone =this.state.phone 
         //const address =this.state.address 
@@ -57,7 +62,7 @@ export default class RegisterScreen extends React.Component {
 
         if (this.state.password==this.state.confirmpassword)
         { 
-          await db.collection('User').doc(this.state.username).set({ Area_id:"",Badges_earned:[],Current_location:new firebase.firestore.GeoPoint(latitude= 55.12542, longitude= 21.2555), name, online: true, Phone_no:this.state.phone, Points:0, Profile_pic:"" })
+          await db.collection('User').doc(this.state.username).set({ Area_id:"",Badges_earned:[],Current_location:new firebase.firestore.GeoPoint(latitude= 55.12542, longitude= 21.2555), name, online: true, Phone_no:this.state.phone, Points:0, Profile_pic:profile_pic })
           await db.collection('User').doc(this.state.username).collection('Daily_targets').doc().set({Target_achieved:0,Target_todo:20})
           await db.collection('User').doc(this.state.username).collection('User_issues').doc().set({Date:firebase.firestore.Timestamp.fromDate(new Date()),Message:"",Reply:""})
           this.props.navigation.navigate('Main')
@@ -67,7 +72,7 @@ export default class RegisterScreen extends React.Component {
             Alert.alert("Your passward and confirm passward does not match")
         }
       } catch (error) { 
-        // Handle Errors here.
+        // Handle Errors here. 
         var errorCode = error.code;
         var errorMessage = error.message;
         // ...

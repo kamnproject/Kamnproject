@@ -24,7 +24,7 @@ export default class Home extends React.Component {
     dailyperctange:0,
    
   }
-
+tem =""
   componentWillMount() {
 
    // go to db and get one the user daily targets
@@ -49,6 +49,8 @@ export default class Home extends React.Component {
       let dailyperctange= (daily_toachieve/daily_achieved)*10
       this.setState({daily_toachieve,daily_achieved,dailyperctange})
     })
+    let temp = firebase.auth().currentUser.email
+        this.tem = temp
   }
   render() {
     // const currentuser=firebase.auth().currentUser.email
@@ -56,12 +58,12 @@ export default class Home extends React.Component {
     return (
       
       <View style={styles.container}>
-       {currentuser!=="admin@admin.com"?
+       {this.tem!=="admin@admin.com"?
        <View>
          <Header
               backgroundColor="#660000"
               placement="center"
-          leftComponent={<Entypo name="mail" color="white" size={30}/>}
+          leftComponent={<Entypo name="mail" color="white" size={30} onPress={() => this.props.navigation.navigate('Inbox')}/>}
           centerComponent={{ text: 'Home', style: { color: '#fff',fontSize:25 } }}
           rightComponent={<Ionicons name="ios-notifications" color="white" size={30} onPress={() => this.props.navigation.navigate('Profile')}/>}
         />
@@ -206,7 +208,7 @@ export default class Home extends React.Component {
       <Header
            backgroundColor="#660000"
            placement="center"
-       leftComponent={<Entypo name="mail" color="white" size={30}/>}
+       leftComponent={<Entypo name="mail" color="white" size={30} onPress={() => this.props.navigation.navigate('Inbox')}/>}
        centerComponent={{ text: 'Achievement', style: { color: '#fff',fontSize:25 } }}
        rightComponent={<Ionicons name="ios-notifications" color="white" size={30} onPress={() => this.props.navigation.navigate('Profile')}/>}
      />
