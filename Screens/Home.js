@@ -146,7 +146,7 @@ tem =""
                          backgroundColor: '#DDDDDD',
                          padding: 1,borderRadius:15,backgroundColor:"black",borderColor:"white",borderWidth:2,borderStyle:"solid"
                        }}
-                         onPress={() => this.props.navigation.navigate('Profile')}
+                         onPress={() => this.props.navigation.navigate('EOM')}
                        >
                        <View style={{alignItems: 'center',justifyContent:"center"}}>
                        <Entypo name="medal" borderColor="green" color="#81c80c" size={30}/>
@@ -160,7 +160,7 @@ tem =""
                          backgroundColor: '#DDDDDD',
                          padding: 1,borderRadius:15,backgroundColor:"black",borderColor:"white",borderWidth:2,borderStyle:"solid"
                        }}
-                         onPress={() => this.props.navigation.navigate('Profile')}
+                         onPress={() => this.props.navigation.navigate('Inventory')}
                        >
                        <View style={{alignItems: 'center',justifyContent:"center"}}>
                        <AntDesign name="layout" borderColor="blue" color="orange" size={30}/>
@@ -178,7 +178,7 @@ tem =""
                          backgroundColor: '#DDDDDD',
                          padding: 1,borderRadius:15,backgroundColor:"black",borderColor:"white",borderWidth:2,borderStyle:"solid"
                        }}
-                         onPress={() => this.props.navigation.navigate('Profile')}
+                         onPress={() => this.props.navigation.navigate('Area')}
                        >
                        <View style={{alignItems: 'center',justifyContent:"center"}}>
                        <Entypo name="shareable" borderColor="blue" color="#81c8ca" size={30}/>
@@ -355,7 +355,7 @@ tem =""
                      backgroundColor: '#DDDDDD',
                      padding: 1,borderRadius:15,backgroundColor:"black",borderColor:"white",borderWidth:2,borderStyle:"solid"
                    }}
-                     onPress={() => this.props.navigation.navigate('Profile')}
+                     onPress={() => this.props.navigation.navigate('EOM')}
                    >
                    <View style={{alignItems: 'center',justifyContent:"center"}}>
                    <Entypo name="medal" borderColor="green" color="#81c80c" size={30}/>

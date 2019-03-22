@@ -13,7 +13,7 @@ import {
   Avatar,
   Badge,
   Icon,
-  withBadge,SearchBar
+  withBadge, SearchBar
 } from "react-native-elements";
 import Entypo from "@expo/vector-icons/Entypo";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -21,14 +21,23 @@ import Foundation from "@expo/vector-icons/Foundation";
 import firebase from "firebase";
 import db from "../db.js";
 import _ from "lodash";
-export default class Ranking extends React.Component {
+
+export default class EOM extends React.Component {
   state = {
     users: [],
-  
+    search:"",filtereddata:[]
   };
+  techCompanies = [
+    { label: "Apple", value: 1 },
+    { label: "Facebook", value: 2 },
+    { label: "Netflix", value: 3 },
+    { label: "Tesla", value: 4 },
+    { label: "Amazon", value: 5 },
+    { label: "Alphabet", value: 6 },
+  ];
   componentWillMount() {
     // go to db and get one the user daily targets
-    db.collection("User").onSnapshot(querySnapshot => {
+    db.collection("EOM").onSnapshot(querySnapshot => {
       let users = [];
       querySnapshot.forEach(doc => {
         users.push({ id: doc.id, ...doc.data() });
@@ -38,9 +47,10 @@ export default class Ranking extends React.Component {
       this.setState({ filtereddata: list });
       console.log("users", this.state.users.length);
     });
+
   }
   orderlist = users => {
-    list = users.sort((a, b) => (a.Points > b.Points ? -1 : 1));
+    list = users.sort((a, b) => (a.Month > b.Month ? -1 : 1));
     return list;
   };
   Randcolor = rand => {
@@ -52,28 +62,46 @@ export default class Ranking extends React.Component {
     }
     return color;
   };
+  contains =(user, search)=>{
+    let result = false
+    if (user.Month.includes(search)){
+        result=true
+    }
+   return result
+    
+}
+updateSearch = (search) => {
+    
+       const data= _.filter(this.state.users, user=>{
 
+        return this.contains(user,search)
+       }
+        ) 
+    this.setState({ search:search, filtereddata:data  });
+    
+    
+  };
   listloop = (item,i) => {
     color = this.Randcolor(item.online);
     return (
       <ListItem // key={i}
-        title={"Name:" + item.name}
+        title={item.Month}
         subtitle={
-          "Email: " +
-          item.id +
+          "Employee_id: " +
+          item.Employee_id +
           "\n" +
-          "Area_id:" +
-          item.Area_id +
+          "Achieved Target:" +
+          item.Achieved_Target +
           "\n" +
-          "Points:" +
-          item.Points
+          "Year:" +
+          item.Year
         }
         titleStyle={{ textAlign: "left" }}
         subtitleStyle={{ textAlign: "left" }}
         leftAvatar={
             <Avatar
             rounded
-            title={(i+1)+""}
+            subtitle={item.Year}
             size="medium"
             placeholderStyle={backgroundColor="red"}
           />
@@ -83,10 +111,10 @@ export default class Ranking extends React.Component {
           <Button
             title={"View Profile"}
             
-            onPress={() => this.props.navigation.navigate("UserProfile",{username:item.id})}
+            onPress={() => this.props.navigation.navigate("UserProfile",{username:item.Employee_id})}
           />
         }
-        onPress={() => this.props.navigation.navigate("UserProfile",{username:item.id})}
+        onPress={() => this.props.navigation.navigate("UserProfile",{username:item.Employee_id})}
       />
     );
   };
@@ -110,12 +138,18 @@ export default class Ranking extends React.Component {
               onPress={() => this.props.navigation.navigate("Profile")}
             />
           }
-          
-        />
-
+        />   
+                    <SearchBar
+                placeholder="Filter by Month"
+                lightTheme round
+                onChangeText={this.updateSearch}
+                value={this.state.search}
+                containerStyle={height=5}
+                showLoading={true}
+            /> 
         {/* <Text>Ranking</Text> */}
         <ScrollView>
-          {this.state.users.map((item, i) => (
+          {this.state.filtereddata.map((item, i) => (
             <View key={i}>
               {this.listloop(item,i)}
               <Divider style={{ backgroundColor: "black", height: 1 }} />

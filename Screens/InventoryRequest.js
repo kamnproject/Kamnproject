@@ -13,7 +13,7 @@ import {
   Avatar,
   Badge,
   Icon,
-  withBadge,SearchBar
+  withBadge, SearchBar
 } from "react-native-elements";
 import Entypo from "@expo/vector-icons/Entypo";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -21,14 +21,17 @@ import Foundation from "@expo/vector-icons/Foundation";
 import firebase from "firebase";
 import db from "../db.js";
 import _ from "lodash";
-export default class Ranking extends React.Component {
+
+export default class InventoryRequest extends React.Component {
   state = {
     users: [],
-  
+    search:"",
+    filtereddata:[]
   };
+
   componentWillMount() {
     // go to db and get one the user daily targets
-    db.collection("User").onSnapshot(querySnapshot => {
+    db.collection("Inventory").onSnapshot(querySnapshot => {
       let users = [];
       querySnapshot.forEach(doc => {
         users.push({ id: doc.id, ...doc.data() });
@@ -38,9 +41,10 @@ export default class Ranking extends React.Component {
       this.setState({ filtereddata: list });
       console.log("users", this.state.users.length);
     });
+
   }
   orderlist = users => {
-    list = users.sort((a, b) => (a.Points > b.Points ? -1 : 1));
+    list = users.sort((a, b) => (a.Month > b.Month ? -1 : 1));
     return list;
   };
   Randcolor = rand => {
@@ -52,41 +56,52 @@ export default class Ranking extends React.Component {
     }
     return color;
   };
+  contains =(user, search)=>{
+    let result = false
+    if (user.Name.includes(search)){
+        result=true
+    }
+   return result
+    
+}
+updateSearch = (search) => {
+    
+       const data= _.filter(this.state.users, user=>{
 
+        return this.contains(user,search)
+       }
+        ) 
+    this.setState({ search:search, filtereddata:data  });
+    
+    
+  };
   listloop = (item,i) => {
     color = this.Randcolor(item.online);
     return (
       <ListItem // key={i}
-        title={"Name:" + item.name}
+        title={item.Item_name}
         subtitle={
-          "Email: " +
-          item.id +
-          "\n" +
-          "Area_id:" +
-          item.Area_id +
-          "\n" +
-          "Points:" +
-          item.Points
+          "Quantity: " +
+          item.Quantity 
+          
         }
         titleStyle={{ textAlign: "left" }}
         subtitleStyle={{ textAlign: "left" }}
         leftAvatar={
             <Avatar
             rounded
-            title={(i+1)+""}
+            title={i+1+""}
             size="medium"
             placeholderStyle={backgroundColor="red"}
           />
 
         }
         rightAvatar={
-          <Button
-            title={"View Profile"}
-            
-            onPress={() => this.props.navigation.navigate("UserProfile",{username:item.id})}
-          />
+          <Button title={"Request"}
+          onPress={() => this.props.navigation.navigate("Requestform",{item:item})}
+        />
         }
-        onPress={() => this.props.navigation.navigate("UserProfile",{username:item.id})}
+
       />
     );
   };
@@ -94,28 +109,9 @@ export default class Ranking extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Header
-          backgroundColor="#660000"
-          placement="center"
-          leftComponent={<Entypo name="price-ribbon" size={30} color="white" />}
-          centerComponent={{
-            text: "Ranking",
-            style: { color: "#fff", fontSize: 25 }
-          }}
-          rightComponent={
-            <Ionicons
-              name="ios-notifications"
-              color="white"
-              size={30}
-              onPress={() => this.props.navigation.navigate("Profile")}
-            />
-          }
-          
-        />
-
         {/* <Text>Ranking</Text> */}
         <ScrollView>
-          {this.state.users.map((item, i) => (
+          {this.state.filtereddata.map((item, i) => (
             <View key={i}>
               {this.listloop(item,i)}
               <Divider style={{ backgroundColor: "black", height: 1 }} />
