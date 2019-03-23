@@ -10,6 +10,7 @@ import Foundation from '@expo/vector-icons/Foundation';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import Inventorytake from './Inventorytake'
 import RequestForm from './Inventoryrequestform'
+import SuppliedHistory from './SuppliedHistory'
 
 export default class MainInventory extends React.Component {
   render() {
@@ -30,23 +31,25 @@ export default class MainInventory extends React.Component {
 const AppNavigator = createStackNavigator({
     Inventorytake:Inventorytake,
     List: InventoryList,
-    Requestform:RequestForm
+    
   }, {
     initialRouteName: 'List',
     headerMode:'none'
   }
 )
-// const AppNavigator = createStackNavigator({
-//   TrashDetail : TrashCanDetail
-//   }, {
-//     initialRouteName: 'TrashDetail',
-//     //headerMode:'none'
-//   }
-// )
+const AppNavigator2 = createStackNavigator({
+    Request:InventoryRequest,
+    Requestform:RequestForm,
+    SuppliedHistory:SuppliedHistory
+  }, {
+    initialRouteName: 'Request',
+    headerMode:'none'
+  }
+)
 const TabPages = createMaterialTopTabNavigator(
     {
       Inventory_List: AppNavigator,
-      Request:InventoryRequest,
+      Request:AppNavigator2
       //TrashDetail :AppNavigator,
     },
     {
