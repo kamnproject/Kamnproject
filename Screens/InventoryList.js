@@ -25,58 +25,102 @@ import _ from "lodash";
 export default class InventoryList extends React.Component {
   state = {
     users: [],
-    search:"",
-    filtereddata:[]
+    Requestlist:[],
+    Inventory:[]
   };
+  // currentuser=firebase.auth().currentUser.email
+  currentuser="admin@admin.com"
+  //currentuser="khalid@khalid.com"
+  componentDidMount() {
+    
+    let oneuser = "";
+    if(this.currentuser!="admin@admin.com"){
+    db.collection("User").onSnapshot(querySnapshot =>   { 
+      querySnapshot.forEach(doc => {
+        if(doc.id==this.currentuser){
+          oneuser=doc.data().Area_id
+        }
 
-  componentWillMount() {
-    // go to db and get one the user daily targets
-    db.collection("Inventory").onSnapshot(querySnapshot => {
+      }
+    );
+    db.collection("Inventory").where("Area_id","==",oneuser).onSnapshot(querySnapshot => {
       let users = [];
       querySnapshot.forEach(doc => {
         users.push({ id: doc.id, ...doc.data() });
       });
-      let list = this.orderlist(users);
-      this.setState({ users: list });
-      this.setState({ filtereddata: list });
+
+      this.setState({ users: users });
+
       console.log("users", this.state.users.length);
     });
+    console.log("Area_id", oneuser);
+    }
+  
+  );
+    
+  console.log("Area_id2", oneuser);
+    
+    // go to db and get one the user daily targets
+}
+else{
+
+this.ListInventoryHistory()
+
+}
 
   }
-  orderlist = users => {
-    list = users.sort((a, b) => (a.Month > b.Month ? -1 : 1));
-    return list;
-  };
-  Randcolor = rand => {
-    var color = "";
-    if (rand == true) {
-      color = "success";
-    } else {
-      color = "warning";
-    }
-    return color;
-  };
-  contains =(user, search)=>{
-    let result = false
-    if (user.Name.includes(search)){
-        result=true
-    }
-   return result
-    
-}
-updateSearch = (search) => {
-    
-       const data= _.filter(this.state.users, user=>{
+  ListInventoryHistory=async()=>{
+    db.collection("Inventory_History").where("Type","==","Taking").onSnapshot(querySnapshot =>   { 
+      let Requestlist = [];
+      querySnapshot.forEach(doc => {
+          Requestlist.push({ id: doc.id, ...doc.data() });
+      });
+      this.setState({ Requestlist: Requestlist });
+  });
+  console.log("Lenght", this.state.Requestlist.length);
+  db.collection("Inventory").onSnapshot(querySnapshot => {
+    let Inventory = [];
+    querySnapshot.forEach(doc => {
+      Inventory.push({ id: doc.id, ...doc.data() });
+    });
+  
+    this.setState({ Inventory: Inventory });
+    console.log("Inventory", this.state.Inventory.length);
+  });
+  
+   }
 
-        return this.contains(user,search)
-       }
-        ) 
-    this.setState({ search:search, filtereddata:data  });
-    
-    
+   adminlistloop = (item,i) => {
+
+    return (
+      <ListItem // key={i}
+        title={"Name: "+this.state.Inventory.map(x=>(x.id===item.Inventory_id)?x.Item_name:"")}
+        subtitle={
+          "Taken By: " +
+          item.Employee_id
+          +"\n" 
+          +"Date_Time:"+
+          item.Date_time+
+          "\n" +
+          "Area_id: "+
+          this.state.Inventory.map(x=>(x.id===item.Inventory_id)?x.Area_id:"")+
+          "\n" +
+          "Purpose:"+
+          item.Purpose +
+          "\n" +
+          "Quantity Taken:"+item.Quantity
+          
+        }
+        titleStyle={{ textAlign: "left" }}
+        subtitleStyle={{ textAlign: "left" }}
+ 
+
+      />
+      
+    );
   };
   listloop = (item,i) => {
-    color = this.Randcolor(item.online);
+
     return (
       <ListItem // key={i}
         title={item.Item_name}
@@ -97,10 +141,12 @@ updateSearch = (search) => {
 
         }
         rightAvatar={
+
           <Button title={"Take"}
           onPress={() => this.props.navigation.navigate("Inventorytake",{item:item})}
         />
 
+          
       }
 
         
@@ -113,12 +159,34 @@ updateSearch = (search) => {
       <View style={styles.container}>
         {/* <Text>Ranking</Text> */}
         <ScrollView>
-          {this.state.filtereddata.map((item, i) => (
+        {this.currentuser!="admin@admin.com"?
+        <View>
+        <View style={{flexDirection:"row",paddingLeft:20}}>
+         <Text style={{ fontSize: 18, fontWeight: "bold",textAlign:"center" }}>Inventory Taking  </Text>
+
+         </View>
+         
+         { this.state.users.map((item, i) => (
             <View key={i}>
               {this.listloop(item,i)}
               <Divider style={{ backgroundColor: "black", height: 1 }} />
             </View>
           ))}
+          </View>:
+          <View>
+            <View style={{flexDirection:"row",paddingLeft:20}}>
+         <Text style={{ fontSize: 18, fontWeight: "bold",textAlign:"center" }}>Inventory Taken </Text>
+
+         </View>
+          { this.state.Requestlist.map((item, i) => (
+            <View key={i}>
+              {this.adminlistloop(item,i)}
+              <Divider style={{ backgroundColor: "black", height: 1 }} />
+            </View>
+          ))}
+          </View>
+          
+          }
         </ScrollView>
       </View>
     );
