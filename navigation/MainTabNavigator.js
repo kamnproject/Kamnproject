@@ -13,11 +13,12 @@ import AreaScreen from '../Screens/Area';
 import EmployeeListScreen from '../Screens/EmployeeList';
 import InventoryList from '../Screens/InventoryList';
 import ProfileScreen from '../Screens/Profile';
-import MapScreen from '../Screens/Map';
+import MapScreen from '../Screens/MapScreen';
 import UserProfileScreen from '../Screens/UserProfile'
 import MainInventory from '../Screens/MainInventory'
-
-
+import LiveMap from '../Screens/Map';
+import TrashList from '../Screens/Trashlist';
+import TrashDetails from '../Screens/TrashCanDetail';
 
 import inboxScreen from '../Screens/inbox'
 import inboxDetails from '../Screens/inboxDetails'
@@ -26,6 +27,7 @@ import createissue from '../Screens/issuecreate'
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import Entypo from '@expo/vector-icons/Entypo';
 import Foundation from '@expo/vector-icons/Foundation';
+//import MapView from 'react-native-maps';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
@@ -63,6 +65,9 @@ HomeStack.navigationOptions = {
 
 const MapStack = createStackNavigator({
   Map: MapScreen,
+  MapV:LiveMap,
+  Trashes:TrashList,
+  TrashDetail:TrashDetails
 },
 {
   headerMode: 'none'
