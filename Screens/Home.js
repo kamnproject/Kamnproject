@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { Header } from 'react-native-elements';
 import Entypo from '@expo/vector-icons/Entypo';
 import AntDesign from '@expo/vector-icons/AntDesign';
-
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
@@ -17,7 +17,7 @@ import { ImageBackground } from 'react-native';
 
 export default class Home extends React.Component {
   state = {
-    image:require('../assets/qatar.jpg'),
+    image:require('../assets/back.jpg'),
     daily_Target:[],
     daily_toachieve:0,
     daily_achieved:0,
@@ -49,7 +49,8 @@ tem =""
       let dailyperctange= (daily_toachieve/daily_achieved)*10
       this.setState({daily_toachieve,daily_achieved,dailyperctange})
     })
-    let temp = firebase.auth().currentUser.email
+    //let temp = firebase.auth().currentUser.email
+    let temp="khalid@khalid.com"
         this.tem = temp
   }
   render() {
@@ -61,309 +62,311 @@ tem =""
        {this.tem!=="admin@admin.com"?
        <View>
          <Header
-              backgroundColor="#660000"
+              backgroundColor="#567D46"
               placement="center"
           leftComponent={<Entypo name="mail" color="white" size={30} onPress={() => this.props.navigation.navigate('Inbox')}/>}
           centerComponent={{ text: 'Home', style: { color: '#fff',fontSize:25 } }}
           rightComponent={<Ionicons name="ios-notifications" color="white" size={30} onPress={() => this.props.navigation.navigate('Profile')}/>}
         />
           <View style={{flexDirection:"row"}}>
-          <ImageBackground source={this.state.image} style={{ height: '100%'}}>
-          <View style={{alignContent:"center",justifyContent:"center",flexDirection:"column"}}>
-           <View style={{alignContent:"center",justifyContent:"center",flexDirection:"row",paddingVertical:50}}>
-            <Text  style={{fontSize: 20, fontWeight: "bold",color:"white"}}>
+          <ImageBackground source={this.state.image} style={{ height: hp('100%'),width:wp('100%')}}>
+          <View style={{alignContent:"center",justifyContent:"center",flexDirection:"column",paddingTop:50}}>
+           
+
+                <View style={{flexDirection:"row",justifyContent:"space-evenly"}}>
+                    <View>
+                          <ProgressCircle
+                              percent={this.state.dailyperctange}
+                              radius={wp('13%')}
+                              borderWidth={12}
+                              color="#3399FF"
+                              shadowColor="#999"
+                              bgColor="#fff"
+                          >
+                              <Text style={{ fontSize: wp('4.5%'), fontWeight: "bold" }}>{this.state.daily_achieved+"/"+this.state.daily_toachieve}</Text>
+                          </ProgressCircle>
+                    <Text style={{ fontSize: wp('4.5%'),textAlign:"center" ,fontWeight: "bold",color:"#567D46" }}>Daily</Text>
+
+                      </View>
+                      <View>
+                          <ProgressCircle
+                              percent={this.state.dailyperctange}
+                              radius={wp('13%')}
+                              borderWidth={12}
+                              color="#3399FF"
+                              shadowColor="#999"
+                              bgColor="#fff"
+                          >
+                              <Text style={{ fontSize:wp('4.5%'), fontWeight: "bold" }}>{this.state.daily_achieved+"/"+this.state.daily_toachieve}</Text>
+                          </ProgressCircle>
+                    <Text style={{ fontSize: wp('4.5%'),textAlign:"center", fontWeight: "bold",color:"#567D46" }}>Weekly</Text>
+
+                      </View>
+                      <View>
+                          <ProgressCircle
+                              percent={this.state.dailyperctange}
+                              radius={wp('13%')}
+                              borderWidth={12}
+                              color="#3399FF"
+                              shadowColor="#999"
+                              bgColor="#fff"
+                          >
+                              <Text style={{ fontSize: wp('4.5%'), fontWeight: "bold" }}>{this.state.daily_achieved+"/"+this.state.daily_toachieve}</Text>
+                          </ProgressCircle>
+                    <Text style={{ fontSize: wp('4.5%'),textAlign:"center", fontWeight: "bold",color:"#567D46" }}>Monthly</Text>
+                      </View>
+                      
+                  </View>
+                  <View style={{alignContent:"center",justifyContent:"center",flexDirection:"row",paddingVertical:50}}>
+            <Text  style={{fontSize: hp('6%'), fontWeight:"bold",color:"#567D46"}}>
               Welcome
               </Text>
            </View>
-
-                <View style={{flexDirection:"row"}}>
-                    <View style={{flexDirection:"column",padding:20}}>
-                    <Text style={{ fontSize: 14, fontWeight: "bold",color:"white" }}>Daily Target</Text>
-                          <ProgressCircle
-                              percent={this.state.dailyperctange}
-                              radius={50}
-                              borderWidth={10}
-                              color="#3399FF"
-                              shadowColor="#999"
-                              bgColor="#fff"
-                          >
-                              <Text style={{ fontSize: 18, fontWeight: "bold" }}>{this.state.daily_achieved+"/"+this.state.daily_toachieve}</Text>
-                          </ProgressCircle>
-                      </View>
-                      <View style={{flexDirection:"column",padding:20}}>
-                    <Text style={{ fontSize: 14, fontWeight: "bold",color:"white" }}>Weekly Target</Text>
-                          <ProgressCircle
-                              percent={this.state.dailyperctange}
-                              radius={50}
-                              borderWidth={8}
-                              color="#3399FF"
-                              shadowColor="#999"
-                              bgColor="#fff"
-                          >
-                              <Text style={{ fontSize: 18, fontWeight: "bold" }}>{this.state.daily_achieved+"/"+this.state.daily_toachieve}</Text>
-                          </ProgressCircle>
-                      </View>
-                      <View style={{flexDirection:"column",padding:20}}>
-                    <Text style={{ fontSize: 14, fontWeight: "bold",color:"white" }}>Monthly Target</Text>
-                          <ProgressCircle
-                              percent={this.state.dailyperctange}
-                              radius={50}
-                              borderWidth={8}
-                              color="#3399FF"
-                              shadowColor="#999"
-                              bgColor="#fff"
-                          >
-                              <Text style={{ fontSize: 18, fontWeight: "bold" }}>{this.state.daily_achieved+"/"+this.state.daily_toachieve}</Text>
-                          </ProgressCircle>
-                      </View>
-                      
-                  </View>
-                  </View>
-                  </ImageBackground>
                   </View>
                   {/* The icons below */}
                   
-                  <View style={{flexDirection:"row",justifyContent:"space-evenly", paddingTop:50}}>
+                  <View style={{flexDirection:"row",justifyContent:"space-evenly",paddingBottom:hp("5%")}}>
                       
 
                        <TouchableOpacity
-                         style={{flexDirection:"column",width:100,
-                         height:100 ,alignItems: 'center',justifyContent:"center",
+                         style={{flexDirection:"column",width:wp("22%"),
+                         height:wp("22%") ,alignItems: 'center',justifyContent:"center",
                          backgroundColor: '#DDDDDD',
-                         padding: 1,borderRadius:15,backgroundColor:"black",borderColor:"white",borderWidth:2,borderStyle:"solid"
+                         padding: 1,borderRadius:15,backgroundColor:"#567D46",borderColor:"white",borderWidth:2,borderStyle:"solid"
                        }}
                          onPress={() => this.props.navigation.navigate('Ranking')}
                        >
                        <View style={{alignItems: 'center',justifyContent:"center"}}>
-                       <AntDesign name="profile" borderColor="blue" color="#ff6666" size={30}/>
-                       <Text style={{ fontSize: 14, fontWeight: "bold" ,color:"white"}}> Ranking </Text>
+                       <AntDesign name="profile" borderColor="blue" color="white" size={wp('5.5%')}/>
+                       <Text style={{ fontSize: wp('3.5%'), fontWeight: "bold" ,color:"white"}}> Ranking </Text>
                        </View>
                        </TouchableOpacity>
      
                        <TouchableOpacity
-                         style={{flexDirection:"column",width:100,
-                         height:100 ,alignItems: 'center',justifyContent:"center",
+                         style={{flexDirection:"column",width:wp("22%"),
+                         height:wp("22%") ,alignItems: 'center',justifyContent:"center",
                          backgroundColor: '#DDDDDD',
-                         padding: 1,borderRadius:15,backgroundColor:"black",borderColor:"white",borderWidth:2,borderStyle:"solid"
+                         padding: 1,borderRadius:15,backgroundColor:"#567D46",borderColor:"white",borderWidth:2,borderStyle:"solid"
                        }}
                          onPress={() => this.props.navigation.navigate('EOM')}
                        >
                        <View style={{alignItems: 'center',justifyContent:"center"}}>
-                       <Entypo name="medal" borderColor="green" color="#81c80c" size={30}/>
-                       <Text style={{ fontSize: 14, fontWeight: "bold" ,color:"white"}}> EOM </Text>
+                       <Entypo name="medal" borderColor="green" color="white" size={wp('5.5%')}/>
+                       <Text style={{ fontSize: wp('4.5%'), fontWeight: "bold" ,color:"white"}}> EOM </Text>
                        </View>
                        </TouchableOpacity>
 
                        <TouchableOpacity
-                         style={{flexDirection:"column",width:100,
-                         height:100 ,alignItems: 'center',justifyContent:"center",
+                         style={{flexDirection:"column",width:wp("22%"),
+                         height:wp("22%") ,alignItems: 'center',justifyContent:"center",
                          backgroundColor: '#DDDDDD',
-                         padding: 1,borderRadius:15,backgroundColor:"black",borderColor:"white",borderWidth:2,borderStyle:"solid"
+                         padding: 1,borderRadius:15,backgroundColor:"#567D46",borderColor:"white",borderWidth:2,borderStyle:"solid"
                        }}
                          onPress={() => this.props.navigation.navigate('Inventory')}
                        >
                        <View style={{alignItems: 'center',justifyContent:"center"}}>
-                       <AntDesign name="layout" borderColor="blue" color="orange" size={30}/>
-                       <Text style={{ fontSize: 14, fontWeight: "bold" ,color:"white"}}> Inventory List </Text>
+                       <AntDesign name="layout" borderColor="blue" color="white" size={wp('5.5%')}/>
+                       <Text style={{ fontSize: wp('3.5%'), fontWeight: "bold" ,color:"white",textAlign:"center"}}> Inventory List </Text>
                        </View>
                        </TouchableOpacity>
 
                   </View>
-                  <View style={{flexDirection:"row",justifyContent:"space-evenly",paddingTop:10}}>
+                  <View style={{flexDirection:"row",justifyContent:"space-evenly"}}>
                       
 
                        <TouchableOpacity
-                         style={{flexDirection:"column",width:100,
-                         height:100 ,alignItems: 'center',justifyContent:"center",
+                         style={{flexDirection:"column",width:wp("22%"),
+                         height:wp("22%") ,alignItems: 'center',justifyContent:"center",
                          backgroundColor: '#DDDDDD',
-                         padding: 1,borderRadius:15,backgroundColor:"black",borderColor:"white",borderWidth:2,borderStyle:"solid"
+                         padding: 1,borderRadius:15,backgroundColor:"#567D46",borderColor:"white",borderWidth:2,borderStyle:"solid"
                        }}
                          onPress={() => this.props.navigation.navigate('Area')}
                        >
                        <View style={{alignItems: 'center',justifyContent:"center"}}>
-                       <Entypo name="shareable" borderColor="blue" color="#81c8ca" size={30}/>
-                       <Text style={{ fontSize: 14, fontWeight: "bold" ,color:"white"}}> Area </Text>
+                       <Entypo name="shareable" borderColor="blue" color="white" size={wp('5.5%')}/>
+                       <Text style={{ fontSize: wp('3.5%'), fontWeight: "bold" ,color:"white"}}> Area </Text>
                        </View>
                        </TouchableOpacity>
 
                        <TouchableOpacity
-                         style={{flexDirection:"column",width:100,
-                         height:100 ,alignItems: 'center',justifyContent:"center",
+                         style={{flexDirection:"column",width:wp("22%"),
+                         height:wp("22%") ,alignItems: 'center',justifyContent:"center",
                          backgroundColor: '#DDDDDD',
-                         padding: 1,borderRadius:15,backgroundColor:"black",borderColor:"white",borderWidth:2,borderStyle:"solid"
+                         padding: 1,borderRadius:15,backgroundColor:"#567D46",borderColor:"white",borderWidth:2,borderStyle:"solid"
                        }}
                          onPress={() => this.props.navigation.navigate('Profile')}
                        >
                        <View style={{alignItems: 'center',justifyContent:"center"}}>
-                       <MaterialIcons name="feedback" borderColor="blue" color="#ff92ff" size={30}/>
-                       <Text style={{ fontSize: 14, fontWeight: "bold" ,color:"white",textAlign:"center"}}> Daily Feedback </Text>
+                       <MaterialIcons name="feedback" borderColor="blue" color="white" size={wp('5.5%')}/>
+                       <Text style={{ fontSize: wp('3.5%'), fontWeight: "bold" ,color:"white",textAlign:"center"}}> Daily Feedback </Text>
                        </View>
                        </TouchableOpacity>
 
- 
+                       </View>
+                  </ImageBackground>
                    </View>
       </View>: 
       // The Admin Home page
       <View>
       <Header
-           backgroundColor="#660000"
+           backgroundColor="#567D46"
            placement="center"
        leftComponent={<Entypo name="mail" color="white" size={30} onPress={() => this.props.navigation.navigate('Inbox')}/>}
-       centerComponent={{ text: 'Achievement', style: { color: '#fff',fontSize:25 } }}
+       centerComponent={{ text: 'Home', style: { color: '#fff',fontSize:25 } }}
        rightComponent={<Ionicons name="ios-notifications" color="white" size={30} onPress={() => this.props.navigation.navigate('Profile')}/>}
      />
 
        <View style={{flexDirection:"row"}}>
-       <ImageBackground source={this.state.image} style={{ width:"100%",height: '100%'}}>
+       <ImageBackground source={this.state.image} style={{ height: hp('100%'),width:wp('100%')}}>
        <View style={{alignContent:"center",justifyContent:"center",flexDirection:"column"}}>
-        <View style={{alignContent:"center",justifyContent:"center",flexDirection:"row",paddingVertical:50}}>
-         <Text  style={{fontSize: 20, fontWeight: "bold",color:"white"}}>
+        <View style={{alignContent:"center",justifyContent:"center",flexDirection:"row",paddingTop:hp("10%")}}>
+         <Text  style={{fontSize: hp('6%'), fontWeight: "bold",color:"#567D46"}}>
            Welcome Admin
            </Text>
           </View>
 
-               </View>
-               </ImageBackground>
+               
                </View>
                {/* The icons below */}
                
-               <View style={{flexDirection:"row",justifyContent:"space-evenly", paddingTop:50}}>
+               <View style={{flexDirection:"row",justifyContent:"space-evenly", paddingTop:hp("10%")}}>
                    
 
                     <TouchableOpacity
-                      style={{flexDirection:"column",width:100,
-                      height:100 ,alignItems: 'center',justifyContent:"center",
+                      style={{flexDirection:"column",width:wp("22%"),
+                      height:wp("22%") ,alignItems: 'center',justifyContent:"center",
                       backgroundColor: '#DDDDDD',
-                      padding: 1,borderRadius:15,backgroundColor:"black",borderColor:"white",borderWidth:2,borderStyle:"solid"
+                      padding: 1,borderRadius:15,backgroundColor:"#567D46",borderColor:"white",borderWidth:2,borderStyle:"solid"
                     }}
                       onPress={() => this.props.navigation.navigate('Profile')}
                     >
                     <View style={{alignItems: 'center',justifyContent:"center"}}>
-                    <AntDesign name="profile" borderColor="blue" color="#ff6666" size={30}/>
-                    <Text style={{ fontSize: 14, fontWeight: "bold" ,color:"white"}}> Statistics </Text>
+                    <AntDesign name="profile" borderColor="blue" color="white" size={wp('5.5%')}/>
+                    <Text style={{ fontSize: wp('3.5%'), fontWeight: "bold" ,color:"white"}}> Statistics </Text>
                     </View>
                     </TouchableOpacity>
   
                     <TouchableOpacity
-                      style={{flexDirection:"column",width:100,
-                      height:100 ,alignItems: 'center',justifyContent:"center",
+                      style={{flexDirection:"column",width:wp("22%"),
+                      height:wp("22%") ,alignItems: 'center',justifyContent:"center",
                       backgroundColor: '#DDDDDD',
-                      padding: 1,borderRadius:15,backgroundColor:"black",borderColor:"white",borderWidth:2,borderStyle:"solid"
+                      padding: 1,borderRadius:15,backgroundColor:"#567D46",borderColor:"white",borderWidth:2,borderStyle:"solid"
                     }}
                       onPress={() => this.props.navigation.navigate('Profile')}
                     >
                     <View style={{alignItems: 'center',justifyContent:"center"}}>
-                    <Entypo name="shareable" borderColor="blue" color="#81c8ca" size={30}/>
-                    <Text style={{ fontSize: 14, fontWeight: "bold" ,color:"white"}}> List of Areas </Text>
+                    <Entypo name="shareable" borderColor="blue" color="white" size={wp('5.5%')}/>
+                    <Text style={{ fontSize: wp('3.5%'), fontWeight: "bold" ,color:"white",textAlign:"center"}}> List of Areas </Text>
                     </View>
                     </TouchableOpacity>
 
                     <TouchableOpacity
-                      style={{flexDirection:"column",width:100,
-                      height:100 ,alignItems: 'center',justifyContent:"center",
+                      style={{flexDirection:"column",width:wp("22%"),
+                      height:wp("22%") ,alignItems: 'center',justifyContent:"center",
                       backgroundColor: '#DDDDDD',
-                      padding: 1,borderRadius:15,backgroundColor:"black",borderColor:"white",borderWidth:2,borderStyle:"solid"
+                      padding: 1,borderRadius:15,backgroundColor:"#567D46",borderColor:"white",borderWidth:2,borderStyle:"solid"
                     }}
                       onPress={() => this.props.navigation.navigate('Profile')}
                     >
                     <View style={{alignItems: 'center',justifyContent:"center"}}>
-                    <AntDesign name="layout" borderColor="blue" color="orange" size={30}/>
-                    <Text style={{ fontSize: 14, fontWeight: "bold" ,color:"white",textAlign:"center"}}> Employee Ranking and List </Text>
+                    <AntDesign name="layout" borderColor="blue" color="white" size={wp('5.5%')}/>
+                    <Text style={{ fontSize: wp('3.5%'), fontWeight: "bold" ,color:"white",textAlign:"center"}}> Employee Ranking and List </Text>
                     </View>
                     </TouchableOpacity>
 
                </View>
-               <View style={{flexDirection:"row",justifyContent:"space-evenly",paddingTop:30}}>
+               <View style={{flexDirection:"row",justifyContent:"space-evenly",paddingTop:hp("5%")}}>
                    
 
                     <TouchableOpacity
-                      style={{flexDirection:"column",width:100,
-                      height:100 ,alignItems: 'center',justifyContent:"center",
+                      style={{flexDirection:"column",width:wp("22%"),
+                      height:wp("22%") ,alignItems: 'center',justifyContent:"center",
                       backgroundColor: '#DDDDDD',
-                      padding: 1,borderRadius:15,backgroundColor:"black",borderColor:"white",borderWidth:2,borderStyle:"solid"
+                      padding: 1,borderRadius:15,backgroundColor:"#567D46",borderColor:"white",borderWidth:2,borderStyle:"solid"
                     }}
                       onPress={() => this.props.navigation.navigate('Profile')}
                     >
                     <View style={{alignItems: 'center',justifyContent:"center"}}>
-                    <MaterialIcons name="history" borderColor="blue" color="purple" size={30}/>
-                    <Text style={{ fontSize: 14, fontWeight: "bold" ,color:"white",textAlign:"center"}}> Feedback History </Text>
+                    <MaterialIcons name="history" borderColor="blue" color="white" size={wp('5.5%')}/>
+                    <Text style={{ fontSize: wp('3.5%'), fontWeight: "bold" ,color:"white",textAlign:"center"}}> Feedback History </Text>
                     </View>
                     </TouchableOpacity>
 
                     <TouchableOpacity
-                      style={{flexDirection:"column",width:100,
-                      height:100 ,alignItems: 'center',justifyContent:"center",
+                      style={{flexDirection:"column",width:wp("22%"),
+                      height:wp("22%") ,alignItems: 'center',justifyContent:"center",
                       backgroundColor: '#DDDDDD',
-                      padding: 1,borderRadius:15,backgroundColor:"black",borderColor:"white",borderWidth:2,borderStyle:"solid"
+                      padding: 1,borderRadius:15,backgroundColor:"#567D46",borderColor:"white",borderWidth:2,borderStyle:"solid"
                     }}
                       onPress={() => this.props.navigation.navigate('Profile')}
                     >
                     <View style={{alignItems: 'center',justifyContent:"center"}}>
-                    <MaterialCommunityIcons name="target" borderColor="blue" color="white" size={30}/>
-                    <Text style={{ fontSize: 14, fontWeight: "bold" ,color:"white",textAlign:"center"}}> Daily Target History </Text>
+                    <MaterialCommunityIcons name="target" borderColor="blue" color="white" size={wp('5.5%')}/>
+                    <Text style={{ fontSize: wp('3.5%'), fontWeight: "bold" ,color:"white",textAlign:"center"}}> Daily Target History </Text>
                     </View>
                     </TouchableOpacity>
                     <TouchableOpacity
-                      style={{flexDirection:"column",width:100,
-                      height:100 ,alignItems: 'center',justifyContent:"center",
+                      style={{flexDirection:"column",width:wp("22%"),
+                      height:wp("22%") ,alignItems: 'center',justifyContent:"center",
                       backgroundColor: '#DDDDDD',
-                      padding: 1,borderRadius:15,backgroundColor:"black",borderColor:"white",borderWidth:2,borderStyle:"solid"
+                      padding: 1,borderRadius:15,backgroundColor:"#567D46",borderColor:"white",borderWidth:2,borderStyle:"solid"
                     }}
                       onPress={() => this.props.navigation.navigate('Register')}
                     >
                     <View style={{alignItems: 'center',justifyContent:"center"}}>
-                    <Ionicons name="md-person-add" borderColor="blue" color="silver" size={30}/>
-                    <Text style={{ fontSize: 14, fontWeight: "bold" ,color:"white",textAlign:"center"}}>Create New Employee </Text>
+                    <Ionicons name="md-person-add" borderColor="blue" color="white" size={wp('5.5%')}/>
+                    <Text style={{ fontSize: wp('3.5%'), fontWeight: "bold" ,color:"white",textAlign:"center"}}>Create New Employee </Text>
                     </View>
                     </TouchableOpacity>
 
 
                 </View>
-                <View style={{flexDirection:"row",justifyContent:"space-evenly",paddingTop:30}}>
+                <View style={{flexDirection:"row",justifyContent:"space-evenly",paddingTop:hp("4%")}}>
                    
 
                    <TouchableOpacity
-                     style={{flexDirection:"column",width:100,
-                     height:100 ,alignItems: 'center',justifyContent:"center",
+                     style={{flexDirection:"column",width:wp("22%"),
+                     height:wp("22%") ,alignItems: 'center',justifyContent:"center",
                      backgroundColor: '#DDDDDD',
-                     padding: 1,borderRadius:15,backgroundColor:"black",borderColor:"white",borderWidth:2,borderStyle:"solid"
+                     padding: 1,borderRadius:15,backgroundColor:"#567D46",borderColor:"white",borderWidth:2,borderStyle:"solid"
                    }}
                      onPress={() => this.props.navigation.navigate('Profile')}
                    >
                    <View style={{alignItems: 'center',justifyContent:"center"}}>
-                   <Entypo name="trash" borderColor="blue" color="green" size={30}/>
-                   <Text style={{ fontSize: 14, fontWeight: "bold" ,color:"white",textAlign:"center"}}> Collected TrashCan History </Text>
+                   <Entypo name="trash" borderColor="blue" color="white" size={wp('5.5%')}/>
+                   <Text style={{ fontSize: wp('3.5%'), fontWeight: "bold" ,color:"white",textAlign:"center"}}> Collected TrashCan History </Text>
                    </View>
                    </TouchableOpacity>
 
                    <TouchableOpacity
-                     style={{flexDirection:"column",width:100,
-                     height:100 ,alignItems: 'center',justifyContent:"center",
+                     style={{flexDirection:"column",width:wp("22%"),
+                     height:wp("22%") ,alignItems: 'center',justifyContent:"center",
                      backgroundColor: '#DDDDDD',
-                     padding: 1,borderRadius:15,backgroundColor:"black",borderColor:"white",borderWidth:2,borderStyle:"solid"
+                     padding: 1,borderRadius:15,backgroundColor:"#567D46",borderColor:"white",borderWidth:2,borderStyle:"solid"
                    }}
                      onPress={() => this.props.navigation.navigate('Profile')}
                    >
                    <View style={{alignItems: 'center',justifyContent:"center"}}>
-                   <MaterialIcons name="feedback" borderColor="blue" color="red" size={30}/>
-                   <Text style={{ fontSize: 14, fontWeight: "bold" ,color:"white",textAlign:"center"}}> Inventory Requests </Text>
+                   <MaterialIcons name="feedback" borderColor="blue" color="white" size={wp('5.5%')}/>
+                   <Text style={{ fontSize: wp('3.5%'), fontWeight: "bold" ,color:"white",textAlign:"center"}}> Inventory Requests </Text>
                    </View>
                    </TouchableOpacity>
                    <TouchableOpacity
-                     style={{flexDirection:"column",width:100,
-                     height:100 ,alignItems: 'center',justifyContent:"center",
+                     style={{flexDirection:"column",width:wp("22%"),
+                     height:wp("22%") ,alignItems: 'center',justifyContent:"center",
                      backgroundColor: '#DDDDDD',
-                     padding: 1,borderRadius:15,backgroundColor:"black",borderColor:"white",borderWidth:2,borderStyle:"solid"
+                     padding: 1,borderRadius:15,backgroundColor:"#567D46",borderColor:"white",borderWidth:2,borderStyle:"solid"
                    }}
                      onPress={() => this.props.navigation.navigate('EOM')}
                    >
                    <View style={{alignItems: 'center',justifyContent:"center"}}>
-                   <Entypo name="medal" borderColor="green" color="#81c80c" size={30}/>
-                   <Text style={{ fontSize: 14, fontWeight: "bold" ,color:"white",textAlign:"center"}}> EOM </Text>
+                   <Entypo name="medal" borderColor="green" color="white" size={wp('5.5%')}/>
+                   <Text style={{ fontSize: wp('3.5%'), fontWeight: "bold" ,color:"white",textAlign:"center"}}> EOM </Text>
                    </View>
                    </TouchableOpacity>
 
-
+                   </View>
+               </ImageBackground>
                </View>
    </View>
     
