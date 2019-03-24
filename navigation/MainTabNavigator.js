@@ -125,5 +125,5 @@ export default createBottomTabNavigator({
   MyProfleStack,
   
 },{
-  tabBarOptions:{style:{ backgroundColor:"black",borderTopColor:"grey",borderTopWidth:1,borderStyle:"solid"},activeTintColor:"white",inactiveTintColor:"grey", showLabel:false},
+  tabBarOptions:{style:{ backgroundColor:"white",borderTopColor:"grey",borderTopWidth:1,borderStyle:"solid"},activeTintColor:"#567D45",inactiveTintColor:"#C0C0C0", showLabel:false},
 });
