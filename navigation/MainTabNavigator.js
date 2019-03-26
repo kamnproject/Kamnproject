@@ -27,6 +27,12 @@ import createissue from '../Screens/issuecreate'
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import Entypo from '@expo/vector-icons/Entypo';
 import Foundation from '@expo/vector-icons/Foundation';
+import NotficationScreen from '../Screens/Notification'
+import NotificationMainScreen from '../Screens/NotificationMain'
+// import FormScreen from '../Screens/Notification_form'
+import IssuesScreen from '../Screens/TrashCanIssues'
+import IssueDetailScreen from  '../Screens/IssueDetails'
+import FixedScreen from '../Screens/IssueFixed'
 //import MapView from 'react-native-maps';
 
 const HomeStack = createStackNavigator({
@@ -41,8 +47,8 @@ const HomeStack = createStackNavigator({
   inboxD:inboxDetails,
   Area:AreaScreen,
   Register:RegisterScreen,
-  Inventory:MainInventory
-
+  Inventory:MainInventory,
+  NotificationMain:NotificationMainScreen,
 
 },
 {
