@@ -78,7 +78,16 @@ this.setState({issues:detail})
       <Text style={{textAlign:"left"}}>Issue: {i.Issue}</Text>
       <Text style={{textAlign:"left"}}>Status: {i.Status}</Text>
       <Text style={{textAlign:"left"}}>Trashcan_id: {i.Trashcan_id}</Text>
-      {/* <Text style={{textAlign:"left"}}>Date_time: {i.Date_time.toDate().getDate()}{"-"}{i.Date_time.toDate().getMonth()}{"-"}{i.Date_time.toDate().getYear()}{" "}{i.Date_time.toDate().getHours()}{":"}{i.Date_time.toDate().getMinutes()}</Text> */}
+      <Text style={{ textAlign: "left" }}>
+                                  Date_time: {i.Date_time.toDate().getDate()}
+                                  {"-"}
+                                  {i.Date_time.toDate().getMonth()}
+                                  {"-"}
+                                  {i.Date_time.toDate().getYear()}{" "}
+                                  {i.Date_time.toDate().getHours()}
+                                  {":"}
+                                  {i.Date_time.toDate().getMinutes()}
+                 </Text>
       
 
      </View>
@@ -100,7 +109,7 @@ reply = async () => {
     await db.collection('Trashcan_Issues').doc( this.state.issues.id).set({  Issue: this.state.issues.Issue, Date_time:this.state.issues.Date_time , Trashcan_id: this.state.issues.Trashcan_id  ,Status: "fixed", Employee_id: this.state.issues.Employee_id })
     await db.collection('notification').doc().set({  Employee_id: this.state.eid  , message: "your request has been fulfilled", title: this.state.title, Area_id: this.state.areaid, Type: this.state.type ,Date_time:firebase.firestore.Timestamp.fromDate(new Date()) })
     
-    this.props.navigation.navigate('Home')  
+    this.props.navigation.navigate('IssuesHistory')  
 
 }
 
@@ -141,6 +150,7 @@ reply = async () => {
         containerStyle={{margin: 8, width:200 ,  marginRight: 10}}
         onPress = {() =>this.reply()}
         title="Trashcan issues reply"
+        
         />
         </View>
         
