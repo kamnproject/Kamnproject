@@ -33,6 +33,7 @@ import NotificationMainScreen from '../Screens/NotificationMain'
 import IssuesScreen from '../Screens/TrashCanIssues'
 import IssueDetailScreen from  '../Screens/IssueDetails'
 import FixedScreen from '../Screens/IssueFixed'
+import CreateAreaScreen from '../Screens/CreateArea'
 //import MapView from 'react-native-maps';
 
 const HomeStack = createStackNavigator({
@@ -49,6 +50,7 @@ const HomeStack = createStackNavigator({
   Register:RegisterScreen,
   Inventory:MainInventory,
   NotificationMain:NotificationMainScreen,
+  createArea: CreateAreaScreen
 
 },
 {

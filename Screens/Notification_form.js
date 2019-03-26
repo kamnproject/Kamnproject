@@ -33,7 +33,8 @@ flagArea: false,
 flagAll:false,
 title: "",
 message: "",
-areaid: ""
+areaid: "",
+colorChange: false
 
 }
 
@@ -140,7 +141,7 @@ handleSend = async () => {
    const area = this.state.areaid
 
   if ( title != "" && message != "" ) {
-        await db.collection('notification').doc().set({ Area_id: area, Employee_id: user , Message: this.state.message, title, Type: this.state.allUserValue  ,Date_time:firebase.firestore.Timestamp.fromDate(new Date()) })
+        await db.collection('notification').doc().set({ Area_id: area, Employee_id: user , Message: this.state.message, title: title, Type: this.state.allUserValue  ,Date_time:firebase.firestore.Timestamp.fromDate(new Date()) })
         Alert.alert("Message Send")
         this.props.navigation.navigate('Home')
   }
@@ -221,11 +222,13 @@ handleSend = async () => {
 
 <View style={{flexDirection: "row", justifyContent: 'space-evenly'}}>
 
+
     <CheckBox
       title=  'User'
       checkedIcon='dot-circle-o'
       uncheckedIcon='circle-o'
-      checked={this.state.checked}
+      checked={this.state.flagUser}
+      checkedColor="green"
       onPress= {this.handleShowUser}
       containerStyle = {{width: 110}}
     />
@@ -234,7 +237,9 @@ handleSend = async () => {
       title='Area'
       checkedIcon='dot-circle-o'
       uncheckedIcon='circle-o'
-      checked={this.state.checked}
+      checked={this.state.flagArea}
+      checkedColor="green"
+      checkedColor="green"
       onPress= {this.handleShowArea}
       containerStyle = {{width: 105}}
     />
@@ -243,10 +248,12 @@ handleSend = async () => {
       title='All'
       checkedIcon='dot-circle-o'
       uncheckedIcon='circle-o'
-      checked={this.state.checked}
+      checked={this.state.flagAll}
+      checkedColor="green"
       onPress= {this.handleShowAll}
       containerStyle = {{width: 105}}
     />
+
 
 </View>
 

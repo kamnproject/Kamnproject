@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View, ScrollView,Button } from "react-native";
+import { StyleSheet, Text, View, ScrollView } from "react-native";
 import { createStackNavigator, createAppContainer } from "react-navigation";
 import {
   createMaterialTopTabNavigator,
@@ -13,7 +13,7 @@ import {
   Avatar,
   Badge,
   Icon,
-  withBadge, SearchBar
+  withBadge, SearchBar, Button
 } from "react-native-elements";
 import Entypo from "@expo/vector-icons/Entypo";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -28,8 +28,10 @@ export default class Area extends React.Component {
     search:"",filtereddata:[]
   };
 
+  temp = ""
   componentWillMount() {
     // go to db and get one the user daily targets
+    this.temp = firebase.auth().currentUser.email
     db.collection("Area").onSnapshot(querySnapshot => {
       let users = [];
       querySnapshot.forEach(doc => {
@@ -109,6 +111,11 @@ updateSearch = (search) => {
     );
   };
 
+
+  handleCreate = () => {
+    this.props.navigation.navigate('createArea')
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -137,6 +144,27 @@ updateSearch = (search) => {
                 containerStyle={height=5}
                 showLoading={true}
             /> 
+<View>
+
+  {
+    this.temp == "admin@admin.com" ?
+<Button 
+        containerStyle={{marginLeft: 270, width: 140}}
+        onPress = {this.handleCreate}
+        title="Create Area"
+        
+        />
+  :
+  null
+   
+  }
+
+
+
+</View>
+
+
+
         {/* <Text>Ranking</Text> */}
         <ScrollView>
           {this.state.filtereddata.map((item, i) => (
