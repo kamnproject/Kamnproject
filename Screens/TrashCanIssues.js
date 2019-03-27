@@ -182,12 +182,16 @@ export default class Issues extends React.Component {
             </View>
 
             <ScrollView>
+            {this.state.issueActive.length>0?
               <FlatList
                 style={{ elevation: 10 }}
                 data={this.state.issueActive}
                 keyExtractor={(x, i) => x.id}
                 renderItem={({ item }) => <View>{this.list(item)}</View>}
               />
+              :
+              <Text style={{marginLeft: 5}}>There are currently NO active trash can issues  </Text>
+            }
             </ScrollView>
           </View>
          : 
@@ -205,6 +209,7 @@ export default class Issues extends React.Component {
             </Text>
 
             <ScrollView>
+            {this.state.issueActive.length>0?
               <FlatList
                 style={{ elevation: 10 }}
                 data={this.state.issueActive}
@@ -215,8 +220,16 @@ export default class Issues extends React.Component {
                   <View>{this.Activelist(item)}</View>
                 )}
               />
+              :
+              <Text style={{marginLeft: 5}}>There are currently NO active trash can issues  </Text>
+              }
             </ScrollView>
+            
           </View>
+        
+          
+           
+         
 
         }
       </View>

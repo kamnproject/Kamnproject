@@ -74,86 +74,10 @@ export default class Notification extends React.Component {
       console.log("Current notification: ", this.state.userarea.length);
     });
   };
-  handlUser = item => {
-    return (
-      <View>
-        <ListItem
-          title={
-            <Text style={{ textAlign: "left", fontWeight: "bold" }}>
-              User: {item.id}
-            </Text>
-          }
-        />
-        <Divider style={{ backgroundColor: "brown", height: 1 }} />
-      </View>
-    );
-  };
+  
+ 
 
-  handleArea = item => {
-    return (
-      <View>
-        <ListItem
-          title={
-            <Text style={{ textAlign: "left", fontWeight: "bold" }}>
-              Area: {item.Name}
-            </Text>
-          }
-        />
-        <Divider style={{ backgroundColor: "blue", height: 1 }} />
-      </View>
-    );
-  };
-  handleUserValue = id => {
-    this.setState({ UserValue: id });
-  };
-
-  handleAreaValue = (area, id) => {
-    this.setState({ AreaValue: area });
-    this.setState({ areaid: id });
-  };
-
-  handleShowUser = () => {
-    this.setState({ flagAll: false });
-    this.setState({ flagUser: true });
-    this.setState({ flagArea1: false });
-  };
-
-  handleShowArea = () => {
-    this.setState({ flagAll: false });
-    this.setState({ flagArea1: true });
-    this.setState({ flagUser: false });
-  };
-
-  handleShowAll = () => {
-    this.setState({ flagAll: true });
-    this.setState({ flagUser: false });
-    this.setState({ flagArea1: false });
-    this.setState({ allUserValue: "all" });
-  };
-
-  handleSend = async () => {
-    const title = this.state.title;
-    const message = this.state.message;
-    const user = this.state.UserValue;
-    const area = this.state.areaid;
-
-    if (title != "" && message != "") {
-      await db
-        .collection("notification")
-        .doc()
-        .set({
-          Area_id: area,
-          Employee_id: user,
-          message,
-          title,
-          Type: this.state.allUserValue,
-          Date_time: firebase.firestore.Timestamp.fromDate(new Date())
-        });
-      this.props.navigation.navigate("Home");
-    } else {
-      Alert.alert("enter all the fields");
-    }
-  };
+  
 
   render() {
     console.log("Area id", this.state.userarea.Area_id);

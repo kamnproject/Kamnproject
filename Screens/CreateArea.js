@@ -93,7 +93,7 @@ console.log("latiotude: ",latitude)
 
   <ScrollView>
 <Card style={{borderRadius: 10, backgroundColor: 'blue'}}>
-        <Text style={{margin: 5, fontSize: 20}}>Create Area</Text>
+        
 
     <Text style={{marginTop: 5, marginLeft: 5}}> Name </Text> 
     <Input 

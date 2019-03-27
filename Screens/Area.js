@@ -144,12 +144,13 @@ updateSearch = (search) => {
                 containerStyle={height=5}
                 showLoading={true}
             /> 
-<View>
 
+
+  
   {
     this.temp == "admin@admin.com" ?
 <Button 
-        containerStyle={{marginLeft: 270, width: 140}}
+        containerStyle={{marginLeft: 270, width: 140, justifyContent: 'flex-start'}}
         onPress = {this.handleCreate}
         title="Create Area"
         
@@ -160,8 +161,6 @@ updateSearch = (search) => {
   }
 
 
-
-</View>
 
 
 
