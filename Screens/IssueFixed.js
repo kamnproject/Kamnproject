@@ -64,7 +64,7 @@ temp = ""
     return (
       <View style={styles.container}>
 
-        <Text style={{fontWeight: "bold", marginLeft: 5, marginTop: 5, marginBottom: 8}}> Trashcan Issues supplied</Text>
+        <Text style={{fontWeight: "bold", marginLeft: 5, marginTop: 5, marginBottom: 8, fontSize: 20}}> Trashcan Issues supplied</Text>
         
       {/* {
         this.temp == "admin@admin.com" ? */}
@@ -78,14 +78,14 @@ temp = ""
                     keyExtractor = {(x,i)=>x.id}
                     renderItem = {({item})=> 
                    
-                    <TouchableOpacity
+                   
                    // onPress = {()=>this.handleDetails(item)}
                     
-                    >
+                    
                     <View>
                         {this.list(item)}
                     </View>
-                    </TouchableOpacity>
+                    
                    
                 }
                 />

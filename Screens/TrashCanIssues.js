@@ -20,6 +20,7 @@ import {
 import issueDetail from "./IssueDetails";
 import db from "../db";
 import firebase from "firebase";
+import moment from "moment";
 // import {Card} from 'react-native-shadow-cards';
 
 export default class Issues extends React.Component {
@@ -91,14 +92,7 @@ export default class Issues extends React.Component {
                 <Text style={{ textAlign: "left" }}>Issue: {i.Issue}</Text>
                 <Text style={{ textAlign: "left" }}>Status: {i.Status}</Text>
                 <Text style={{ textAlign: "left" }}>
-                                  Date_time: {i.Date_time.toDate().getDate()}
-                                  {"-"}
-                                  {i.Date_time.toDate().getMonth()}
-                                  {"-"}
-                                  {i.Date_time.toDate().getYear()}{" "}
-                                  {i.Date_time.toDate().getHours()}
-                                  {":"}
-                                  {i.Date_time.toDate().getMinutes()}
+                Date_time: {moment({Date_time: i.Date_time}).format(('MMMM Do YYYY, h:mm:ss a'))}
                  </Text>
               </View>
             }
@@ -131,15 +125,8 @@ export default class Issues extends React.Component {
               <View>
                 <Text style={{ textAlign: "left" }}>Issue: {i.Issue}</Text>
                 <Text style={{ textAlign: "left" }}>Status: {i.Status}</Text>
-                <Text style={{ textAlign: "left" }}>
-                                  Date_time: {i.Date_time.toDate().getDate()}
-                                  {"-"}
-                                  {i.Date_time.toDate().getMonth()}
-                                  {"-"}
-                                  {i.Date_time.toDate().getYear()}{" "}
-                                  {i.Date_time.toDate().getHours()}
-                                  {":"}
-                                  {i.Date_time.toDate().getMinutes()}
+                <Text style={{ textAlign: "left" }}>                
+                Date_time: {moment({Date_time: i.Date_time}).format(('MMMM Do YYYY, h:mm:ss a'))}
                  </Text>
               </View>
             }

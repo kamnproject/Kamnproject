@@ -141,7 +141,7 @@ handleSend = async () => {
    const area = this.state.areaid
 
   if ( title != "" && message != "" ) {
-        await db.collection('notification').doc().set({ Area_id: area, Employee_id: user , Message: this.state.message, title: title, Type: this.state.allUserValue  ,Date_time:firebase.firestore.Timestamp.fromDate(new Date()) })
+        await db.collection('notification').doc().set({ Area_id: area, Employee_id: user , Message: this.state.message, Title: title, Type: this.state.allUserValue  ,Date_time:firebase.firestore.Timestamp.fromDate(new Date()) })
         Alert.alert("Message Send")
         this.props.navigation.navigate('Home')
   }

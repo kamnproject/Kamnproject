@@ -18,7 +18,7 @@ import {
 } from "react-native-elements";
 import { Header, ListItem, Divider, Badge } from "react-native-elements";
 import FormScreen from "../Screens/Notification_form";
-
+import moment from "moment";
 export default class Notification extends React.Component {
   state = {
     notifications: [],
@@ -50,7 +50,7 @@ export default class Notification extends React.Component {
   };
 
   methodNotification = async () => {
-    db.collection(`notification`).onSnapshot(querySnapshot => {
+    db.collection(`notification`).where("Employee_id", "==", this.temp = firebase.auth().currentUser.email).onSnapshot(querySnapshot => {
       let list = [];
       querySnapshot.forEach(doc => {
         list.push({ id: doc.id, ...doc.data() });
@@ -91,6 +91,7 @@ export default class Notification extends React.Component {
 
           {this.temp !== "admin@admin.com" ? (
             <ScrollView>
+              {this.state.notifications.length>0?
               <FlatList
                 style={{ elevation: 10 }}
                 data={this.state.notifications}
@@ -128,16 +129,10 @@ export default class Notification extends React.Component {
                                   Message: {item.Message}
                                 </Text>
 
-                                <Text style={{ textAlign: "left" }}>
-                                  Date_time: {item.Date_time.toDate().getDate()}
-                                  {"-"}
-                                  {item.Date_time.toDate().getMonth()}
-                                  {"-"}
-                                  {item.Date_time.toDate().getYear()}{" "}
-                                  {item.Date_time.toDate().getHours()}
-                                  {":"}
-                                  {item.Date_time.toDate().getMinutes()}
-                                </Text>
+                                 <Text style={{ textAlign: "left" }}>
+                                Date_time:  {moment({Date_time: item.Date_time}).format(('MMMM Do YYYY, h:mm:ss a'))}
+
+                                </Text>  
 
                                 <Text style={{ textAlign: "left" }}>
                                   Type: {item.Type}
@@ -151,6 +146,9 @@ export default class Notification extends React.Component {
                   </View>
                 )}
               />
+           :
+           <Text style={{marginLeft: 5}}>There are currently NO notifications   </Text>
+              }
             </ScrollView>
           ) : (
             <FormScreen />
