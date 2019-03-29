@@ -9,6 +9,8 @@ import Trashes from './Trashlist'
 import TrashCanDetail from './TrashCanDetail'
 import Foundation from '@expo/vector-icons/Foundation';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import CreateTrashcanIssues from './CreateTrashcanIssue'
+
 
 export default class Trashlist extends React.Component {
   render() {
@@ -44,7 +46,8 @@ const AppNavigator = createStackNavigator({
 
 const AppNavigator2 = createStackNavigator({
   Trashcans :Trashes,
-  TrashDetail : TrashCanDetail
+  TrashDetail : TrashCanDetail,
+  TrashCanCreate:CreateTrashcanIssues
   }, {
     initialRouteName: 'Trashcans',
     headerMode:'none'
@@ -71,7 +74,7 @@ const TabPages = createMaterialTopTabNavigator(
         
         allowFontScaling: true,
         style:{
-          backgroundColor:"#660000",
+          backgroundColor:"#567D46",
           tabBarButtonColor: "black",
           navBarTextFontSize: 20,
           tabFontFamily: "Avenir-Medium"

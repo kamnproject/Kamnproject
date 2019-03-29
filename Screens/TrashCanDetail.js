@@ -4,13 +4,17 @@ import {
   createStackNavigator,
   createAppContainer
 } from 'react-navigation'
+import moment from 'moment'
 import { createMaterialTopTabNavigator, BottomTabBar, createDrawerNavigator } from 'react-navigation';
 import { Header,Card,ListItem,Badge,Divider } from 'react-native-elements';
 import Entypo from '@expo/vector-icons/Entypo';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { ScrollView } from 'react-native-gesture-handler';
+import firebase from "firebase";
 import db from '../db'
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+
 
 export default class Detail extends React.Component {
     state={
@@ -19,6 +23,26 @@ export default class Detail extends React.Component {
     green_can:"https://firebasestorage.googleapis.com/v0/b/kamn-e4270.appspot.com/o/images%2Fgreen_can.jpg?alt=media&token=192b23c3-1fdb-49e8-94e6-8f05018b4151",
     red_can:"https://firebasestorage.googleapis.com/v0/b/kamn-e4270.appspot.com/o/images%2Fred_can.jpg?alt=media&token=d5361926-7dc4-439b-bc3a-45a8a71d4839"
     }
+    //username = firebase.auth().currentUser.email
+username = "khalid@khalid.com"
+
+
+
+trash = this.props.navigation.getParam('trashes')
+location = this.trash.Location
+//const fdate = trash.Lasttime_full.toDate().getDate()
+//const fdate = trash.Lasttime_full.toDate().getDate()
+trash_time_of_full=this.trash.Lasttime_full
+trashId = this.trash.id
+year = this.trash.Lasttime_full.toDate().getFullYear()
+month = this.trash.Lasttime_full.toDate().getMonth()+1
+date = this.trash.Lasttime_full.toDate().getDate()
+time =this.trash.Lasttime_full.toDate().getHours()
+min = this.trash.Lasttime_full.toDate().getMinutes()
+sec = this.trash.Lasttime_full.toDate().getSeconds()
+fulldate = this.date+"-"+this.month+"-"+this.year+" at "+ this.time+":"+this.min+":"+this.sec
+
+
     componentWillMount=()=>{
       db.collection("CollectedTrashcans").onSnapshot(querySnapshot => {
         let list = []
@@ -28,15 +52,43 @@ export default class Detail extends React.Component {
           })
         })
         this.setState({list:list})
+
+
       })
+
     }
+    componentWillUnmount=()=>{
+      db.collection("CollectedTrashcans").onSnapshot(()=>{})
+    }
+
+    handleCollect= async()=>{
+      console.log("id: ",this.trashId)
+      console.log("time: ",this.trash_time_of_full)
+      await db.collection("CollectedTrashcans").doc().set({Date_time:new Date().toString(),Employee_id:this.username,Time_of_full:this.trash_time_of_full,Time_taken:5,Trashcan_id:this.trashId})
+      await db.collection("TrashCan").doc(this.trashId).update({Status:"In Process"})
+      this.props.navigation.goBack()
+    }
+    
   render() {
-    const {navigation}= this.props;
+  
     // const battery = navigation.getParam('battery')
     //  const fill = navigation.getParam('fill')
-     const trash = navigation.getParam('trashes')
-     const location = trash.Location
-     const day = trash.Lasttime_empty.toDate().getYear()
+     
+// const hour = (time/3600/1000)
+// const timestamp = Date(trash.Lasttime_full.toString());
+//  const date = trash.Lasttime_full.moment().format('MMM Do YYY, h:mm:ss a')
+// var formattedTimestamp =new Intl.DateTimeFormat('en-US',{
+//   year: "numeric",
+//   month: "short",
+//   day: "2-digit",
+//   hour: "numeric",
+//   minute: "2-digit",
+//   second: "2-digit"
+// }).format(timestamp);
+
+
+//let sdate = fdate.toDateString()
+    // let date = Date(timeIntervalSince1970: timestamp)
      
      //dt = new Date(day*1000)
     // const fill = navigation.getParam('fill')
@@ -46,59 +98,73 @@ export default class Detail extends React.Component {
     // const fill = navigation.getParam('fill')
     return (
       <View style={styles.container}>
-        <View style={{flexDirection:"row"}}> 
-          <View>
-            <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
-            <MaterialCommunityIcons
-                  name="keyboard-backspace"
-                  color="black"
-                  size={30}
-                  onPress={() => this.props.navigation.goBack()}
-                />
-            </TouchableOpacity>
-          </View>
-         
-        <Text style={{textAlign:"center",fontSize:25,fontWeight:"bold",marginLeft:70}}>Trash Can Details</Text>
+        <View style={{textAlign:"center"}}> 
+        <Text style={{textAlign:"center", fontSize:25,fontWeight:"bold"}}>Trash Can Details</Text>
        
        </View>
-          <View style={{flexDirection:"row",justifyContent:"space-between",margin:5,borderWidth:1,borderStyle:"dotted",borderColor:"black"}}>
+          <View style={{flexDirection:"row",justifyContent:"space-between",margin:5}}>
           
           <View style={{marginLeft:5}}>
          
           <Text style={{marginBottom: 10}}>
-           <Text style={{fontWeight:"bold",fontSize:16}}>Battery: </Text> <Text>{trash.Battery_percentage+" %"}</Text>
+           <Text style={{fontWeight:"bold",fontSize:16}}>Battery: </Text> <Text>{this.trash.Battery_percentage+" %"}</Text>
           </Text>
           <Text style={{marginBottom: 10}}>
-           <Text style={{fontWeight:"bold",fontSize:16}}>Fill: </Text> <Text>{trash.Fill_percentage+" %"}</Text>
+           <Text style={{fontWeight:"bold",fontSize:16}}>Fill: </Text> <Text>{this.trash.Fill_percentage+" %"}</Text>
           </Text>
           <Text style={{marginBottom: 10}}>
-           <Text style={{fontWeight:"bold",fontSize:16}}>Status: </Text> <Text>{trash.Status+" %"}</Text>
+           <Text style={{fontWeight:"bold",fontSize:16}}>Status: </Text> <Text>{this.trash.Status+" %"}</Text>
           </Text>
            <Text style={{marginBottom: 10}}>
-           <Text style={{fontWeight:"bold",fontSize:16}}>Latitude: </Text> <Text>{location._lat}</Text>
+           <Text style={{fontWeight:"bold",fontSize:16}}>Latitude: </Text> <Text>{this.location._lat}</Text>
           </Text>
           <Text style={{marginBottom: 10}}>
-           <Text style={{fontWeight:"bold",fontSize:16}}>Longitude: </Text> <Text>{location._long}</Text>
+           <Text style={{fontWeight:"bold",fontSize:16}}>Longitude: </Text> <Text>{this.location._long}</Text>
           </Text>
           <Text style={{marginBottom: 10}}>
-           <Text style={{fontWeight:"bold",fontSize:16}}>Temperature: </Text> <Text>{trash.Temperature}</Text>
+           <Text style={{fontWeight:"bold",fontSize:16}}>Temperature: </Text> <Text>{this.trash.Temperature}</Text>
           </Text>
           <Text style={{marginBottom: 10}}>
-           <Text style={{fontWeight:"bold",fontSize:16}}>Day: </Text> <Text>{day}</Text>
+           <Text style={{fontWeight:"bold",fontSize:16}}>Last Full: </Text> <Text>{this.fulldate}</Text>
           </Text>
          
           </View>
           
           <View>
-          <Image
-          style={{ height:150,width:120,marginRight:10,marginVertical:10,}}
-          source={trash.Fill_percentage>30 & trash.Fill_percentage<60 ?{uri:this.state.yellow_can}:trash.Fill_percentage>60?{uri:this.state.red_can}:{uri:this.state.green_can}}
-        />
+          <TouchableOpacity
+                         style={{width:wp("30%"),
+                         height:wp("10%"),backgroundColor:"#567D46",borderColor:"white",borderWidth:2,borderStyle:"solid",borderRadius:10,alignItems: 'center',justifyContent:"center"
+                       }}
+                         onPress={() => this.props.navigation.navigate('TrashCanCreate',{trashes:this.trash})}
+                         
+                       >
+                       <View style={{alignItems: 'center',justifyContent:"center"}}>
+                       {/* <AntDesign name="profile" borderColor="blue" color="white" size={wp('5.5%')}/> */}
+                       <Text style={{ fontSize: wp('3.5%'), fontWeight: "bold" ,color:"white"}}> Create Issue </Text>
+                       
+                       </View>
+                       </TouchableOpacity>
+                       <TouchableOpacity
+                         style={{width:wp("30%"),opacity:this.trash.Fill_percentage<60 && this.trash.Status=="Good"?0.5:1,
+                         height:wp("10%"),backgroundColor:"#567D46",borderColor:"white",borderWidth:2,borderStyle:"solid",borderRadius:10,alignItems: 'center',justifyContent:"center"
+                       }}
+                         onPress={this.handleCollect}
+                         disabled={this.trash.Fill_percentage<60 && this.trash.Status=="Good" &&this.trash.Status=="In Process"}
+                       >
+                       <View style={{alignItems: 'center',justifyContent:"center"}}>
+                       {/* <AntDesign name="profile" borderColor="blue" color="white" size={wp('5.5%')}/> */}
+                       <Text style={{ fontSize: wp('3.5%'), fontWeight: "bold" ,color:"white"}}> Collect</Text>
+                       
+                       </View>
+                       </TouchableOpacity>
           </View>
           </View>
-          <Button title={"Create Issue"}></Button>
+          
+          <Text style={{ fontSize: 18, fontWeight: "bold",textAlign:"center" ,borderTopColor:"black",borderBottomColor:"black",borderStyle:"solid",borderTopWidth:2,borderBottomWidth:2}}>History</Text>
           <ScrollView>
-            {this.state.list.map((l,i)=><View key={i}>{l.Trashcan_id==trash.id && 
+
+            {this.state.list.map((l,i)=><View key={i}>{l.Trashcan_id==this.trash.id && 
+            
             <TouchableOpacity>
             
                
@@ -106,12 +172,9 @@ export default class Detail extends React.Component {
      
      leftAvatar={
      <View>
-       <Image
-          style={{width: 66, height: 58}}
-          source={trash.Fill_percentage>30 & trash.Fill_percentage<60 ?{uri:this.state.yellow_can}:trash.Fill_percentage>60?{uri:this.state.red_can}:{uri:this.state.green_can}}
-        />
+      
     </View>}
-     rightAvatar={<Badge  status={trash.Fill_percentage>30 & trash.Fill_percentage<60 ?"warning":trash.Fill_percentage>60?"error":"success" }/>}
+     rightAvatar={<Badge  status={this.trash.Fill_percentage>30 & this.trash.Fill_percentage<60 ?"warning":this.trash.Fill_percentage>60?"error":"success" }/>}
      title={<Text style={{textAlign:"left",fontWeight:"bold"}}>{"Collected by:  "+l.Employee_id}</Text>}
      subtitle={<Text style={{textAlign:"left"}}>{"Time of full: "+"06:00 PM"}</Text>}
     // <Text style={{textAlign:"left"}}>{"Date: "+"23 March 2019"}</Text> <Text style={{textAlign:"left"}}>{"Time: "+"06:50 PM"}</Text>}

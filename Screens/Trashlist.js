@@ -72,7 +72,7 @@ export default class Trashlist extends React.Component {
    return (
        <View>
            <TouchableOpacity
-               onPress={()=>this.props.navigation.navigate('TrashDetail',{trashes:trash,battery:trash.Battery_percentage,fill:trash.Fill_percentage,lastfull:trash.Lastime_full,lastempty:trash.Lasttime_empty,location:trash.Location,status:trash.Status,temp:trash.Temperature})}> 
+               onPress={()=>this.props.navigation.navigate('TrashDetail',{trashes:trash})}> 
                {/* onPress={()=>this.props.navigation.navigate('Profile',{gender:item.gender,source:item.picture.thumbnail,first:item.name.first,last:item.name.last,email:item.email,phone:item.phone,street:item.location.street,city:item.location.city,state:item.location.state,post:item.location.postcode})}> */}
                
        <ListItem
@@ -81,10 +81,10 @@ export default class Trashlist extends React.Component {
      <View>
        <Image
           style={{width: 66, height: 58}}
-          source={trash.Fill_percentage>30 & trash.Fill_percentage<60 ?{uri:this.state.yellow_can}:trash.Fill_percentage>60?{uri:this.state.red_can}:{uri:this.state.green_can}}
+          source={trash.Fill_percentage>=30 & trash.Fill_percentage<60 ?{uri:this.state.yellow_can}:trash.Fill_percentage>=60?{uri:this.state.red_can}:{uri:this.state.green_can}}
         />
     </View>}
-     rightAvatar={<Badge  status={trash.Fill_percentage>30 & trash.Fill_percentage<60 ?"warning":trash.Fill_percentage>60?"error":"success" }/>}
+     rightAvatar={<Badge  status={trash.Fill_percentage>=30 & trash.Fill_percentage<60 ?"warning":trash.Fill_percentage>=60?"error":"success" }/>}
      title={<Text style={{textAlign:"left",fontWeight:"bold"}}>{"Trash "+trash.Area_id +" Fill "+trash.Fill_percentage +"%"}</Text>}
      subtitle={<Text style={{textAlign:"left"}}>{"Status: "+trash.Status}</Text>}
      
