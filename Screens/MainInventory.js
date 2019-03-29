@@ -66,7 +66,7 @@ const TabPages = createMaterialTopTabNavigator(
         
         allowFontScaling: true,
         style:{
-          backgroundColor:"#660000",
+          backgroundColor:"#567D46",
           tabBarButtonColor: "black",
           navBarTextFontSize: 20,
           tabFontFamily: "Avenir-Medium"

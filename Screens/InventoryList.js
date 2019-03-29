@@ -30,7 +30,7 @@ export default class InventoryList extends React.Component {
   };
   // currentuser=firebase.auth().currentUser.email
   currentuser="admin@admin.com"
-  //currentuser="khalid@khalid.com"
+  currentuser="khalid@khalid.com"
   componentDidMount() {
     
     let oneuser = "";

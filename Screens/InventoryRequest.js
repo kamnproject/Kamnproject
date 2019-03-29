@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View, ScrollView,Button } from "react-native";
+import { StyleSheet, Text, View, ScrollView,Button,Alert } from "react-native";
 import { createStackNavigator, createAppContainer } from "react-navigation";
 import {
   createMaterialTopTabNavigator,
@@ -26,11 +26,12 @@ export default class InventoryRequest extends React.Component {
   state = {
     users: [],
     Requestlist:[],
-    Inventory:[]
+    Inventory:[],
+    lessinventory:[]
   
   };
-   currentuser="admin@admin.com"
-  // currentuser="khalid@khalid.com"
+  currentuser="admin@admin.com"
+   //currentuser="khalid@khalid.com"
   componentDidMount() {
     // let currentuser=firebase.auth().currentUser.email
     
@@ -60,18 +61,74 @@ export default class InventoryRequest extends React.Component {
     );
       
     console.log("Area_id2", oneuser);
-
-
     }
     else{
+      
+     this.LessInventorycount()
       this.ListInventoryHistory()
+      }
     }
-    
-    
+    LessInventorycount=async ()=>{
+
+      let lessinventory = [];
+      db.collection("Inventory").where("Quantity","<",10).onSnapshot(querySnapshot => {
+        
+        querySnapshot.forEach(doc => {
+          lessinventory.push({ id: doc.id, ...doc.data() });
+        });
+
+        this.setState({ lessinventory: lessinventory });
+        console.log("lessinventory", this.state.lessinventory.length);
+      });
+      console.log("Area_id", lessinventory);
+    }
+    lessinventorylistloop = (item,i) => {
+
+      return (
+        <ListItem // key={i}
+          title={item.Item_name}
+          subtitle={
+            "Current Quantity: " +
+            item.Quantity +
+            "\n"+
+            "Area: "+item.Area_id
+
+            
+          }
+          titleStyle={{ textAlign: "left" }}
+          subtitleStyle={{ textAlign: "left" }}
+          leftAvatar={
+              <Avatar
+              rounded
+              title={i+1+""}
+              size="medium"
+              placeholderStyle={backgroundColor="red"}
+            />
+  
+          }
+          rightAvatar={
+            <Button title={"Supply"}
+            onPress={()=>this.addinventory(item)}
+          />
+          }
+  
+        />
+      );
+    };
+    addinventory=async (item)=>{
+      
+      let temp=[]
+  
+      await db.collection('Inventory').doc(item.id).update({Quantity:20})
+      Alert.alert("Added")
+      this.LessInventorycount()
+    }
+  
     // go to db and get one the user daily targets
    
 
-  }
+  
+
  ListInventoryHistory=async()=>{
   db.collection("Inventory_History").where("Type","==","Requesting").onSnapshot(querySnapshot =>   { 
     let Requestlist = [];
@@ -89,9 +146,10 @@ db.collection("Inventory").onSnapshot(querySnapshot => {
 
   this.setState({ Inventory: Inventory });
   console.log("Inventory", this.state.Inventory.length);
-});
+})
 
  }
+
   listloop = (item,i) => {
 
     return (
@@ -157,6 +215,7 @@ db.collection("Inventory").onSnapshot(querySnapshot => {
       
     );
   };
+
   handleRequest=async (item)=>{
     let changeditem= item
     changeditem.Type="Supplied"
@@ -172,18 +231,15 @@ db.collection("Inventory").onSnapshot(querySnapshot => {
       Area_id:temp.Area_id,Item_id:temp.Item_id,Item_name:temp.Item_name,Quantity:temp.Quantity})
 
       this.ListInventoryHistory()
-  }
+    }
+  
 
   render() {
     return (
       
       <View style={styles.container}>
         {/* <Text>Ranking</Text> */}
-        
-      
-      
-      
-        <ScrollView>
+
         {this.currentuser!="admin@admin.com"?
         <View>
         <View style={{flexDirection:"row",paddingLeft:20}}>
@@ -197,11 +253,13 @@ db.collection("Inventory").onSnapshot(querySnapshot => {
             </View>
           ))}
           </View>:
-        
         <View>
+          <Button title={"Supplied Items History"} onPress={()=>this.props.navigation.navigate("SuppliedHistory")}></Button>
+          <View style={{height:"50%",borderColor:"#567D46",borderWidth:2,borderRadius:15,borderStyle:"solid",margin:2}}>
+        <ScrollView >
         <View style={{flexDirection:"row",justifyContent:"space-between"}}>
          <Text style={{ fontSize: 18, fontWeight: "bold",textAlign:"center"  }}>Requested By Employees   </Text>
-          <Button title={"Supplied Items History"} onPress={()=>this.props.navigation.navigate("SuppliedHistory")}></Button>
+          
          </View>
    
           {this.state.Requestlist.length>0?
@@ -211,11 +269,25 @@ db.collection("Inventory").onSnapshot(querySnapshot => {
               <Divider style={{ backgroundColor: "black", height: 1 }} />
             </View>
           )):<Text>No Requests For You</Text>}
+          </ScrollView>
           </View>
-        
+          <View style={{height:"50%",borderColor:"#567D46",borderWidth:2,borderRadius:15,borderStyle:"solid",margin:2}}>
+          <ScrollView >
+          <View style={{flexDirection:"row",justifyContent:"space-between"}}>
+         <Text style={{ fontSize: 18, fontWeight: "bold",textAlign:"center"  }}>Inventory Below 10 in count   </Text>
+          
+         </View>
+            {this.state.lessinventory.length>0?
+              this.state.lessinventory.map((item, i) =>(
+                <View key={i}>
+                  {this.lessinventorylistloop(item,i)}
+                  <Divider style={{ backgroundColor: "black", height: 1 }} />
+                </View>
+              )):<Text>No Items less than 10</Text>}
+            </ScrollView>
+            </View>
+        </View>
         }
-        
-        </ScrollView>
       </View>
       
     );

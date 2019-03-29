@@ -58,21 +58,7 @@ export default class AdminGallery extends React.Component {
       console.log("Trashcanimages", this.state.Trashcanimages.length);
       //console.log("inventoryimages",this.state.inventoryimages)
     });
-    await db.collection("AdminScreenshots").where("category","==","issues").onSnapshot(querySnapshot => {
-      let issuesimages = [];
-      
-      querySnapshot.forEach(doc => {
-        issuesimages.push(doc.data().url );
-      });
-      //let list = this.orderlist(users);
-      
-      this.setState({ issuesimages: issuesimages });
-     
-      
-      console.log("issuesimages", this.state.issuesimages.length);
-      //console.log("inventoryimages",this.state.inventoryimages)
-    });
-    
+   
 
   }
   render() {
@@ -81,7 +67,7 @@ export default class AdminGallery extends React.Component {
       <ScrollView>
       <View style={{flexDirection:"column"}}>
       <View style={{flexDirection:"column"}}>
-      <Text>Previous Screeshots Inventory Statics</Text>
+      <Text>Screeshots Inventory Statics</Text>
       <View style={{flexDirection:"row",flexWrap:"wrap"}}>
       {
         this.state.inventoryimages.map((x,i)=>
@@ -97,7 +83,7 @@ export default class AdminGallery extends React.Component {
 </View>
 <View style={{flexDirection:"column"}}>
 <Text>{" "}</Text>
-            <Text>Previous Screeshots Trashcan Statics</Text>
+            <Text>Screeshots Trashcan Statics</Text>
       <View style={{flexDirection:"row",flexWrap:"wrap"}}>
       {
         this.state.Trashcanimages.map((x,i)=>
@@ -110,23 +96,7 @@ export default class AdminGallery extends React.Component {
         
       )
       }</View></View>
-      <View style={{flexDirection:"column"}}>
-      <Text>{" "}</Text>
-      <Text>Previous Screeshots Issues Statics</Text>
-      
-      <View style={{flexDirection:"row",flexWrap:"wrap"}}>
-      {
-        this.state.issuesimages.map((x,i)=>
-        
-        <View style={{padding:5}}>
-        <TouchableOpacity onPress={() => this.props.navigation.navigate('SinglePic',{pic:x})}>
-        <Image style={{width: 120, height: 120}}  source={{uri : x}}/>
-        </TouchableOpacity>
-        </View>
-        
-      )
-      }</View>
-      </View>
+
       </View>
       </ScrollView>
     );
