@@ -15,7 +15,7 @@ export default class SiteMap extends React.Component {
     return (
       <View style={styles.container}>
          <Header
-      backgroundColor="#660000"
+      backgroundColor="#567D46"
       placement="left"
   leftComponent={<Foundation  name="info" size={30} color="white"/>}
   centerComponent={{ text: 'SiteMap', style: { color: '#fff',fontSize:25 } }}

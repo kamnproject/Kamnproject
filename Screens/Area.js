@@ -113,7 +113,7 @@ updateSearch = (search) => {
     return (
       <View style={styles.container}>
         <Header
-          backgroundColor="#660000"
+          backgroundColor="#567D46"
           placement="center"
           leftComponent={<Ionicons name="ios-arrow-round-back" size={30} color="white"onPress={() => this.props.navigation.goBack()}/>}
           centerComponent={{

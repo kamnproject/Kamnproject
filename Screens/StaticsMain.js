@@ -4,21 +4,23 @@ import { Header,Overlay } from 'react-native-elements';
 import Entypo from '@expo/vector-icons/Entypo';
 import { createStackNavigator, createAppContainer, createMaterialTopTabNavigator } from 'react-navigation';
 import LoginScreen from './LoginScreen'
-import Mapview from './Map'
-import Trashes from './Trashlist'
-import TrashCanDetail from './TrashCanDetail'
+import StaticsInventory from './StataticsInventory'
+import StataticsIssues from './StataticsIssues'
+import StataticsTrashcan from './StataticsTrashcan'
 import Foundation from '@expo/vector-icons/Foundation';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import AdminGallery from './AdminGallery';
+import SinglePic from './Singlepic'
 
-export default class Trashlist extends React.Component {
+export default class StaticsMain extends React.Component {
   render() {
     return (
         <View style = {styles.container} >
          <Header
       backgroundColor="#567D46"
-      placement="left"
-  leftComponent={<Foundation  name="map" size={30} color="white"/>}
-  centerComponent={{ text: 'Map', style: { color: '#fff',fontSize:25 } }}
+      placement="cemter"
+  leftComponent={<Ionicons name="ios-notifications" color="white" size={30} onPress={() => this.props.navigation.goBack()}/>}
+  centerComponent={{ text: 'Statics', style: { color: '#fff',fontSize:25 } }}
   rightComponent={<Ionicons name="ios-notifications" color="white" size={30} onPress={() => this.props.navigation.navigate('Profile')}/>}
 />
        <AppContainer2/>
@@ -26,40 +28,44 @@ export default class Trashlist extends React.Component {
     );
   }
 }
+// const AppNavigator = createStackNavigator({
+//   StaticsInventory: StaticsInventory
+
+//   }, {
+//     initialRouteName: 'Map',
+//     headerMode:'none'
+//   }
+// )
 const AppNavigator = createStackNavigator({
-  Map: Mapview
+  AdminGallery:AdminGallery,
+  SinglePic:SinglePic
   }, {
-    initialRouteName: 'Map',
+    initialRouteName: 'AdminGallery',
     headerMode:'none'
   }
 )
-// const AppNavigator = createStackNavigator({
+
+
+// const AppNavigator2 = createStackNavigator({
+//   Trashcans :Trashes,
 //   TrashDetail : TrashCanDetail
 //   }, {
-//     initialRouteName: 'TrashDetail',
-//     //headerMode:'none'
+//     initialRouteName: 'Trashcans',
+//     headerMode:'none'
 //   }
 // )
 
-
-const AppNavigator2 = createStackNavigator({
-  Trashcans :Trashes,
-  TrashDetail : TrashCanDetail
-  }, {
-    initialRouteName: 'Trashcans',
-    headerMode:'none'
-  }
-)
-
 const TabPages = createMaterialTopTabNavigator(
     {
-      Map: AppNavigator,
-      Trashcans:AppNavigator2,
+      Trashcan:StataticsTrashcan,
+      Inventory: StaticsInventory,
+      Issues:StataticsIssues,
+      Gallery:AppNavigator
       //TrashDetail :AppNavigator,
     },
     {
-     
-      initialRouteName: 'Map',
+ 
+      initialRouteName: 'Trashcan',
       animationEnabled:true,
       tabBarOptions:{
         activeTintColor:"white",inactiveTintColor:"white",showLabel:true,color:"blue",
@@ -71,9 +77,9 @@ const TabPages = createMaterialTopTabNavigator(
         
         allowFontScaling: true,
         style:{
-          backgroundColor:"#660000",
+          backgroundColor:"#567D46",
           tabBarButtonColor: "black",
-          navBarTextFontSize: 20,
+          navBarTextFontSize: 16,
           tabFontFamily: "Avenir-Medium"
         },
         labelStyle: {

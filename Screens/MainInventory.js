@@ -17,7 +17,7 @@ export default class MainInventory extends React.Component {
     return (
         <View style = {styles.container} >
          <Header
-      backgroundColor="#660000"
+      backgroundColor="#567D46"
       placement="center"
   leftComponent={<Foundation  name="map" size={30} color="white"/>}
   centerComponent={{ text: 'Inventory', style: { color: '#fff',fontSize:25 } }}

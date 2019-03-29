@@ -46,7 +46,7 @@ export default class inbox extends React.Component {
     return (
 <View style ={{justifyContent: "flex-start", alignItems: "center",}}>
 <Header
-      backgroundColor="#660000"
+      backgroundColor="#567D46"
       placement="left"
   leftComponent={<Ionicons name="ios-arrow-round-back" size={30} color="white"onPress={() => this.props.navigation.goBack()}/>}
   centerComponent={{ text: 'Reply', style: { color: '#fff',fontSize:25 } }}

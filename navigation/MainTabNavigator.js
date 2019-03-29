@@ -30,11 +30,11 @@ import Foundation from '@expo/vector-icons/Foundation';
 import NotficationScreen from '../Screens/Notification'
 import NotificationMainScreen from '../Screens/NotificationMain'
 // import FormScreen from '../Screens/Notification_form'
-import IssuesScreen from '../Screens/TrashCanIssues'
+// import IssuesScreen from '../Screens/TrashCanIssues'
 import IssueDetailScreen from  '../Screens/IssueDetails'
 import FixedScreen from '../Screens/IssueFixed'
 //import MapView from 'react-native-maps';
-
+import StataticsScreen from '../Screens/StaticsMain' 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
   Ranking:RankingScreen,
@@ -49,6 +49,7 @@ const HomeStack = createStackNavigator({
   Register:RegisterScreen,
   Inventory:MainInventory,
   NotificationMain:NotificationMainScreen,
+  AdminStatatics:StataticsScreen
 
 },
 {

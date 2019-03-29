@@ -124,7 +124,7 @@ export default class inbox extends React.Component {
             
             <View>
                 <Header
-      backgroundColor="#660000"
+      backgroundColor="#567D46"
       placement="left"
   leftComponent={<MaterialCommunityIcons  name="inbox" size={30} color="white"/>}
   centerComponent={{ text: 'Inbox', style: { color: '#fff',fontSize:25 } }}
