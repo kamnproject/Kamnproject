@@ -20,8 +20,9 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import Foundation from "@expo/vector-icons/Foundation";
 import firebase from "firebase";
 import db from "../db.js";
-
-
+import { Dimensions } from 'react-native'
+const screenWidth = Dimensions.get('window').width
+const screenHeight = Dimensions.get('window').height
 export default class SinglePic extends React.Component {
   state={
     images:[]
@@ -36,11 +37,11 @@ export default class SinglePic extends React.Component {
   render() {
     
     return (
-      <ScrollView  style={{paddingLeft:20,paddingTop:30,backgroundColor: "black"}}>
+      <ScrollView  style={{padding:20,backgroundColor: "black"}}>
       
 
   
-        <Image style={{ width: 350, height: 700}} source={{uri : this.props.navigation.getParam('pic')}}/>
+        <Image style={{ width: screenWidth, height: screenHeight}} source={{uri : this.props.navigation.getParam('pic')}}/>
 
       </ScrollView>
     );

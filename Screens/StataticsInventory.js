@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View, ScrollView,Button,Image , Platform,CameraRoll,FileSystem,Alert  } from "react-native";
+import { StyleSheet, Text, View, ScrollView,Button,Image , Platform,CameraRoll,FileSystem,Alert,TouchableOpacity  } from "react-native";
 import { createStackNavigator, createAppContainer } from "react-navigation";
 import {
   createMaterialTopTabNavigator,
@@ -20,6 +20,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import Foundation from "@expo/vector-icons/Foundation";
 import firebase from "firebase";
 import db from "../db.js";
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import _ from "lodash";
 import { Table, Row, Rows } from 'react-native-table-component';
 import { Dimensions } from 'react-native'
@@ -265,11 +266,27 @@ permonth1= ()=>{
     
     return (
       <View style={styles.container}>
-      <View>
-        <Button title="Take Screenshot" onPress={this.takeScreenShot} />
-        <Text>{""}</Text>
-        <Button title="Save to Gallery" onPress={this.upload} />
-        </View>
+        <View>
+        <TouchableOpacity
+                         style={{flexDirection:"column",alignItems: 'center',justifyContent:"center",
+                         backgroundColor: '#DDDDDD',
+                         padding: 1,borderRadius:15,backgroundColor:"#567D46",borderColor:"white",borderWidth:2,borderStyle:"solid"
+                       }}
+                       onPress={this.takeScreenShot}
+                       >
+                       <Text style={{ fontSize: wp('4.5%'),textAlign:"center", fontWeight: "bold",color:"white" }} >Take Screenshot</Text>
+                       </TouchableOpacity>
+                       <Text>{""}</Text>
+                       <TouchableOpacity
+                         style={{flexDirection:"column",alignItems: 'center',justifyContent:"center",
+                         backgroundColor: '#DDDDDD',
+                         padding: 1,borderRadius:15,backgroundColor:"#567D46",borderColor:"white",borderWidth:2,borderStyle:"solid"
+                       }}
+                       onPress={this.upload}
+                       >
+                       <Text style={{ fontSize: wp('4.5%'),textAlign:"center", fontWeight: "bold",color:"white" }} >Save to Gallery</Text>
+                       </TouchableOpacity>
+          </View>
         <ScrollView>
        
         <View>
@@ -278,9 +295,7 @@ permonth1= ()=>{
           <Text>asas{x.Date_time.toString()}</Text>
           )
           } */}
-  <Text>
-    Total Inventory Requests per Month for 6 months 
-  </Text>
+ 
   {/* {
     this.permont.map((x,i)=><Text>{x}</Text>)
   }
@@ -314,13 +329,16 @@ permonth1= ()=>{
     }}
   />
 </View>
+<Text style={{ fontSize: wp('4.5%'),textAlign:"center", fontWeight: "bold",color:"#567D46" }}>
+    Total Inventory Requests per Month for 6 months 
+  </Text>
 <View style={styles.container2}>
         <Table borderStyle={{borderWidth: 2, borderColor: '#c8e1ff'}}>
           <Row data={['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun']} style={styles.head} textStyle={styles.text}/>
           <Rows data={[this.permont]} textStyle={styles.text}/>
         </Table>
       </View> 
-      <Text>
+      <Text style={{ fontSize: wp('4.5%'),textAlign:"center", fontWeight: "bold",color:"#567D46" }}>
     Total Inventory Requests per Area per Month
   </Text>
     {/* <BarChart
@@ -355,7 +373,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff"
   },
-  container2: { flex: 1, paddingTop: 30, backgroundColor: '#fff' },
+  container2: { flex: 1, paddingTop: 10, backgroundColor: '#fff' },
   head: { height: 40, backgroundColor: '#f1f8ff' },
   text: { margin: 5 }
 });

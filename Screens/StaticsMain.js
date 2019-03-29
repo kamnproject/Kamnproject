@@ -5,7 +5,6 @@ import Entypo from '@expo/vector-icons/Entypo';
 import { createStackNavigator, createAppContainer, createMaterialTopTabNavigator } from 'react-navigation';
 import LoginScreen from './LoginScreen'
 import StaticsInventory from './StataticsInventory'
-import StataticsIssues from './StataticsIssues'
 import StataticsTrashcan from './StataticsTrashcan'
 import Foundation from '@expo/vector-icons/Foundation';
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -59,7 +58,6 @@ const TabPages = createMaterialTopTabNavigator(
     {
       Trashcan:StataticsTrashcan,
       Inventory: StaticsInventory,
-      Issues:StataticsIssues,
       Gallery:AppNavigator
       //TrashDetail :AppNavigator,
     },
