@@ -331,7 +331,7 @@ tem =""
                      backgroundColor: '#DDDDDD',
                      padding: 1,borderRadius:15,backgroundColor:"#567D46",borderColor:"white",borderWidth:2,borderStyle:"solid"
                    }}
-                     onPress={() => this.props.navigation.navigate('Profile')}
+                     onPress={() => this.props.navigation.navigate('CollectedTrashes')}
                    >
                    <View style={{alignItems: 'center',justifyContent:"center"}}>
                    <Entypo name="trash" borderColor="blue" color="white" size={wp('5.5%')}/>
