@@ -50,7 +50,7 @@ export default class Userprofile extends React.Component {
         <View style={{ flexDirection: "column" }}>
           <View style={{}}>
             <Header
-              backgroundColor="#660000"
+              backgroundColor="#567D46"
               placement="center"
               leftComponent={
                 <MaterialCommunityIcons
@@ -80,7 +80,7 @@ export default class Userprofile extends React.Component {
               flexDirection: "row",
               justifyContent: "center",
               alignItems: "center",
-              backgroundColor: "#660000"
+              backgroundColor: "#567D46"
             }}
           >
             <Text
@@ -99,7 +99,7 @@ export default class Userprofile extends React.Component {
               flexDirection: "row",
               justifyContent: "center",
               alignItems: "center",
-              backgroundColor: "#660000"
+              backgroundColor: "#567D46"
             }}
           >
             <Text
@@ -119,7 +119,7 @@ export default class Userprofile extends React.Component {
               flexDirection: "row",
               justifyContent: "center",
               alignItems: "center",
-              backgroundColor: "#660000",
+              backgroundColor: "#567D46",
               paddingTop: 25,
               paddingBottom: 25
             }}
@@ -155,7 +155,7 @@ export default class Userprofile extends React.Component {
             >
               <View style={{ alignItems: "center", justifyContent: "center" }}>
                 <Text
-                  style={{ fontSize: 14, fontWeight: "bold", color: "#660000" }}
+                  style={{ fontSize: 14, fontWeight: "bold", color: "#567D46" }}
                 >
                   {" "}
                   Online{" "}
@@ -185,7 +185,7 @@ export default class Userprofile extends React.Component {
             >
               <View style={{ alignItems: "center", justifyContent: "center" }}>
                 <Text
-                  style={{ fontSize: 14, fontWeight: "bold", color: "#660000" }}
+                  style={{ fontSize: 14, fontWeight: "bold", color: "#567D46" }}
                 >
                   {" "}
                   Points Earned{" "}
@@ -214,7 +214,7 @@ export default class Userprofile extends React.Component {
             >
               <View style={{ alignItems: "center", justifyContent: "center" }}>
                 <Text
-                  style={{ fontSize: 14, fontWeight: "bold", color: "#660000" }}
+                  style={{ fontSize: 14, fontWeight: "bold", color: "#567D46" }}
                 >
                   {" "}
                   Area_id{" "}
@@ -226,7 +226,7 @@ export default class Userprofile extends React.Component {
               </View>
             </TouchableOpacity>
           </View>
-          <View style={{ flexDirection: "row", backgroundColor: "#660000" }}>
+          <View style={{ flexDirection: "row", backgroundColor: "#567D46" }}>
             <Text
               style={{
                 textAlign: "left",
@@ -244,7 +244,7 @@ export default class Userprofile extends React.Component {
               style={{
                 textAlign: "left",
                 fontSize: 14,
-                color: "#660000",
+                color: "#567D46",
                 fontWeight: "bold",
                 padding: 5
               }}
@@ -271,7 +271,7 @@ export default class Userprofile extends React.Component {
               style={{
                 textAlign: "left",
                 fontSize: 14,
-                color: "#660000",
+                color: "#567D46",
                 fontWeight: "bold",
                 padding: 5
               }}
@@ -298,7 +298,7 @@ export default class Userprofile extends React.Component {
               style={{
                 textAlign: "left",
                 fontSize: 14,
-                color: "#660000",
+                color: "#567D46",
                 fontWeight: "bold",
                 padding: 5
               }}
@@ -326,7 +326,7 @@ export default class Userprofile extends React.Component {
               style={{
                 textAlign: "left",
                 fontSize: 14,
-                color: "#660000",
+                color: "#567D46",
                 fontWeight: "bold",
                 padding: 5
               }}

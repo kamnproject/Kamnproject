@@ -50,7 +50,8 @@ tem =""
       this.setState({daily_toachieve,daily_achieved,dailyperctange})
     })
     //let temp = firebase.auth().currentUser.email
-    let temp="khalid@khalid.com"
+    //let temp="khalid@khalid.com"
+    let temp="admin@admin.com"
         this.tem = temp
   }
   render() {
@@ -238,7 +239,7 @@ tem =""
                       backgroundColor: '#DDDDDD',
                       padding: 1,borderRadius:15,backgroundColor:"#567D46",borderColor:"white",borderWidth:2,borderStyle:"solid"
                     }}
-                      onPress={() => this.props.navigation.navigate('Profile')}
+                      onPress={() => this.props.navigation.navigate('AdminStatatics')}
                     >
                     <View style={{alignItems: 'center',justifyContent:"center"}}>
                     <AntDesign name="profile" borderColor="blue" color="white" size={wp('5.5%')}/>
@@ -252,7 +253,7 @@ tem =""
                       backgroundColor: '#DDDDDD',
                       padding: 1,borderRadius:15,backgroundColor:"#567D46",borderColor:"white",borderWidth:2,borderStyle:"solid"
                     }}
-                      onPress={() => this.props.navigation.navigate('Profile')}
+                      onPress={() => this.props.navigation.navigate('Area')}
                     >
                     <View style={{alignItems: 'center',justifyContent:"center"}}>
                     <Entypo name="shareable" borderColor="blue" color="white" size={wp('5.5%')}/>
@@ -266,7 +267,7 @@ tem =""
                       backgroundColor: '#DDDDDD',
                       padding: 1,borderRadius:15,backgroundColor:"#567D46",borderColor:"white",borderWidth:2,borderStyle:"solid"
                     }}
-                      onPress={() => this.props.navigation.navigate('Profile')}
+                      onPress={() => this.props.navigation.navigate('Ranking')}
                     >
                     <View style={{alignItems: 'center',justifyContent:"center"}}>
                     <AntDesign name="layout" borderColor="blue" color="white" size={wp('5.5%')}/>
@@ -344,7 +345,7 @@ tem =""
                      backgroundColor: '#DDDDDD',
                      padding: 1,borderRadius:15,backgroundColor:"#567D46",borderColor:"white",borderWidth:2,borderStyle:"solid"
                    }}
-                     onPress={() => this.props.navigation.navigate('Profile')}
+                     onPress={() => this.props.navigation.navigate('Inventory')}
                    >
                    <View style={{alignItems: 'center',justifyContent:"center"}}>
                    <MaterialIcons name="feedback" borderColor="blue" color="white" size={wp('5.5%')}/>

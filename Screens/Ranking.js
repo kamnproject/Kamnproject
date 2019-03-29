@@ -95,7 +95,7 @@ export default class Ranking extends React.Component {
     return (
       <View style={styles.container}>
         <Header
-          backgroundColor="#660000"
+          backgroundColor="#567D46"
           placement="center"
           leftComponent={<Entypo name="price-ribbon" size={30} color="white" />}
           centerComponent={{
