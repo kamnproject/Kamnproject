@@ -5,30 +5,17 @@ import * as admin from 'firebase-admin'
 
 admin.initializeApp(functions.config().firebase)
 
-export const createTarget = functions.https.onRequest(async (req, res) => {
-    // find all images (users with captions)
-    let user =
-    new Array();
-   await admin.firestore().collection("User").onSnapshot(querySnapshot => {
 
-        querySnapshot.forEach(doc => {
 
-            user.push({
-                id: doc.id, ...doc.data()
-            })
-
-        })
-      })
-    var myDate = new Date();
-    let formatedTime=myDate.toJSON();
-    {
-        user.map((item, i)=>{
-            
-        admin.firestore().collection(`User/${item.id}/User_issues`).doc(formatedTime).set({Target_achieved:0,Target_todo:20})
-        })}
-
-    res.status(200).send();
+const nodemailer= require('nodemailer')
+const mailTransport=nodemailer.createTransport({
+    service: "hotmail",
+    auth:{
+        user:'khalid.naser7@hotmail.com',
+        pass:'6969Cr76363'
+    }
 })
+
 export const fillTrash = functions.https.onRequest(async (req, res) => {
     // find all images (users with captions)
     const querySnapshot= await admin.firestore().collection("TrashCan").get()
@@ -62,3 +49,60 @@ export const fillTrash = functions.https.onRequest(async (req, res) => {
     })
     res.status(200).send();
 })
+
+export const createTarget = functions.https.onRequest(async (req, res) => {
+
+    const querySnapshot = await admin.firestore().collection("User").get()
+    const users = []
+    querySnapshot.forEach(doc => {
+        users.push({
+            id: doc.id, ...doc.data()
+        })
+    })
+    var myDate = new Date();
+    let formatedTime=myDate.toDateString();
+        users.map((item, i) => {
+
+            admin.firestore().collection(`User/${item.id}/Daily_targets`).doc(formatedTime).set({ Target_achieved: 0, Target_todo: 20, date:new Date()})
+        })
+
+
+res.status(200).send();
+})
+export const createDailyFeedback = functions.https.onRequest(async (req, res) => {
+
+    const querySnapshot = await admin.firestore().collection("User").get()
+    const users = []
+    querySnapshot.forEach(doc => {
+        users.push({
+            id: doc.id, ...doc.data()
+        })
+    })
+    var myDate = new Date();
+    let formatedTime=myDate.toDateString();
+        users.map((item, i) => {
+
+            admin.firestore().collection(`User/${item.id}/Daily_Feedbacks`).doc(formatedTime).set({ Answer: [], Question: ["Do you think you are doing a fine job?","I like working here?","Do you think your colleague are doing there job right?","Do you understand the way the Trash can app works?"], date:new Date()})
+        })
+
+
+res.status(200).send();
+})
+export const welcomeemail=functions.https.onRequest(async (req, res) => {
+
+    const email="arunblack96@gmail.com"
+    const mailOption={
+        from:'"My APP"<myapp@gamil.com>',
+        bcc:email,
+        subject:'Thanks',
+        text:'Come check out all the cool features of my App'
+
+    }
+    return mailTransport.sendMail(mailOption).then(()=>{
+        res.send("Email Sent")
+    }).catch(error => {
+        res.send(error)
+    })
+
+})
+

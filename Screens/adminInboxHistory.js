@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, TextInput, Button, ScrollView , TouchableOpacity} from 'react-native';
-import { Header, Overlay,SearchBar,Card } from 'react-native-elements';
+import { Header, Overlay,SearchBar } from 'react-native-elements';
 import Entypo from '@expo/vector-icons/Entypo';
 import firebase, { firestore } from 'firebase'
 import db from '../db.js'
@@ -12,13 +12,16 @@ import Foundation from '@expo/vector-icons/Foundation';
 import { FlatList, ListItem, Divider,Badge, } from 'react-native-elements'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import _ from "lodash";
-export default class inbox extends React.Component {
+export default class AdminInboxHistroy extends React.Component {
     state = {
         issues: [],
         User_issues: [],
         name: "",
         message: "",
         reply:"",
+        flagr: false,
+        flag: false,
+        flag1: false,
         namee:[],
         search:"",
         filtereddata:[]
@@ -50,13 +53,21 @@ export default class inbox extends React.Component {
                 this.users)
             // console.log("Current admin: ", firebase.auth().currentUser.email)
             // let temp = firebase.auth().currentUser.email
-             let temp ="admin@admin.com"
-            // let temp ="a@a.com"
+            let temp ="admin@admin.com"
+
         this.tem = temp
             
             console.log("Current temp: ", temp)
+     
+            // {
+            //     this.state.users.map((item, i)=>{
+            //         console.log("Current issuee: ", item.id)
+             
+            //     })
+            //   }
             
             this.tem=== "admin@admin.com"? <div>
+               
             {
                 this.state.users.map((item, i)=>{
             db.collection(`User/${item.id}/User_issues`).orderBy("Date").onSnapshot(querySnapshot => {
@@ -66,7 +77,6 @@ export default class inbox extends React.Component {
                     this.User_issue.push({
                         id: doc.id, ...doc.data(),
                         username:item.id
-                        
 
                     })
 
@@ -80,24 +90,41 @@ export default class inbox extends React.Component {
             })
         })
     }</div>:
-   // notadmin
             console.log("normaluser: ",this.tem)
             db.collection(`User/${this.tem}/User_issues`).orderBy("Date").onSnapshot(querySnapshot => {
 
                 querySnapshot.forEach(doc => {
                     this.User_issue.push({
-                        id: doc.id, ...doc.data(),
-                        name: doc.name
+                        id: doc.id, ...doc.data()
                     })
                 })
                 this.setState({ User_issues: this.User_issue })
-this.User_issue=[]
+
                 console.log("Current messages: ",
                     this.User_issue.length)
 
             })
             
         })
+    }
+     reply = (m) =>{
+       
+      db.collection(`User/${m.username}/User_issues`).doc(m.id).update({ Reply: this.state.reply })
+        this.setState({ flagr: false });
+        this.componentWillMount()
+    }
+    report = async () => {
+        if(this.tem !== "admin@admin.com")
+        {
+            db.collection(`User/${this.tem}/User_issues`).doc().set({ Date: new Date(), Message: this.state.message, Reply: "" })
+        }
+       
+    }
+    onclick = () => {
+        this.setState({ flag: true });
+    }
+    clickr = () => {
+        this.setState({ flagr: true });
     }
     contains =(user, search)=>{
         let result = false
@@ -114,27 +141,28 @@ this.User_issue=[]
             return this.contains(user,search)
            }
             ) 
-        this.setState({ search:search, filtereddata:data  });    
+        this.setState({ search:search, filtereddata:data  });
+        
+        
       };
     render() {
+
         return (
-            <ScrollView>
+            <ScrollView> 
             <View>
                 <Header
-      backgroundColor='#567D46'
+      backgroundColor="#567D46"
       placement="left"
-  leftComponent={<MaterialCommunityIcons  name="inbox" size={30} color="white"/>}
-  centerComponent={{ text: 'Inbox', style: { color: '#fff',fontSize:25 } }}
+      leftComponent={<Ionicons name="ios-arrow-round-back" size={30} color="white"onPress={() => this.props.navigation.navigate('Inbox')}/>}
+  centerComponent={{ text: 'Inbox History', style: { color: '#fff',fontSize:25 } }}
   rightComponent={<Ionicons name="ios-notifications" color="white" size={30} onPress={() => this.props.navigation.navigate('Profile')}/>}
 />
-                <View>
+                <View style={{ paddingTop: 5 }}>
                 
-                    {/* <Text style={{ fontWeight: "bold", fontSize: 17 }}> {this.tem} </Text> */}
+                    <Text style={{ fontWeight: "bold", fontSize: 17 }}> {this.tem} </Text>
                 </View>
-                {this.tem === "admin@admin.com" ?
-                
+                {this.tem === "admin@admin.com" &&
                 <View>
-               
                 <SearchBar
                      placeholder="Filter by Name"
                      lightTheme round
@@ -143,41 +171,30 @@ this.User_issue=[]
                      containerStyle={height=5}
                      showLoading={true}
                  /> 
-                 <TouchableOpacity
-                     style={styles.button}
-               onPress={()=>this.props.navigation.navigate('InboxHistory')}> 
-               <Text  style={{ fontSize: wp('3.5%'), fontWeight: "bold", color: "white" }} >View Inbox History</Text>
-               </TouchableOpacity>
                  {
                     
                     this.state.filtereddata.map(m=>
                          <View >
-                          {m.Reply !== ""?
+                          {m.Reply === ""?
                           null:
                           <View>
-                        <View style={{flex:1, flexDirection:"row"}} >
+                        <View style={{flex:1, flexDirection:"row"}}>
                             <View style={{flex:0.8}}>                           
                             <Text style={{ fontSize: 16 }} key={m.id}>
+                           
+                                 {/* {console.log("m", m.Date.toDate().getDate())} */}
 
-                                <Text style={{ fontSize: wp('4.2%'), fontWeight: "bold", color: "black" }}>From {m.username}: {'\n'}</Text>
-                               <Text style={{ fontSize: wp('4.2%'), fontWeight: "bold", color: "black" }}>Issue: {m.Message} </Text> 
+                                <Text style={{ fontSize: wp('4%'), fontWeight: "bold", color: "black"  }}>From {m.username}: {'\n'}</Text>
+                               <Text style={{fontSize: wp('4.2%'), fontWeight: "bold", color: "black" }}>Issue: {m.Message} {'\n'}</Text> 
                                 {/* {m.Message  == !" " ? <Text>{'\n'} </Text>: <Text style={{ fontWeight: "bold" }} >{'\n'}Issue:{m.Message}{'\n'}</Text>} */}
-                                {m.Reply  === "" ? <Text>{'\n'}</Text>: <Text style={{ fontSize: wp('4.2%'), fontWeight: "bold", color: "black" }} >{'\n'}Admin's Reply:{m.Reply}{'\n'}</Text>}
+                                <Text style={{ fontSize: wp('4.2%'), fontWeight: "bold", color: "black"  }}>Reply:{m.Reply}{'\n'}</Text> 
                                 
-                                <Text style={{ fontSize: wp('3.2%'), fontWeight: "bold", color: "black" }}>Time: {m.Date.toDate().getDate()}{"-"}{m.Date.toDate().getMonth() + 1}{"  :"}{m.Date.toDate().getHours()}{":"}{m.Date.toDate().getMinutes()}</Text>
+                                <Text style={{ fontSize: wp('3.5%'), fontWeight: "bold", color: "black"  }}>Time: {m.Date.toDate().getDate()}{"-"}{m.Date.toDate().getMonth() + 1}{"  :"}{m.Date.toDate().getHours()}{":"}{m.Date.toDate().getMinutes()}</Text>
                                 </Text>
+    
 
                                 </View>
-                                {m.Reply == ! " " ? 
-                            <View style={{width: 20,flex:0.2, paddingTop:10}}>
-                         
-                    <TouchableOpacity
-                     style={styles.button}
-               onPress={()=>this.props.navigation.navigate('inboxD', {message:m })}> 
-               <Text  style={{ fontSize: wp('3.5%'), color: "white" }} >Reply</Text>
-               </TouchableOpacity>
-                 </View>
-                    :null}                   
+                               
                     </View>
                     <Divider style={{ backgroundColor: '#567D46', height: 2 }} />
                     </View>
@@ -187,70 +204,17 @@ this.User_issue=[]
                        
                         
                     )} 
- 
-                </View>
-          
-                //Not an admin
-                : 
-                <View style ={{ paddingTop: 10 }}>
-                 {/* <View style= {{width:"25%",height: "6%"}}> */}
-
-                    <TouchableOpacity
-                     style={{alignItems: 'center',
-                     backgroundColor: '#567D46',
-                     color:"white",
-                     
-                     width:"25%",height: "6%"
-                   }}
-               onPress={()=>this.props.navigation.navigate('createissue', {usere:this.tem})} >
-               <Text  style={{ fontSize: wp('3.5%'), fontWeight: "bold", color: "white"}} >Report an Issue</Text>
-               </TouchableOpacity>
-           
-            {/* </View> */}
-                        {this.state.User_issues.length !=0?<View>
-                {
-
-                    this.state.User_issues.map(m =>
-                        <View style={{paddingTop:10}}>
-                            <Text key={m.id}>
-                                {console.log("m", m.Date.toDate().getDate())}
-                              
-                                <Text style={{ fontWeight: "bold", fontSize: 20 }}></Text>
-                                <Text>
-
-                                </Text>
-
-                                <Text  style={{ fontSize: wp('4.2%'), fontWeight: "bold", color: "black" }}>Issue: {m.Message} </Text>
-                                {m.Reply  === "" ? <Text>{'\n'}</Text>: <Text style={{ fontSize: wp('4.2%'), fontWeight: "bold", color: "black" }} >{'\n'}Admin's Reply:{m.Reply}{'\n'}</Text>}
-                                <Text  style={{ fontSize: wp('3.5%'), fontWeight: "bold", color: "black" }}>Time:{m.Date.toDate().getDate()}{"/"}{m.Date.toDate().getMonth() + 1}{"   "}{m.Date.toDate().getHours()}{":"}{m.Date.toDate().getMinutes()} </Text>
-                                
-                            
-                            </Text>
-                            <Divider style={{ backgroundColor: '#567D46', height: 1 }} />
-
-                        </View>
-                    )}
-                    </View>:
-                  <View style ={{justifyContent: "flex-start", alignItems: "center"}}>
-                    <Card width={"96%"}>                                    
-
-                    <Text style={{ fontSize: wp('4.2%'), fontWeight: "bold", color: "black" }}>Report issue to admin</Text>
-
-                    <Text>{'\n'}</Text>
-                                                 
-                    </Card>
-                    </View>
                     
-                }
             
                 </View>
-                }
-                
-                
+                //Not an admin
 
+                
+                
+                    }
 
             </View>
-            </ScrollView>
+            </ScrollView>  
         );
     }
 }
@@ -264,9 +228,8 @@ const styles = StyleSheet.create({
     },
     button: {
       alignItems: 'center',
-      backgroundColor: '#567D46',
-      color:"white",
-    
+      backgroundColor: 'brown',
+      color:"white"
     },
     countContainer: {
       alignItems: 'center',
