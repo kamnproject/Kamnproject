@@ -19,7 +19,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 
 export default class RegisterScreen extends React.Component {
   re = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/
-  re2 = /^\d{7,7}[0-9]+$/
+  re2 = /^\d{7}[0-9]+$/
   re3 = /^[A-Za-z]+$/
  re4= /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{4,8}$/
   state = {
