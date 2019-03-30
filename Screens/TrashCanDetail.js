@@ -19,7 +19,7 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-nativ
 export default class Detail extends React.Component {
     state={
       list:[],
-      secondsTaken:0,
+      secondsTaken:30,
       minutesTaken:0,
         yellow_can:"https://firebasestorage.googleapis.com/v0/b/kamn-e4270.appspot.com/o/images%2Fyellow_can.jpg?alt=media&token=9fbee99d-d095-4797-9295-b9d15fb09021",
     green_can:"https://firebasestorage.googleapis.com/v0/b/kamn-e4270.appspot.com/o/images%2Fgreen_can.jpg?alt=media&token=192b23c3-1fdb-49e8-94e6-8f05018b4151",
@@ -65,26 +65,36 @@ fulldate = this.date+"-"+this.month+"-"+this.year+" at "+ this.time+":"+this.min
       db.collection("CollectedTrashcans").onSnapshot(()=>{})
     }
 handleTime=()=>{
-  // this.secondsTaken=setInterval(()=>{this.secondsTaken=this.secondsTaken+1},1000)
-  // this.minutesTaken=setInterval(()=>{this.minutesTaken=this.minutesTaken+1},1000)
-  //this.sec=setInterval(()=>this.secondsTaken=this.secondsTaken+1,1000)
-  setInterval(()=>{this.setState({minutesTaken:this.state.minutesTaken+1})},1000)
-  this.off=setInterval(()=>{this.setState({secondsTaken:this.state.secondsTaken+1})},1000)
+  this.on=setInterval(()=>{this.setState({secondsTaken:this.state.secondsTaken-1})},1000)
+  //this.off=setInterval(()=>{this.setState({secondsTaken:this.state.secondsTaken+1})},1000)
 }
-// handleResetTime=()=>{
-//   clearInterval(this.off)
-//   this.off=setInterval(()=>{this.setState({secondsTaken:this.state.secondsTaken+1})},1000)
-// }
+handleStop=()=>{
+  clearInterval(this.on)
+  console.log("min:sec",this.on)
+}
+handleResetTime=()=>{
+  this.setState({secondsTaken:0})
+}
     handleCollect= async()=>{
+      this.on=setInterval(()=>{this.setState({secondsTaken:this.state.secondsTaken-1})},1000)
       console.log("id: ",this.trashId)
       console.log("time: ",this.trash_time_of_full)
       await db.collection("User").doc(this.username).update({Work_Status:true})
       await db.collection("TrashCan").doc(this.trashId).update({Status:"In Process"})
       await db.collection("CollectedTrashcans").doc().set({Date_time:new Date().toString(),Employee_id:this.username,Time_of_full:this.trash_time_of_full,Time_taken:0,Trashcan_id:this.trashId})
       
-      this.props.navigation.goBack()
+      //this.props.navigation.goBack()
     }
-    
+    handleDone=async()=>{
+      let user =  await db.collection("User").doc(this.username).get()
+      let points = user.data().Points
+      let updatedPoints = points + 20
+      //console.log("poiunts: ",points)
+      await db.collection("User").doc(this.username).update({Work_Status:false,Points:updatedPoints})
+      await db.collection("TrashCan").doc(this.trashId).update({Status:"Empty",Fill_percentage:0,Lasttime_empty:firebase.firestore.Timestamp.fromDate(new Date())})
+      this.props.navigation.goBack()
+
+    }
   render() {
   
     // const battery = navigation.getParam('battery')
@@ -173,23 +183,24 @@ handleTime=()=>{
                        
                        </View>
                        </TouchableOpacity>
-                       <TouchableOpacity
+                       <View> 
+                         <Text>{"sec : "+this.state.secondsTaken}</Text>
+                       </View>
+
+                       {this.state.secondsTaken===0?(clearInterval(this.on),<TouchableOpacity
                          style={{width:wp("30%"),opacity:this.trash.Fill_percentage<60 && this.trash.Status=="Good"&&this.trash.Status=="In Process"?0.5:1,
                          height:wp("10%"),backgroundColor:"#567D46",borderColor:"white",borderWidth:2,borderStyle:"solid",borderRadius:10,alignItems: 'center',justifyContent:"center"
                        }}
-                         onPress={this.handleTime}
+                         onPress={this.handleDone}
                         
                        >
                        <View style={{alignItems: 'center',justifyContent:"center"}}>
                        {/* <AntDesign name="profile" borderColor="blue" color="white" size={wp('5.5%')}/> */}
-                       <Text style={{ fontSize: wp('3.5%'), fontWeight: "bold" ,color:"white"}}>Time</Text>
+                       <Text style={{ fontSize: wp('3.5%'), fontWeight: "bold" ,color:"white"}}>Done</Text>
                        
                        </View>
-                       </TouchableOpacity>
-                       <View>
-                        {/* {this.state.secondsTaken%60==0&&(this.handleResetTime())} */}
-                         <Text>{Math.floor(this.state.minutesTaken/60)+" : "+this.state.secondsTaken}</Text>
-                       </View>
+                       </TouchableOpacity>):null}
+                       
           </View>
           </View>
           
@@ -209,7 +220,7 @@ handleTime=()=>{
     </View>}
      rightAvatar={<Badge  status={this.trash.Fill_percentage>30 & this.trash.Fill_percentage<60 ?"warning":this.trash.Fill_percentage>60?"error":"success" }/>}
      title={<Text style={{textAlign:"left",fontWeight:"bold"}}>{"Collected by:  "+l.Employee_id}</Text>}
-     subtitle={<Text style={{textAlign:"left"}}>{"Time of full: "+"06:00 PM"}</Text>}
+     subtitle={<Text style={{textAlign:"left"}}>{"Time of full: "+l.Time_of_full}</Text>}
     // <Text style={{textAlign:"left"}}>{"Date: "+"23 March 2019"}</Text> <Text style={{textAlign:"left"}}>{"Time: "+"06:50 PM"}</Text>}
      
    />
