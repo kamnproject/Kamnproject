@@ -108,7 +108,7 @@ updateSearch = (search) => {
       />
     );
   };
-
+  temp = "admin@admin.com"
   render() {
     return (
       <View style={styles.container}>
@@ -137,6 +137,18 @@ updateSearch = (search) => {
                 containerStyle={height=5}
                 showLoading={true}
             /> 
+              {
+                  this.temp == "admin@admin.com" ?
+              <Button 
+                      containerStyle={{marginLeft: 270, width: 140, justifyContent: 'flex-start'}}
+                      onPress = {()=>this.props.navigation.navigate('CreateArea')}
+                      title="Create Area"
+                      
+                      />
+                :
+                null
+   
+  }
         {/* <Text>Ranking</Text> */}
         <ScrollView>
           {this.state.filtereddata.map((item, i) => (

@@ -20,8 +20,8 @@ import LiveMap from '../Screens/Map';
 import TrashList from '../Screens/Trashlist';
 import TrashDetails from '../Screens/TrashCanDetail';
 import CollectedTrashcansScreen from '../Screens/CollectedTrashcans';
-
 import Feedbackscreen from '../Screens/Feedback'
+import CreateArea from '../Screens/CreateArea'
 import inboxScreen from '../Screens/inbox'
 import adminInboxHistory from '../Screens/adminInboxHistory'
 import inboxDetails from '../Screens/inboxDetails'
@@ -57,8 +57,8 @@ const HomeStack = createStackNavigator({
   Inventory:MainInventory,
   NotificationMain:NotificationMainScreen,
   AdminStatatics:StataticsScreen,
-  CollectedTrashes: CollectedTrashcansScreen
-
+  CollectedTrashes: CollectedTrashcansScreen,
+  CreateArea:CreateArea
 },
 {
   mode: 'modal',

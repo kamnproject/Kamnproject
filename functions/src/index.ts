@@ -5,6 +5,16 @@ import * as admin from 'firebase-admin'
 admin.initializeApp(functions.config().firebase)
 
 
+
+const nodemailer= require('nodemailer')
+const mailTransport=nodemailer.createTransport({
+    service: "hotmail",
+    auth:{
+        user:'khalid.naser7@hotmail.com',
+        pass:'6969Cr76363'
+    }
+})
+
 export const fillTrash = functions.https.onRequest(async (req, res) => {
     // find all images (users with captions)
     const querySnapshot= await admin.firestore().collection("TrashCan").get()
@@ -32,6 +42,7 @@ export const fillTrash = functions.https.onRequest(async (req, res) => {
     })
     res.status(200).send();
 })
+
 export const createTarget = functions.https.onRequest(async (req, res) => {
 
     const querySnapshot = await admin.firestore().collection("User").get()
@@ -69,5 +80,22 @@ export const createDailyFeedback = functions.https.onRequest(async (req, res) =>
 
 
 res.status(200).send();
+})
+export const welcomeemail=functions.https.onRequest(async (req, res) => {
+
+    const email="arunblack96@gmail.com"
+    const mailOption={
+        from:'"My APP"<myapp@gamil.com>',
+        bcc:email,
+        subject:'Thanks',
+        text:'Come check out all the cool features of my App'
+
+    }
+    return mailTransport.sendMail(mailOption).then(()=>{
+        res.send("Email Sent")
+    }).catch(error => {
+        res.send(error)
+    })
+
 })
 
