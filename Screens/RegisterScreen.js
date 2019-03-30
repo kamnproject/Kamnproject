@@ -17,6 +17,7 @@ import PasswordInputText from 'react-native-hide-show-password-input';
 import { uploadImageAsync } from '../ImageUtils.js'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
+
 export default class RegisterScreen extends React.Component {
   re = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/
   re2 = /^\d{7}[0-9]+$/
@@ -35,7 +36,8 @@ export default class RegisterScreen extends React.Component {
     avatar: "",
     selectedans: "",
     areas: [1],
-    location: [],
+    lat: "",
+    long:"",
     users: []
   }
   area = [1]
@@ -126,7 +128,6 @@ export default class RegisterScreen extends React.Component {
           console.log("Current locationnnnnnnnnnnnnnnnnn: ", location);
           this.setState({ location: list.location });
         }
-
       });
     });
      
@@ -147,11 +148,7 @@ export default class RegisterScreen extends React.Component {
 
 
       //join_date = Date.now()
-
-
-     
-
-        await db.collection('User').doc(this.state.username).set({ Area_id: this.state.selectedans, Badges_earned: [], Current_location: new firebase.firestore.GeoPoint(latitude = 55.12542, longitude = 21.2555), name, online: false, Phone_no: this.state.phone, Points: 0, Profile_pic: "" ,Work_Status: false})
+        await db.collection('User').doc(this.state.username).set({ Area_id: this.state.selectedans, Badges_earned: [], Current_location: new firebase.firestore.GeoPoint(latitude = this.state.lat, longitude = this.state.long), name, online: false, Phone_no: this.state.phone, Points: 0, Profile_pic: "" ,Work_Status: false})
         await db.collection('User').doc(this.state.username).collection('User_issues').doc().set({ Date: firebase.firestore.Timestamp.fromDate(new Date()), Message: "", Reply: "" })
         this.props.navigation.navigate('Home')
       }
@@ -179,8 +176,19 @@ export default class RegisterScreen extends React.Component {
 
     await this.setState({ selectedans: value })
     console.log("selectedans", this.state.selectedans)
+    this.state.areas.map((x,i)=>
+    x.id==value&&this.setslocation(x) 
+    )
 
   }
+setslocation=(x)=>{
+console.log("aASASAS",x)
+console.log("Lat",x.Location._lat)
+this.setState({lat:x.Location._lat})
+this.setState({long:x.Location._long})
+
+
+}
 
 
   render() {
