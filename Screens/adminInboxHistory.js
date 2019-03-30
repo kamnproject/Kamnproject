@@ -153,7 +153,7 @@ export default class AdminInboxHistroy extends React.Component {
                 <Header
       backgroundColor="#567D46"
       placement="left"
-  leftComponent={<MaterialCommunityIcons  name="inbox" size={30} color="white"/>}
+      leftComponent={<Ionicons name="ios-arrow-round-back" size={30} color="white"onPress={() => this.props.navigation.navigate('Inbox')}/>}
   centerComponent={{ text: 'Inbox History', style: { color: '#fff',fontSize:25 } }}
   rightComponent={<Ionicons name="ios-notifications" color="white" size={30} onPress={() => this.props.navigation.navigate('Profile')}/>}
 />
