@@ -6,7 +6,7 @@ import {
 } from 'react-navigation'
 import MapViewDirections from 'react-native-maps-directions'
 import { createMaterialTopTabNavigator, BottomTabBar, createDrawerNavigator } from 'react-navigation';
-import { Header } from 'react-native-elements';
+import { Header,Card } from 'react-native-elements';
 import MapView,{Callout} from 'react-native-maps';
 import Entypo from '@expo/vector-icons/Entypo';
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -30,13 +30,17 @@ trash=[]
 		super(props);
 
 		this.state = {
+      flag:false,
       trash:[],
       yellow_can:"https://firebasestorage.googleapis.com/v0/b/kamn-e4270.appspot.com/o/images%2Fyellow_can.jpg?alt=media&token=9fbee99d-d095-4797-9295-b9d15fb09021",
     green_can:"https://firebasestorage.googleapis.com/v0/b/kamn-e4270.appspot.com/o/images%2Fgreen_can.jpg?alt=media&token=192b23c3-1fdb-49e8-94e6-8f05018b4151",
     red_can:"https://firebasestorage.googleapis.com/v0/b/kamn-e4270.appspot.com/o/images%2Fred_can.jpg?alt=media&token=d5361926-7dc4-439b-bc3a-45a8a71d4839",
    me:"https://firebasestorage.googleapis.com/v0/b/kamn-e4270.appspot.com/o/images%2Fme.png?alt=media&token=5d03c5f4-6440-49e7-819e-f591ce36cf75",
    you:"https://firebasestorage.googleapis.com/v0/b/kamn-e4270.appspot.com/o/images%2Fyou.png?alt=media&token=0f183f00-2562-440a-bd41-48dd7667b523",
-    points : [
+   busy: "https://firebasestorage.googleapis.com/v0/b/kamn-e4270.appspot.com/o/images%2Fbusy.png?alt=media&token=7447ed6d-362b-45c2-a7dc-f43f5d55472f",
+   free:"https://firebasestorage.googleapis.com/v0/b/kamn-e4270.appspot.com/o/images%2Ffree.png?alt=media&token=ce4acc6a-1846-4e50-9c39-e6e5dd455de4",
+   me_standing:"https://firebasestorage.googleapis.com/v0/b/kamn-e4270.appspot.com/o/images%2Fme_standing.png?alt=media&token=b043c754-9f3e-410d-9393-62551a4d1254",
+   points : [
       
       {coordinate :{longitude: 51.515969,latitude: 25.298560}},
       {coordinate :{longitude: 51.516560,latitude: 25.297891}},
@@ -69,7 +73,7 @@ trash=[]
   }
   handleDisappear=()=>{
     this.setState({
-      toCoordinate:this.state.fromCoordinate })
+      toCoordinate:this.state.fromCoordinate,flag:false })
   }
   onMapPress = (e)=> {
 
@@ -79,25 +83,17 @@ trash=[]
 					e.nativeEvent.coordinate
         
       });
-      console.log("1st corda:",this.state.coordinates[0])
-      console.log("2st corda:",this.state.coordinates[1])
-      console.log("lengtha: ",this.state.coordinates.length)
-		// } else {
-		// 	this.setState({
-		// 		coordinates: [
-		// 			...this.state.coordinates,
-		// 			e.nativeEvent.coordinate,
-		// 		],
-    //   });
-      // console.log("1st cordb:",this.state.coordinates[0])
-      // console.log("2st cordb:",this.state.coordinates[1])
-      // console.log("lengthb: ",this.state.coordinates.length)
+      // console.log("1st corda:",this.state.coordinates[0])
+      // console.log("2st corda:",this.state.coordinates[1])
+      // console.log("lengtha: ",this.state.coordinates.length)
 		}
   }
   
   handlePass=(trash)=>{
-    console.log("worked")
+    //console.log("worked")
     //this.setState({trash})
+    console.log("trash id: ",trash.id)
+    this.setState({trash,flag:true})
   }
   handleDetails=(trash)=>{
     // console.log(trash.id)
@@ -116,30 +112,15 @@ trash=[]
   onError = (errorMessage) => {
 		Alert.alert(errorMessage);
 	}
-  // region = {
-  //   latitude: 25.298514,
-  //   longitude: 51.514855,
-  //   latitudeDelta: 0.003,
-  //   longitudeDelta: 0.003
-  
-  // }
-  // state={
-  //   points : [
-      
-  //     {coordinate :{longitude: 51.515969,latitude: 25.298560}},
-  //     {coordinate :{longitude: 51.516560,latitude: 25.297891}},
-  //     {coordinate :{longitude: 51.516966,latitude: 25.297263}},
-  //     {coordinate :{longitude: 51.514187,latitude: 25.299114}},
-    
-  // ],
-  // icon:"md-contacts",
-  // trashlist=[]
-  // }
 area_ids=""
 email="khalid@khalid.com"
 handlePress=(trash)=>{
   console.warn("sdasdas")
   this.props.navigation.navigate('TrashDetail',{trashes:trash})
+}
+handleBoth=(trash)=>{
+  this.onMapPress
+  this.handlePass(trash)
 }
   componentWillMount=async ()=>{
     //go to db and get all the users
@@ -193,17 +174,6 @@ handlePress=(trash)=>{
     
     })
     this.setState({areaLocation:location})
-    
-  //   })
-  //   // let regiontemp={
-  //   //   latitude: area.Location._lat,
-  //   // longitude: area.Location._long,
-  //   // latitudeDelta: 0.004,
-  //   // longitudeDelta: 0.004
-  //   // }
-  //  // this.setState({lat:area.Location._lat,long:area.Location._long})
-  //   //this.setState({region:regiontemp})
-  //   console.log("state!",this.state.lat);
   
     await db.collection("TrashCan").onSnapshot(querySnapshot => {
       let list = []
@@ -229,7 +199,14 @@ handlePress=(trash)=>{
     <MapView style={styles2.map} provider={"google"} region={{latitude:this.state.areaLocation._lat,longitude:this.state.areaLocation._long,latitudeDelta: 0.004,longitudeDelta: 0.004}}>
    
     
-    {this.state.trashlist.map((point,x)=> <MapView.Marker onPress={this.onMapPress} description={"Fill: "+point.Fill_percentage+"%"}  title={"Status: "+point.Status}  key ={x} coordinate={{latitude:point.Location._lat,longitude:point.Location._long}} >
+    {this.state.trashlist.map((point,x)=> 
+    <MapView.Marker
+    onPress={(e)=>{this.onMapPress(e);this.handlePass(point);}} 
+    description={"Fill: "+point.Fill_percentage+"%"} 
+     title={"Status: "+point.Status}  
+     key ={x} 
+     coordinate={{latitude:point.Location._lat,longitude:point.Location._long}}
+     >
 
 <Image
           style={{width:20, height:35}}
@@ -259,9 +236,9 @@ handlePress=(trash)=>{
 
         
 <Image
-  style={{width:20, height:35}}
+  style={{width:15, height:36}}
   
-  source={this.email===point.id?{uri:this.state.me}:{uri:this.state.you}}
+  source={this.email===point.id?{uri:this.state.me}:point.Work_Status?{uri:this.state.busy}:{uri:this.state.free}}
 />
 
 </MapView.Marker> 
@@ -284,36 +261,43 @@ handlePress=(trash)=>{
       destination={this.state.toCoordinate}
       apikey={GOOGLE_MAPS_APIKEY}
       strokeWidth={3}
-      strokeColor="blue"
+      strokeColor="hotpink"
     />
     </MapView>
     <Callout>
       <View>
-       <Text>This is the map</Text>
+        {this.state.flag&&
+          <Card containerStyle={{opacity:1}}>
+          <Text style={{opacity:1}}>{"Distance: "+geolib.getDistance(this.state.fromCoordinate,this.state.toCoordinate)+" m"}</Text>
+          <TouchableOpacity
+            style={{width:wp("21%"),opacity:1,margin:2,
+            height:wp("7%") ,
+            borderRadius:15,backgroundColor:"#567D46",alignItems: 'center',justifyContent:"center"
+        }}
+            onPress={this.handleDisappear}
+            
+        ><View style={{alignItems: 'center',justifyContent:"center",margin:5}}>
+                               <Text style={{ fontSize: wp('3.5%'), fontWeight: "bold" ,color:"white"}}>Stop Follow </Text>
+                               </View></TouchableOpacity>
+        
+                               <TouchableOpacity
+            style={{width:wp("21%"),margin:2,
+            height:wp("7%") ,
+            borderRadius:15,backgroundColor:"#567D46",alignItems: 'center',justifyContent:"center"
+        }}
+            onPress={()=>this.handleDetails(this.state.trash)}
+            
+        ><View style={{alignItems: 'center',justifyContent:"center",margin:5}}>
+                               <Text style={{ fontSize: wp('3.5%'), fontWeight: "bold" ,color:"white"}}>Details </Text>
+                               {/* <Text style={{ fontSize: wp('3.5%'), fontWeight: "bold" ,color:"white"}}>{this.state.trash.id} </Text> */}
+                               </View></TouchableOpacity>
+        </Card>
+        }
+      
+       
       </View>
+      
       <View style={{flexDirection:"column"}}>
-      <TouchableOpacity
-    style={{width:wp("21%"),
-    height:wp("7%") ,
-    borderRadius:15,backgroundColor:"#567D46",alignItems: 'center',justifyContent:"center"
-}}
-    onPress={this.handleDisappear}
-    
-><View style={{alignItems: 'center',justifyContent:"center",margin:5}}>
-                       <Text style={{ fontSize: wp('3.5%'), fontWeight: "bold" ,color:"white"}}>Stop Follow </Text>
-                       </View></TouchableOpacity>
-                       {!this.state.trash&& <TouchableOpacity
-    style={{width:wp("21%"),
-    height:wp("7%") ,
-    borderRadius:15,backgroundColor:"#567D46",alignItems: 'center',justifyContent:"center"
-}}
-    onPress={()=>this.handleDetails(this.state.trash)}
-    
-><View style={{alignItems: 'center',justifyContent:"center",margin:5}}>
-                       <Text style={{ fontSize: wp('3.5%'), fontWeight: "bold" ,color:"white"}}>Details </Text>
-                       {/* <Text style={{ fontSize: wp('3.5%'), fontWeight: "bold" ,color:"white"}}>{this.state.trash.id} </Text> */}
-                       </View></TouchableOpacity>}
-                       
       </View>
     </Callout>
       </View>
