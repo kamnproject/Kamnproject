@@ -20,10 +20,13 @@ import LiveMap from '../Screens/Map';
 import TrashList from '../Screens/Trashlist';
 import TrashDetails from '../Screens/TrashCanDetail';
 import CollectedTrashcansScreen from '../Screens/CollectedTrashcans';
+import Feedbackscreen from '../Screens/Feedback'
 import CreateArea from '../Screens/CreateArea'
 import inboxScreen from '../Screens/inbox'
+import adminInboxHistory from '../Screens/adminInboxHistory'
 import inboxDetails from '../Screens/inboxDetails'
 import createissue from '../Screens/issuecreate'
+import FeedbackDetails from "../Screens/FeedbackDetails"
 
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import Entypo from '@expo/vector-icons/Entypo';
@@ -46,6 +49,9 @@ const HomeStack = createStackNavigator({
   EmployeeList:EmployeeListScreen,
   createissue:createissue,
   inboxD:inboxDetails,
+  Feedback:Feedbackscreen,
+  InboxHistory:adminInboxHistory,
+  FeedbackDetails:FeedbackDetails,
   Area:AreaScreen,
   Register:RegisterScreen,
   Inventory:MainInventory,

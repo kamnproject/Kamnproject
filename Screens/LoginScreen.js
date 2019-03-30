@@ -106,6 +106,7 @@ export default class LoginScreen extends React.Component {
           title="Login"
           color="#660000"
         /> */}
+       
 
       </View>
       </View>
