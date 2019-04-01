@@ -27,7 +27,7 @@ import adminInboxHistory from '../Screens/adminInboxHistory'
 import inboxDetails from '../Screens/inboxDetails'
 import createissue from '../Screens/issuecreate'
 import FeedbackDetails from "../Screens/FeedbackDetails"
-
+// import userInbox from "../Screens/userInbox"
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import Entypo from '@expo/vector-icons/Entypo';
 import Foundation from '@expo/vector-icons/Foundation';
@@ -57,8 +57,8 @@ const HomeStack = createStackNavigator({
   Inventory:MainInventory,
   NotificationMain:NotificationMainScreen,
   AdminStatatics:StataticsScreen,
-  CollectedTrashes: CollectedTrashcansScreen
-
+  CollectedTrashes: CollectedTrashcansScreen,
+  // userInbox:userInbox
 },
 {
   mode: 'modal',
