@@ -125,9 +125,7 @@ export default class Issues extends React.Component {
               <View>
                 <Text style={{ textAlign: "left" }}>Issue: {i.Issue}</Text>
                 <Text style={{ textAlign: "left" }}>Status: {i.Status}</Text>
-                <Text style={{ textAlign: "left" }}>                
-                Date_time: {moment({Date_time: i.Date_time}).format(('MMMM Do YYYY, h:mm:ss a'))}
-                 </Text>
+                <Text style={{ textAlign: "left" }}> Date_time:  { i.Date_time.toDate().toString()}</Text>
               </View>
             }
           />

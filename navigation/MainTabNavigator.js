@@ -21,22 +21,18 @@ import TrashList from '../Screens/Trashlist';
 import TrashDetails from '../Screens/TrashCanDetail';
 import CollectedTrashcansScreen from '../Screens/CollectedTrashcans';
 import Feedbackscreen from '../Screens/Feedback'
-import CreateArea from '../Screens/CreateArea'
 import inboxScreen from '../Screens/inbox'
 import adminInboxHistory from '../Screens/adminInboxHistory'
 import inboxDetails from '../Screens/inboxDetails'
 import createissue from '../Screens/issuecreate'
 import FeedbackDetails from "../Screens/FeedbackDetails"
-
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import Entypo from '@expo/vector-icons/Entypo';
 import Foundation from '@expo/vector-icons/Foundation';
-import NotficationScreen from '../Screens/Notification'
 import NotificationMainScreen from '../Screens/NotificationMain'
-// import FormScreen from '../Screens/Notification_form'
-// import IssuesScreen from '../Screens/TrashCanIssues'
-import IssueDetailScreen from  '../Screens/IssueDetails'
-import FixedScreen from '../Screens/IssueFixed'
+import CreateAreaScreen from '../Screens/CreateArea'
+ import UnAchievedScreen from '../Screens/TargetsUnachieved'
+
 //import MapView from 'react-native-maps';
 import StataticsScreen from '../Screens/StaticsMain' 
 const HomeStack = createStackNavigator({
@@ -58,7 +54,8 @@ const HomeStack = createStackNavigator({
   NotificationMain:NotificationMainScreen,
   AdminStatatics:StataticsScreen,
   CollectedTrashes: CollectedTrashcansScreen,
-  CreateArea:CreateArea
+  CreateArea:CreateAreaScreen,
+  target: UnAchievedScreen
 },
 {
   mode: 'modal',

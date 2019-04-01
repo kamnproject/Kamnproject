@@ -10,7 +10,7 @@ import TrashCanDetail from './TrashCanDetail'
 import Foundation from '@expo/vector-icons/Foundation';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import NotificationScreen from './Notification'
-//import NotificationScreen from './Notification_form'
+// import NotificationScreen from './Notification_form'
 import TrashCanIssuesScreen from './TrashCanIssues'
 import IssueDetailScreen from  '../Screens/IssueDetails'
 import FixedScreen from '../Screens/IssueFixed'
@@ -87,7 +87,15 @@ const TabPages = createMaterialTopTabNavigator(
           textAlign: "center"
         },
       },
-
+    //   defaultNavigationOptions:({navigation})=>( {
+      
+    //     tabBarIcon:()=>{
+    //       const{routeName}=navigation.state;
+    //       if(routeName=='Home')
+    //     return <Entypo  name="home" size={30} color="red"/>
+    //   else if(routeName==="Chat")
+    // return <Entypo  name="chat" size={30} color="red"/> }
+    //     })
     }
   )
   const AppContainer2 = createAppContainer(TabPages)

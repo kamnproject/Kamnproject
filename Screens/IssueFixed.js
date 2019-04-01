@@ -48,7 +48,7 @@ temp = ""
        <View>
             <Text style={{textAlign:"left"}}>Issue: {i.Issue}</Text>
             <Text style={{textAlign:"left"}}>Status: {i.Status}</Text>
-           
+            <Text style={{textAlign:"left"}}>Date_time: { item.Date_time.toDate().toString()} </Text>
       </View>
       }
     />
@@ -64,31 +64,37 @@ temp = ""
     return (
       <View style={styles.container}>
 
-        <Text style={{fontWeight: "bold", marginLeft: 5, marginTop: 5, marginBottom: 8}}> Trashcan Issues supplied</Text>
+        <Text style={{fontWeight: "bold", marginLeft: 5, marginTop: 5, marginBottom: 8, fontSize: 20}}> Trashcan Issues supplied</Text>
         
       {/* {
         this.temp == "admin@admin.com" ? */}
   
 
         <ScrollView>
-                
+                {
+                  this.state.issueFixed.length > 0 ?
                 <FlatList 
                     style = {{elevation: 10}}
                     data = {this.state.issueFixed}
                     keyExtractor = {(x,i)=>x.id}
                     renderItem = {({item})=> 
                    
-                    <TouchableOpacity
+                   
                    // onPress = {()=>this.handleDetails(item)}
                     
-                    >
+                    
                     <View>
                         {this.list(item)}
-                    </View>
-                    </TouchableOpacity>
+                    </View> 
                    
                 }
                 />
+                :
+                <Text> there are currently No Trash can issues supplied </Text>
+
+              }
+
+
             </ScrollView>
             {/* :
             null

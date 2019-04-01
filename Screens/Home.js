@@ -67,7 +67,7 @@ tem =""
               placement="center"
           leftComponent={<Entypo name="mail" color="white" size={30} onPress={() => this.props.navigation.navigate('Inbox')}/>}
           centerComponent={{ text: 'Home', style: { color: '#fff',fontSize:25 } }}
-          rightComponent={<Ionicons name="ios-notifications" color="white" size={30} onPress={() => this.props.navigation.navigate('NotificationMain')}/>}
+          rightComponent={<Ionicons name="ios-notifications" color="white" size={30} onPress={() => this.props.navigation.navigate('target')}/>}
         />
           <View style={{flexDirection:"row"}}>
           <ImageBackground source={this.state.image} style={{ height: hp('100%'),width:wp('100%')}}>
@@ -214,7 +214,7 @@ tem =""
            placement="center"
        leftComponent={<Entypo name="mail" color="white" size={30} onPress={() => this.props.navigation.navigate('Inbox')}/>}
        centerComponent={{ text: 'Home', style: { color: '#fff',fontSize:25 } }}
-       rightComponent={<Ionicons name="ios-notifications" color="white" size={30} onPress={() => this.props.navigation.navigate('NotificationMain')}/>}
+       rightComponent={<Ionicons name="ios-notifications" color="white" size={30} onPress={() => this.props.navigation.navigate('target')}/>}
      />
 
        <View style={{flexDirection:"row"}}>
