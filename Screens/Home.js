@@ -22,37 +22,76 @@ export default class Home extends React.Component {
     daily_toachieve:0,
     daily_achieved:0,
     dailyperctange:0,
+    monthly_toachieve:0,
+    monthly_achieved:0,
+    monthlyperctange:0,
    
   }
 tem =""
-  componentWillMount() {
+daily_target=[]
+  async componentWillMount() {
 
    // go to db and get one the user daily targets
-    db.collection("User").doc("a@a.com").collection("Daily_targets")
+   db.collection("User").doc("khalid@khalid.com").collection("Daily_targets")
     .onSnapshot(querySnapshot => {
       let daily_Target = []
       querySnapshot.forEach(doc => {
         daily_Target.push({ id: doc.id, ...doc.data() })
       })
       this.setState({ daily_Target })
+      this.daily_target=daily_Target
       console.log("Current dailytarget: ", this.state.daily_Target.length)
+      this.dailytargetcal(daily_Target)
+      this.monthlytarget(daily_Target)
+   
+    })
+
+    //let temp = firebase.auth().currentUser.email
+    //let temp="khalid@khalid.com"
+    let temp="admin@admin.com"
+    this.tem = temp
     
+
+  }
+  dailytargetcal=(daily_Target)=>{
     let daily_toachieve=0
     let daily_achieved=0
-
+      let today= new Date().toDateString()
+      console.log("today"+today)
       daily_Target.map(m =>
+        m.id==today&&
         (
+          console.log("Date",m.id),
           daily_toachieve=parseInt(m.Target_todo),
           daily_achieved=parseInt(m.Target_achieved)
         )
       )
       let dailyperctange= (daily_toachieve/daily_achieved)*10
       this.setState({daily_toachieve,daily_achieved,dailyperctange})
-    })
-    //let temp = firebase.auth().currentUser.email
-    //let temp="khalid@khalid.com"
-    let temp="admin@admin.com"
-        this.tem = temp
+
+  }
+
+  monthlytarget=(daily_Target)=>{
+
+    let splitdate = new Date().toDateString().split(" ")
+    let monthly_toachieve=0
+    let monthly_achieved=0
+    console.log("month"+splitdate[1])
+    let month=splitdate[1]
+        daily_Target.map((x,i)=>
+        x.id.includes(month)&&
+        (
+          console.log("Date2",x.id),
+          monthly_toachieve+=parseInt(x.Target_todo),
+          monthly_achieved+=parseInt(x.Target_achieved)
+        )
+      
+      
+      )
+      let monthlyperctange=(150/monthly_achieved)*10
+      this.setState({monthly_toachieve,monthly_achieved,monthlyperctange})
+      
+
   }
   render() {
     // const currentuser=firebase.auth().currentUser.email
@@ -89,7 +128,7 @@ tem =""
                     <Text style={{ fontSize: wp('4.5%'),textAlign:"center" ,fontWeight: "bold",color:"#567D46" }}>Daily</Text>
 
                       </View>
-                      <View>
+                      {/* <View>
                           <ProgressCircle
                               percent={this.state.dailyperctange}
                               radius={wp('13%')}
@@ -102,17 +141,17 @@ tem =""
                           </ProgressCircle>
                     <Text style={{ fontSize: wp('4.5%'),textAlign:"center", fontWeight: "bold",color:"#567D46" }}>Weekly</Text>
 
-                      </View>
+                      </View> */}
                       <View>
                           <ProgressCircle
-                              percent={this.state.dailyperctange}
+                              percent={this.state.monthlyperctange}
                               radius={wp('13%')}
                               borderWidth={12}
                               color="#3399FF"
                               shadowColor="#999"
                               bgColor="#fff"
                           >
-                              <Text style={{ fontSize: wp('4.5%'), fontWeight: "bold" }}>{this.state.daily_achieved+"/"+this.state.daily_toachieve}</Text>
+                              <Text style={{ fontSize: wp('4.5%'), fontWeight: "bold" }}>{this.state.monthly_achieved+"/"+"150"}</Text>
                           </ProgressCircle>
                     <Text style={{ fontSize: wp('4.5%'),textAlign:"center", fontWeight: "bold",color:"#567D46" }}>Monthly</Text>
                       </View>
