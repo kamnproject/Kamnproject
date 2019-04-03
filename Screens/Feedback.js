@@ -34,8 +34,8 @@ export default class Feedback extends React.Component {
 
     users = []
     questans = []
-    //   tem = "admin@admin.com"
-  tem="khalid@khalid.com"
+      tem = "admin@admin.com"
+//   tem="khalid@khalid.com"
     //    {firebase.auth().currentUser.email === "admin@admin.com"?dfgedf:null}
     componentWillMount() {
         // go to db and get all the feedback
@@ -94,12 +94,14 @@ export default class Feedback extends React.Component {
                         this.setState({ Question_Answer: this.questans })
                         // this.setState({ filtereddata: this.questans })
 
-                        console.log("Current messages: ",
-                            this.questans.length)
-                        console.log("Current feed: ",
-                            this.questans)
-                        console.log("id item: ",
-                            this.questans.Answer)
+                        // console.log("Current messages: ",
+                        //     this.questans.length)
+                            console.log("laaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaasssssssssssssttttttttttttt: ",
+                            this.questans[this.questans.length-1].date)
+                        // console.log("Current feed: ",
+                        //     this.questans)
+                        // console.log("id item: ",
+                        //     this.questans.Answer)
                     })
 
 

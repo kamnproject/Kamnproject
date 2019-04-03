@@ -59,12 +59,60 @@ export const createTarget = functions.https.onRequest(async (req, res) => {
             id: doc.id, ...doc.data()
         })
     })
+    
+   
     var myDate = new Date();
     let formatedTime=myDate.toDateString();
         users.map((item, i) => {
-
+            
             admin.firestore().collection(`User/${item.id}/Daily_targets`).doc(formatedTime).set({ Target_achieved: 0, Target_todo: 20, date:new Date()})
         })
+
+
+res.status(200).send();
+})
+export const CheckDailyTarget = functions.https.onRequest(async (req, res) => {
+
+    const querySnapshot = await admin.firestore().collection("User").get()
+    const users = []
+    const fedback =[]
+    querySnapshot.forEach(doc => {
+        users.push({
+            id: doc.id, ...doc.data()
+        })
+    })
+ 
+   
+    var myDate = new Date();
+    let formatedTime=myDate.toDateString();
+    const Target_achieved=0
+    
+        users.map((item, i) => {
+            admin.firestore().collection(`User/${item.id}/Daily_Feedbacks`).orderBy("date").onSnapshot(querySnapshot => {
+                                
+                querySnapshot.forEach(doc => {
+                    fedback.push({
+                        id: doc.id, ...doc.data(),
+                        username: item.id,
+                        name: item.name
+                    })
+                })
+            
+            
+                let lastone = this.fedback[this.fedback.length-1].Target_achieved
+                if(lastone<20){
+                   let  Target_achieved= 20-lastone
+                   admin.firestore().collection(`User/${item.id}/Daily_targets`).doc(formatedTime).update({ Target_achieved: Target_achieved, Target_todo: 20, date:new Date()})
+                   admin.firestore().collection("notification").doc().set({ Area_id:"",Date_time: new Date(), Message: "You havent achieved your yesturday's daily target", Type:"For You only", title: "Hi" +" " +item.name, Employee_id:item.id  })
+                }else{
+                    admin.firestore().collection(`User/${item.id}/Daily_targets`).doc(formatedTime).update({ Target_achieved: 0, Target_todo: 20, date:new Date()})
+                }
+
+              
+
+        })
+
+      
 
 
 res.status(200).send();
