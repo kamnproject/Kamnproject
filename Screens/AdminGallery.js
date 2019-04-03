@@ -20,6 +20,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import Foundation from "@expo/vector-icons/Foundation";
 import firebase from "firebase";
 import db from "../db.js";
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 import { TouchableOpacity } from 'react-native';
 export default class AdminGallery extends React.Component {
@@ -67,7 +68,7 @@ export default class AdminGallery extends React.Component {
       <ScrollView>
       <View style={{flexDirection:"column"}}>
       <View style={{flexDirection:"column"}}>
-      <Text>Screeshots Inventory Statics</Text>
+      <Text style={{ fontSize: wp('4.5%'),textAlign:"center", fontWeight: "bold",color:"#567D46" }}>Screeshots Inventory Statics</Text>
       <View style={{flexDirection:"row",flexWrap:"wrap"}}>
       {
         this.state.inventoryimages.map((x,i)=>
@@ -83,7 +84,7 @@ export default class AdminGallery extends React.Component {
 </View>
 <View style={{flexDirection:"column"}}>
 <Text>{" "}</Text>
-            <Text>Screeshots Trashcan Statics</Text>
+            <Text style={{ fontSize: wp('4.5%'),textAlign:"center", fontWeight: "bold",color:"#567D46" }}>Screeshots Trashcan Statics</Text>
       <View style={{flexDirection:"row",flexWrap:"wrap"}}>
       {
         this.state.Trashcanimages.map((x,i)=>

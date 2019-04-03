@@ -33,7 +33,8 @@ export default class CollectedTrashcans extends React.Component {
     // go to db and get one the user daily targets
     db.collection("CollectedTrashcans").onSnapshot(querySnapshot => {
       let trashes = [];
-      querySnapshot.forEach(doc => {
+      querySnapshot.forEach(doc => { 
+        
         trashes.push({ id: doc.id, ...doc.data() });
       });
       this.setState({ trashes});
