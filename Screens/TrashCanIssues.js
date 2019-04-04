@@ -91,12 +91,14 @@ export default class Issues extends React.Component {
               <View>
                 <Text style={{ textAlign: "left" }}>Issue: {i.Issue}</Text>
                 <Text style={{ textAlign: "left" }}>Status: {i.Status}</Text>
-                <Text style={{ textAlign: "left" }}> Date_time:  { i.Date_time.toDate().toString()}</Text>
+                <Text style={{ textAlign: "left" }}>
+                  {" "}
+                  Date_time: {i.Date_time.toDate().toString()}
+                </Text>
               </View>
             }
           />
         </Card>
-        {/* <Divider style={{ backgroundColor: 'brown',height:1 }} /> */}
       </View>
     );
   };
@@ -104,7 +106,6 @@ export default class Issues extends React.Component {
   Activelist = i => {
     return (
       <View>
-        {/* <Divider style={{ backgroundColor: 'brown',height:1 }} /> */}
         <Card
           containerStyle={{
             borderRadius: 10,
@@ -123,12 +124,14 @@ export default class Issues extends React.Component {
               <View>
                 <Text style={{ textAlign: "left" }}>Issue: {i.Issue}</Text>
                 <Text style={{ textAlign: "left" }}>Status: {i.Status}</Text>
-                <Text style={{ textAlign: "left" }}> Date_time:  { i.Date_time.toDate().toString()}</Text>
+                <Text style={{ textAlign: "left" }}>
+                  {" "}
+                  Date_time: {i.Date_time.toDate().toString()}
+                </Text>
               </View>
             }
           />
         </Card>
-        {/* <Divider style={{ backgroundColor: 'brown',height:1 }} /> */}
       </View>
     );
   };
@@ -140,7 +143,7 @@ export default class Issues extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        {this.temp == "admin@admin.com" ? 
+        {this.temp == "admin@admin.com" ? (
           <View>
             <View
               style={{ flexDirection: "row", justifyContent: "space-between" }}
@@ -165,19 +168,21 @@ export default class Issues extends React.Component {
             </View>
 
             <ScrollView>
-            {this.state.issueActive.length>0?
-              <FlatList
-                style={{ elevation: 10 }}
-                data={this.state.issueActive}
-                keyExtractor={(x, i) => x.id}
-                renderItem={({ item }) => <View>{this.list(item)}</View>}
-              />
-              :
-              <Text style={{marginLeft: 5}}>There are currently NO active trash can issues  </Text>
-            }
+              {this.state.issueActive.length > 0 ? (
+                <FlatList
+                  style={{ elevation: 10 }}
+                  data={this.state.issueActive}
+                  keyExtractor={(x, i) => x.id}
+                  renderItem={({ item }) => <View>{this.list(item)}</View>}
+                />
+              ) : (
+                <Text style={{ marginLeft: 5 }}>
+                  There are currently NO active trash can issues{" "}
+                </Text>
+              )}
             </ScrollView>
           </View>
-         : 
+        ) : (
           <View>
             <Text
               style={{
@@ -192,29 +197,23 @@ export default class Issues extends React.Component {
             </Text>
 
             <ScrollView>
-            {this.state.issueActive.length>0?
-              <FlatList
-                style={{ elevation: 10 }}
-                data={this.state.issueActive}
-                keyExtractor={(x, i) => x.id}
-                renderItem={({ item }) => (
-                  // onPress = {()=>this.handleDetails(item)}
-
-                  <View>{this.Activelist(item)}</View>
-                )}
-              />
-              :
-              <Text style={{marginLeft: 5}}>There are currently NO active trash can issues  </Text>
-              }
+              {this.state.issueActive.length > 0 ? (
+                <FlatList
+                  style={{ elevation: 10 }}
+                  data={this.state.issueActive}
+                  keyExtractor={(x, i) => x.id}
+                  renderItem={({ item }) => (
+                    <View>{this.Activelist(item)}</View>
+                  )}
+                />
+              ) : (
+                <Text style={{ marginLeft: 5 }}>
+                  There are currently NO active trash can issues{" "}
+                </Text>
+              )}
             </ScrollView>
-            
           </View>
-        
-          
-           
-         
-
-        }
+        )}
       </View>
     );
   }

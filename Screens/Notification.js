@@ -42,25 +42,32 @@ export default class Notification extends React.Component {
 
   componentWillMount = async () => {
     // go to db and get all the users
-    this.temp = firebase.auth().currentUser.email
-   // this.temp = "khalid@khalid.com";
-    //this.temp="admin@admin.com"
+    this.temp = firebase.auth().currentUser.email;
+
     this.methodNotification();
     this.methodArea();
   };
 
+  // methodNotification goes through the notification collection and checks if employee_id is the currentuser then display the list
   methodNotification = async () => {
-    db.collection(`notification`).where("Employee_id", "==", this.temp = firebase.auth().currentUser.email).onSnapshot(querySnapshot => {
-      let list = [];
-      querySnapshot.forEach(doc => {
-        list.push({ id: doc.id, ...doc.data() });
-      });
-      this.setState({ notifications: list });
+    db.collection(`notification`)
+      .where(
+        "Employee_id",
+        "==",
+        (this.temp = firebase.auth().currentUser.email)
+      )
+      .onSnapshot(querySnapshot => {
+        let list = [];
+        querySnapshot.forEach(doc => {
+          list.push({ id: doc.id, ...doc.data() });
+        });
+        this.setState({ notifications: list });
 
-      console.log("Current notification: ", this.state.notifications.length);
-    });
+        console.log("Current notification: ", this.state.notifications.length);
+      });
   };
   area = [];
+  //methodArea goes through the user collection then display the list
   methodArea = async () => {
     db.collection(`User`).onSnapshot(querySnapshot => {
       let userarea = {};
@@ -74,14 +81,12 @@ export default class Notification extends React.Component {
       console.log("Current notification: ", this.state.userarea.length);
     });
   };
-  
-  Todaydate = () => {
-    let today = new Date()
-    format = today.getDate() + "/" + (today.getMonth() + 1)
-    this.setState({ today: format })
-}
 
-  
+  Todaydate = () => {
+    let today = new Date();
+    format = today.getDate() + "/" + (today.getMonth() + 1);
+    this.setState({ today: format });
+  };
 
   render() {
     console.log("Area id", this.state.userarea.Area_id);
@@ -95,65 +100,66 @@ export default class Notification extends React.Component {
 
           {this.temp !== "admin@admin.com" ? (
             <ScrollView>
-              {this.state.notifications.length>0?
-              <FlatList
-                style={{ elevation: 10 }}
-                data={this.state.notifications}
-                keyExtractor={(x, i) => x.id}
-                renderItem={({ item }) => (
-                  <View>
-                    {/* <Text>{item.Message}</Text> */}
-                    {/* {this.list(item)} */}
-                    <View key={item.id}>
-                      {this.temp == item.Employee_id ||
-                      item.Type == "all" ||
-                      item.Area_id === this.state.userarea.Area_id ? (
-                        <Card
-                          containerStyle={{
-                            borderRadius: 10,
-                            borderWidth: 1,
-                            borderColor: "grey",
-                            elevation: 10
-                          }}
-                        >
-                          <ListItem
-                            title={
-                              <Text
-                                style={{
-                                  textAlign: "left",
-                                  fontWeight: "bold"
-                                }}
-                              >
-                                Title: {item.title}
-                              </Text>
-                            }
-                            subtitle={
-                              <View>
-                                <Text style={{ textAlign: "left" }}>
-                                  Message: {item.Message}
+              {this.state.notifications.length > 0 ? (
+                <FlatList
+                  style={{ elevation: 10 }}
+                  data={this.state.notifications}
+                  keyExtractor={(x, i) => x.id}
+                  renderItem={({ item }) => (
+                    <View>
+                      {/* <Text>{item.Message}</Text> */}
+                      {/* {this.list(item)} */}
+                      <View key={item.id}>
+                        {this.temp == item.Employee_id ||
+                        item.Type == "all" ||
+                        item.Area_id === this.state.userarea.Area_id ? (
+                          <Card
+                            containerStyle={{
+                              borderRadius: 10,
+                              borderWidth: 1,
+                              borderColor: "grey",
+                              elevation: 10
+                            }}
+                          >
+                            <ListItem
+                              title={
+                                <Text
+                                  style={{
+                                    textAlign: "left",
+                                    fontWeight: "bold"
+                                  }}
+                                >
+                                  Title: {item.title}
                                 </Text>
+                              }
+                              subtitle={
+                                <View>
+                                  <Text style={{ textAlign: "left" }}>
+                                    Message: {item.Message}
+                                  </Text>
 
-                                 <Text style={{ textAlign: "left" }}>
-                              
-                               
-                                    Date_time:  { item.Date_time.toDate().toString()}
-                                </Text>  
+                                  <Text style={{ textAlign: "left" }}>
+                                    Date_time:{" "}
+                                    {item.Date_time.toDate().toString()}
+                                  </Text>
 
-                                <Text style={{ textAlign: "left" }}>
-                                  Type: {item.Type}
-                                </Text>
-                              </View>
-                            }
-                          />
-                        </Card>
-                      ) : null}
+                                  <Text style={{ textAlign: "left" }}>
+                                    Type: {item.Type}
+                                  </Text>
+                                </View>
+                              }
+                            />
+                          </Card>
+                        ) : null}
+                      </View>
                     </View>
-                  </View>
-                )}
-              />
-           :
-           <Text style={{marginLeft: 5}}>There are currently NO notifications   </Text>
-              }
+                  )}
+                />
+              ) : (
+                <Text style={{ marginLeft: 5 }}>
+                  There are currently NO notifications{" "}
+                </Text>
+              )}
             </ScrollView>
           ) : (
             <FormScreen />
