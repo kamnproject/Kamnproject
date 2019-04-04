@@ -34,8 +34,8 @@ export default class Feedback extends React.Component {
 
     users = []
     questans = []
-    //   tem = "admin@admin.com"
-  tem="khalid@khalid.com"
+    tem = "admin@admin.com"
+//   tem="khalid@khalid.com"
     //    {firebase.auth().currentUser.email === "admin@admin.com"?dfgedf:null}
     componentWillMount() {
         // go to db and get all the feedback

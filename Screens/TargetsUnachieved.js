@@ -26,49 +26,49 @@ import moment from "moment";
 export default class TargetsUnachieved extends React.Component {
   state = {
     users: [],
-    username: "",
     targets: [],
     id: ""
   };
+  target = [];
   temp = "";
   //email = firebase.auth().currentUser.email
-  email = "a@a.com";
-  componentWillMount() {
-    // go to db and get all the users
-    // db.collection("User").doc(this.email).collection('Daily_targets').where("Target_achieved", "<=", "Target_todo").where("date", "==", new Date())
-    // .onSnapshot(querySnapshot => {
-    //   let f = []
-    //   querySnapshot.forEach(doc => {
 
-    //     f.push({ id: doc.id, ...doc.data() })
-    //   })
-    //   this.setState({ users: f })
-    //   this.temp = firebase.auth().currentUser.email
-    //   console.log("Current user: ", this.state.users.length)
-    // })
+  componentWillMount() {
+    db.collection(`User`)
+      .orderBy("Area_id")
+      .onSnapshot(querySnapshot => {
+        let list = [];
+        querySnapshot.forEach(doc => {
+          list.push({ id: doc.id, ...doc.data() });
+        });
+        this.setState({ users: list });
+        console.log("Current users: ", this.state.users.length);
+      });
 
     {
-      this.temp !== "admin@admin.com"
-        ? db.collection("User").onSnapshot(querySnapshot => {
-            let f = [];
-            querySnapshot.forEach(async doc => {
-              const user = { id: doc.id, ...doc.data() };
-              const Daily_targets = await doc.ref
-                .collection("Daily_targets")
-                .where("Target_achieved", "<=", "Target_todo")
-                .where("date", "==", new Date())
-                .get();
-              console.log("daily targets", Daily_targets);
-
-              // db.collection(`User/${item.id}/Daily_targets`)
-
-              f.push(user);
-              await this.setState({ users: f });
+      this.state.users.map((item, i) => {
+        this.target = [];
+        db.collection(`User/${item.id}/Daily_targets`)
+          .doc()
+          .orderBy("date")
+          .where("Target_achieved", "<", "Target_todo")
+          .where("date", "<", new Date())
+          .onSnapshot(querySnapshot => {
+            console.log("Current jadhjasdfhas: ", this.tem);
+            querySnapshot.forEach(doc => {
+              this.target.push({
+                id: doc.id,
+                ...doc.data()
+              });
             });
-            this.temp = firebase.auth().currentUser.email;
-            console.log("Current user: ", this.state.users.length);
-          })
-        : null;
+
+            this.setState({ targets: this.target });
+            // this.setState({ filtereddata: this.questans })
+
+            console.log("Current targets: ", this.target.length);
+            console.log("Current feed: ", this.target);
+          });
+      });
     }
   }
 
@@ -92,9 +92,6 @@ export default class TargetsUnachieved extends React.Component {
   list = i => {
     return (
       <View>
-        {/* <Divider style={{ backgroundColor: 'brown',height:1 }} /> */}
-        {console.log("time:", new Date())}
-
         <Card
           containerStyle={{
             borderRadius: 10,
@@ -120,14 +117,9 @@ export default class TargetsUnachieved extends React.Component {
             }
           />
         </Card>
-        {/* <Divider style={{ backgroundColor: 'brown',height:1 }} /> */}
       </View>
     );
   };
-
-  //   handleFixed = () => {
-  //     this.props.navigation.navigate("IssuesHistory");
-  //   };
 
   render() {
     return (
@@ -160,34 +152,36 @@ export default class TargetsUnachieved extends React.Component {
         <View>
           <View
             style={{ flexDirection: "row", justifyContent: "space-between" }}
-          >
-            <Text
-              style={{
-                fontWeight: "bold",
-                marginLeft: 5,
-                marginTop: 5,
-                marginBottom: 8
-              }}
-            >
-              {" "}
-              Daily Targets unAchieved
-            </Text>
-          </View>
+          />
 
-          <ScrollView>
-            {this.state.users.length > 0 ? (
-              <FlatList
-                style={{ elevation: 10 }}
-                data={this.state.users}
-                keyExtractor={(x, i) => x.id}
-                renderItem={({ item }) => <View>{this.list(item)}</View>}
-              />
-            ) : (
-              <Text style={{ marginLeft: 5 }}>
-                There are currently NO targets unachieved{" "}
+          {this.temp == "amanager@manger.com" ? (
+            <ScrollView>
+              <Text
+                style={{
+                  fontWeight: "bold",
+                  marginLeft: 5,
+                  marginTop: 5,
+                  marginBottom: 8
+                }}
+              >
+                {" "}
+                Daily Targets Not Achieved
               </Text>
-            )}
-          </ScrollView>
+
+              {this.state.users.length > 0 ? (
+                <FlatList
+                  style={{ elevation: 10 }}
+                  data={this.state.users}
+                  keyExtractor={(x, i) => x.id}
+                  renderItem={({ item }) => <View>{this.list(item)}</View>}
+                />
+              ) : (
+                <Text style={{ marginLeft: 8 }}>
+                  There are currently NO targets unachieved{" "}
+                </Text>
+              )}
+            </ScrollView>
+          ) : null}
         </View>
       </View>
     );
