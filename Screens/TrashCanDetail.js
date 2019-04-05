@@ -16,6 +16,7 @@ import db from '../db'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 
+
 export default class Detail extends React.Component {
     state={
       list:[],
@@ -28,7 +29,7 @@ export default class Detail extends React.Component {
     secondsTaken=0
     minutesTaken=0
     //username = firebase.auth().currentUser.email
-username = "khalid@khalid.com"
+username = "a@a.com"
 time=0
 
 
@@ -63,10 +64,10 @@ fulldate = this.date+"-"+this.month+"-"+this.year+" at "+ this.time+":"+this.min
     }
     componentWillUnmount=()=>{
       db.collection("CollectedTrashcans").onSnapshot(()=>{})
+      clearInterval(this.timer);
     }
 handleTime=()=>{
   this.on=setInterval(()=>{this.setState({secondsTaken:this.state.secondsTaken-1})},1000)
-  //this.off=setInterval(()=>{this.setState({secondsTaken:this.state.secondsTaken+1})},1000)
 }
 handleStop=()=>{
   clearInterval(this.on)
@@ -76,22 +77,26 @@ handleResetTime=()=>{
   this.setState({secondsTaken:0})
 }
     handleCollect= async()=>{
-      this.on=setInterval(()=>{this.setState({secondsTaken:this.state.secondsTaken-1})},1000)
-      console.log("id: ",this.trashId)
-      console.log("time: ",this.trash_time_of_full)
+       this.on=setInterval(()=>{this.setState({secondsTaken:this.state.secondsTaken-1})},1000)
+       let target = 0
+      let finaltarget = 0
+      // console.log("id: ",this.trashId)
+      // console.log("time: ",this.trash_time_of_full)
       await db.collection("User").doc(this.username).update({Work_Status:true})
       await db.collection("TrashCan").doc(this.trashId).update({Status:"In Process"})
-      await db.collection("CollectedTrashcans").doc().set({Date_time:firebase.firestore.Timestamp.fromDate(new Date()),Employee_id:this.username,Time_of_full:this.trash_time_of_full,Time_taken:0,Trashcan_id:this.trashId})
-      
       //this.props.navigation.goBack()
     }
     handleDone=async()=>{
       let user =  await db.collection("User").doc(this.username).get()
       let points = user.data().Points
       let updatedPoints = points + 20
-      //console.log("poiunts: ",points)
+      const target1=await db.collection("User").doc(this.username).collection("Daily_targets").orderBy("date","desc").limit(1).get()
+      target = target1.docs[0].data().Target_achieved
+      finaltarget = target + 1
       await db.collection("User").doc(this.username).update({Work_Status:false,Points:updatedPoints})
       await db.collection("TrashCan").doc(this.trashId).update({Status:"Empty",Fill_percentage:0,Lasttime_empty:firebase.firestore.Timestamp.fromDate(new Date())})
+      await db.collection("CollectedTrashcans").doc().set({Date_time:firebase.firestore.Timestamp.fromDate(new Date()),Employee_id:this.username,Time_of_full:this.trash_time_of_full,Time_taken:0,Trashcan_id:this.trashId})
+      await db.collection(`User/${this.username}/Daily_targets`).doc(target1.docs[0].id).update({ Target_achieved: finaltarget});
       this.props.navigation.goBack()
 
     }
@@ -159,11 +164,11 @@ handleResetTime=()=>{
                        </View>
                        </TouchableOpacity>
                        <TouchableOpacity
-                         style={{width:wp("30%"),opacity:this.trash.Fill_percentage<60 && this.trash.Status=="Good"&&this.trash.Status=="In Process"?0.5:1,
+                         style={{width:wp("30%"),opacity:this.trash.Fill_percentage<60 || this.trash.Status=="Good" || this.trash.Status=="In Process"?0.5:1,
                          height:wp("10%"),backgroundColor:"#567D46",borderColor:"white",borderWidth:2,borderStyle:"solid",borderRadius:10,alignItems: 'center',justifyContent:"center"
                        }}
                          onPress={this.handleCollect}
-                         disabled={this.trash.Fill_percentage<60 && this.trash.Status=="Good" &&this.trash.Status=="In Process"}
+                         disabled={this.trash.Fill_percentage<60 || this.trash.Status=="Good" || this.trash.Status=="In Process"}
                        >
                        <View style={{alignItems: 'center',justifyContent:"center"}}>
                        {/* <AntDesign name="profile" borderColor="blue" color="white" size={wp('5.5%')}/> */}

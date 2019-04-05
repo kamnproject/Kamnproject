@@ -52,8 +52,9 @@ trash=[]
     {latitude: 25.296886,longitude: 51.514729},
     {latitude: 25.29856,longitude: 51.515969}
   ],
-  fromCoordinate:{latitude: 25.29936,longitude: 51.514729},
-  toCoordinate:{latitude: 25.29936,longitude: 51.514729},
+  //fromCoordinate:{latitude: 25.29936,longitude: 51.514729},
+  fromCoordinate:{},
+  toCoordinate:{},
   area:{},
   lat:"",
   long:"",
@@ -113,7 +114,7 @@ trash=[]
 		Alert.alert(errorMessage);
 	}
 area_ids=""
-email="khalid@khalid.com"
+email="amanager@manger.com"
 handlePress=(trash)=>{
   console.warn("sdasdas")
   this.props.navigation.navigate('TrashDetail',{trashes:trash})
@@ -123,16 +124,24 @@ handleBoth=(trash)=>{
   this.handlePass(trash)
 }
   componentWillMount=async ()=>{
-    //go to db and get all the users
-    //let email = firebase.auth().currentUser.email
-   // let email = "khalid@khalid.com"
     area_ids=""
-    
-    await db.collection("User").doc(this.email).get().then(function(doc){
-      if (doc.exists) {
+    fromCoordinate={}
+    toCoordinate={}
+    const user = await db.collection("User").doc(this.email).get()
+      if (user.exists) {
         
-        console.log("User Id is: ", doc.data().Area_id);
-        area_ids=doc.data().Area_id
+        console.log("User Id is: ", user.data().Area_id);
+        area_ids=user.data().Area_id
+        fromCoordinate={
+          latitude:user.data().Current_location._lat,
+          longitude:user.data().Current_location._long
+        }
+        toCoordinate={
+          latitude:user.data().Current_location._lat,
+          longitude:user.data().Current_location._long
+        }
+        await this.setState({fromCoordinate,toCoordinate})
+        console.log("coordinates: ",fromCoordinate)
         console.log("Area id another time is: ", area_ids);
 
         
@@ -141,7 +150,7 @@ handleBoth=(trash)=>{
         // doc.data() will be undefined in this case
         console.log("No such document!");
     }
-  })
+
   
   db.collection("User").onSnapshot(querySnapshot => {
     let users = []
@@ -194,7 +203,7 @@ handleBoth=(trash)=>{
   render() {
     return (
       <View style={styles.container}>
- {console.log("distance: ",geolib.getDistance(this.state.fromCoordinate,this.state.toCoordinate))}
+ {/* {console.log("distance: ",geolib.getDistance(this.state.fromCoordinate,this.state.toCoordinate))}
 
     <MapView style={styles2.map} provider={"google"} region={{latitude:this.state.areaLocation._lat,longitude:this.state.areaLocation._long,latitudeDelta: 0.004,longitudeDelta: 0.004}}>
    
@@ -213,16 +222,7 @@ handleBoth=(trash)=>{
           source={point.Fill_percentage>=30 & point.Fill_percentage<60 ?{uri:this.state.yellow_can}:point.Fill_percentage>=60?{uri:this.state.red_can}:{uri:this.state.green_can}}
         />
        
-        {/* <MapView.Callout onPress={()=>this.handlePress(point)}>
-                <View style={{width:80}}>
-                  <Text style={{fontSize: 18}}>
-                    {"Fill: "+point.Fill_percentage}
-                  </Text>
-                  <Text style={{fontSize:13}}>
-                    {"Status: "+point.Status}
-                  </Text>
-                </View>
-              </MapView.Callout> */}
+       
 </MapView.Marker>
 )}    
     {this.state.users.map((point,x)=>
@@ -244,25 +244,14 @@ handleBoth=(trash)=>{
 </MapView.Marker> 
 
 )}
-    
-    
-    {/* <MapView.Marker  coordinate={this.state.fromCoordinate}><Image
-          style={{width:20, height:35}}
-         
-          source={{uri:this.state.yellow_can}}
-        /></MapView.Marker>
-    <MapView.Marker onPress={this.onMapPress} coordinate={{latitude:25.297891,longitude:51.51656}}><Image
-          style={{width:20, height:35}}
-         
-          source={{uri:this.state.red_can}}
-        /></MapView.Marker> */}
-    <MapViewDirections
+        {this.state.fromCoordinate!=null&& <MapViewDirections
       origin={this.state.fromCoordinate}
       destination={this.state.toCoordinate}
       apikey={GOOGLE_MAPS_APIKEY}
       strokeWidth={3}
       strokeColor="hotpink"
-    />
+    /> }
+    
     </MapView>
     <Callout>
       <View>
@@ -289,7 +278,93 @@ handleBoth=(trash)=>{
             
         ><View style={{alignItems: 'center',justifyContent:"center",margin:5}}>
                                <Text style={{ fontSize: wp('3.5%'), fontWeight: "bold" ,color:"white"}}>Details </Text>
-                               {/* <Text style={{ fontSize: wp('3.5%'), fontWeight: "bold" ,color:"white"}}>{this.state.trash.id} </Text> */}
+                               </View></TouchableOpacity>
+        </Card>
+        }
+      
+       
+      </View>
+      
+      <View style={{flexDirection:"column"}}>
+      </View>
+    </Callout> */}
+    {/* <Text>{this.state.fromCoordinate.map(m=><Text>{m}</Text>)}</Text> */}
+    <MapView style={styles2.map} provider={"google"} region={{latitude:this.state.areaLocation._lat,longitude:this.state.areaLocation._long,latitudeDelta: 0.004,longitudeDelta: 0.004}}>
+    
+{this.state.trashlist.map((point,x)=> 
+  <MapView.Marker
+  onPress={(e)=>{this.onMapPress(e);this.handlePass(point);}} 
+  description={"Fill: "+point.Fill_percentage+"%"} 
+   title={"Status: "+point.Status}  
+   key ={x} 
+   coordinate={{latitude:point.Location._lat,longitude:point.Location._long}}
+   >
+
+<Image
+        style={{width:20, height:35}}
+        source={point.Fill_percentage>=30 & point.Fill_percentage<60 ?{uri:this.state.yellow_can}:point.Fill_percentage>=60?{uri:this.state.red_can}:{uri:this.state.green_can}}
+      />
+     
+     
+</MapView.Marker>
+)} 
+
+
+    {this.state.users.map((point,x)=>
+<MapView.Marker
+  description={"Online: "+point.id}  
+  title={"name: "+point.name }  
+  key ={x} 
+  coordinate={{latitude:point.Current_location._lat,longitude:point.Current_location._long}}
+>
+
+        
+<Image
+  style={{width:15, height:36}}
+  
+  source={this.email===point.id?{uri:this.state.me}:point.Work_Status?{uri:this.state.busy}:{uri:this.state.free}}
+/>
+
+</MapView.Marker> 
+
+)}
+    
+    <MapViewDirections
+      origin={this.state.fromCoordinate}
+      destination={this.state.toCoordinate}
+      apikey={GOOGLE_MAPS_APIKEY}
+      strokeWidth={3}
+      strokeColor="hotpink"
+    />
+    </MapView>
+
+{/* callout */}
+
+<Callout>
+      <View>
+        {this.state.flag&&
+          <Card containerStyle={{opacity:1}}>
+          <Text style={{opacity:1}}>{"Distance: "+geolib.getDistance(this.state.fromCoordinate,this.state.toCoordinate)+" m"}</Text>
+          <TouchableOpacity
+            style={{width:wp("23%"),opacity:1,margin:2,
+            height:wp("7%") ,
+            borderRadius:15,backgroundColor:"#567D46",alignItems: 'center',justifyContent:"center"
+        }}
+            onPress={this.handleDisappear}
+            
+        ><View style={{alignItems: 'center',justifyContent:"center",margin:5}}>
+                               <Text style={{ fontSize: wp('3.5%'), fontWeight: "bold" ,color:"white"}}>Stop Follow </Text>
+                               </View></TouchableOpacity>
+        
+                               <TouchableOpacity
+            style={{width:wp("21%"),margin:2,
+            height:wp("7%") ,
+            borderRadius:15,backgroundColor:"#567D46",alignItems: 'center',justifyContent:"center"
+        }}
+            onPress={()=>this.handleDetails(this.state.trash)}
+            
+        ><View style={{alignItems: 'center',justifyContent:"center",margin:5}}>
+                               <Text style={{ fontSize: wp('3.5%'), fontWeight: "bold" ,color:"white"}}>Details </Text>
                                </View></TouchableOpacity>
         </Card>
         }
@@ -300,6 +375,8 @@ handleBoth=(trash)=>{
       <View style={{flexDirection:"column"}}>
       </View>
     </Callout>
+
+
       </View>
     );
   }
@@ -324,6 +401,16 @@ const styles2 = StyleSheet.create({
     right:0
   }
 })
+ {/* <MapView.Callout onPress={()=>this.handlePress(point)}>
+                <View style={{width:80}}>
+                  <Text style={{fontSize: 18}}>
+                    {"Fill: "+point.Fill_percentage}
+                  </Text>
+                  <Text style={{fontSize:13}}>
+                    {"Status: "+point.Status}
+                  </Text>
+                </View>
+              </MapView.Callout> */}
 const mystyle = [
   
     {
