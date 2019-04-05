@@ -33,7 +33,7 @@ export default class inbox extends React.Component {
     componentWillMount() {
         // go to db and get all the users
        
-        db.collection("User").onSnapshot(querySnapshot => {
+        db.collection("User").where("Role","==","Manager").onSnapshot(querySnapshot => {
 
             this.users = []
 
@@ -51,7 +51,7 @@ export default class inbox extends React.Component {
             // console.log("Current admin: ", firebase.auth().currentUser.email)
             // let temp = firebase.auth().currentUser.email
              let temp ="admin@admin.com"
-            // let temp ="a@a.com"
+            // let temp ="amanager@manger.com"
         this.tem = temp
             
             console.log("Current temp: ", temp)
@@ -195,7 +195,7 @@ this.User_issue=[]
                 <View style ={{ paddingTop: 10 }}>
                  {/* <View style= {{width:"25%",height: "6%"}}> */}
 
-                    <TouchableOpacity
+                    {/* <TouchableOpacity
                      style={{alignItems: 'center',
                      backgroundColor: '#567D46',
                      color:"white",
@@ -204,7 +204,7 @@ this.User_issue=[]
                    }}
                onPress={()=>this.props.navigation.navigate('createissue', {usere:this.tem})} >
                <Text  style={{ fontSize: wp('3.5%'), fontWeight: "bold", color: "white"}} >Report an Issue</Text>
-               </TouchableOpacity>
+               </TouchableOpacity> */}
            
             {/* </View> */}
                         {this.state.User_issues.length !=0?<View>

@@ -9,7 +9,7 @@ import db from '../db.js'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 
-export default class issueCreate extends React.Component {
+export default class ContactAdmin extends React.Component {
     state = {
         issues: [],
         User_issues:[],
@@ -36,7 +36,7 @@ export default class issueCreate extends React.Component {
         report = async () => {
             {
                 db.collection(`User/${this.state.name}/User_issues`).doc().set({ Date: new Date(), Message: this.state.message, Reply: "" })
-                this.props.navigation.navigate('Inbox')
+                this.props.navigation.navigate('Home')
             }
            
         }
@@ -55,7 +55,7 @@ export default class issueCreate extends React.Component {
 
                   
         <Text style={{ fontSize: wp('3.5%'), fontWeight: "bold", color: "black" }}>From: {this.issue} </Text>
-        <Text style={{ fontSize: wp('3.5%'), fontWeight: "bold", color: "black" }}>To: Manager </Text>
+        <Text style={{ fontSize: wp('3.5%'), fontWeight: "bold", color: "black" }}>To: Admin </Text>
 
         <Text>{'\n'}</Text>
         <Text style={{ fontSize: wp('4.2%'), fontWeight: "bold", color: "black" }}>Issue:  </Text>

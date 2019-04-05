@@ -31,6 +31,7 @@ export default class InventoryRequest extends React.Component {
   
   };
   currentuser="admin@admin.com"
+  //currentuser="amanager@manger.com"
    //currentuser="khalid@khalid.com"
   componentDidMount() {
     // let currentuser=firebase.auth().currentUser.email

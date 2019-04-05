@@ -157,7 +157,13 @@ handleSend = async () => {
   render() {
     return (
       <View style={styles.container}>
-  
+                  <Header
+      backgroundColor='#567D46'
+      placement="left"
+  leftComponent={<MaterialCommunityIcons  name="inbox" size={30} color="white"/>}
+  centerComponent={{ text: 'Inbox', style: { color: '#fff',fontSize:25 } }}
+  rightComponent={<Ionicons name="ios-notifications" color="white" size={30} onPress={() => this.props.navigation.navigate('Profile')}/>}
+/>
 
   <ScrollView>
 <Card style={{borderRadius: 10, backgroundColor: 'blue'}}>

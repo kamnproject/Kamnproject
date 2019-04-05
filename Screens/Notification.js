@@ -3,7 +3,9 @@ import React from "react";
 // import { Header } from 'react-native-elements';
 import Ionicons from "@expo/vector-icons/Ionicons";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import Entypo from '@expo/vector-icons/Entypo';
+import Foundation from '@expo/vector-icons/Foundation';
 import { StyleSheet, Text, View, FlatList, ScrollView } from "react-native";
 import firebase from "firebase";
 import db from "../db";
@@ -42,11 +44,13 @@ export default class Notification extends React.Component {
 
   componentWillMount = async () => {
     // go to db and get all the users
-    this.temp = firebase.auth().currentUser.email
-   // this.temp = "khalid@khalid.com";
+    //this.temp = firebase.auth().currentUser.email
+    //this.temp = "khalid@khalid.com";
+    await this.methodNotification();
+    await this.methodArea();
+    this.temp="amanager@manger.com"
     //this.temp="admin@admin.com"
-    this.methodNotification();
-    this.methodArea();
+
   };
 
   methodNotification = async () => {
@@ -159,6 +163,13 @@ export default class Notification extends React.Component {
     console.log("Area id", this.state.userarea.Area_id);
     return (
       <ScrollView>
+                        <Header
+      backgroundColor='#567D46'
+      placement="left"
+  leftComponent={<MaterialCommunityIcons  name="inbox" size={30} color="white"/>}
+  centerComponent={{ text: 'Inbox', style: { color: '#fff',fontSize:25 } }}
+  rightComponent={<Ionicons name="ios-notifications" color="white" size={30} onPress={() => this.props.navigation.navigate('Profile')}/>}
+/>
         <View style={styles.container}>
           <Text style={{ fontWeight: "bold", margin: 5, fontSize: 20 }}>
             {" "}

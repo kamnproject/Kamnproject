@@ -18,6 +18,7 @@
     "firebase-tools": "^6.5.0",
     "geolib": "^2.0.24",
     "lodash": "^4.17.11",
+    "nodemailer": "^6.0.0",
     "react": "16.5.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",
     "react-native-chart-kit": "^2.4.0",
