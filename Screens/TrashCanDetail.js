@@ -81,7 +81,7 @@ handleResetTime=()=>{
       console.log("time: ",this.trash_time_of_full)
       await db.collection("User").doc(this.username).update({Work_Status:true})
       await db.collection("TrashCan").doc(this.trashId).update({Status:"In Process"})
-      await db.collection("CollectedTrashcans").doc().set({Date_time:new Date().toString(),Employee_id:this.username,Time_of_full:this.trash_time_of_full,Time_taken:0,Trashcan_id:this.trashId})
+      await db.collection("CollectedTrashcans").doc().set({Date_time:firebase.firestore.Timestamp.fromDate(new Date()),Employee_id:this.username,Time_of_full:this.trash_time_of_full,Time_taken:0,Trashcan_id:this.trashId})
       
       //this.props.navigation.goBack()
     }

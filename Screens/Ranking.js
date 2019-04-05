@@ -31,7 +31,11 @@ export default class Ranking extends React.Component {
     db.collection("User").onSnapshot(querySnapshot => {
       let users = [];
       querySnapshot.forEach(doc => {
-        users.push({ id: doc.id, ...doc.data() });
+        if(doc.data().Role!="Admin"&&doc.data().Role!="Manager"){
+          users.push({ id: doc.id, ...doc.data() });
+
+        }
+        
       });
       let list = this.orderlist(users);
       this.setState({ users: list });
@@ -80,11 +84,22 @@ export default class Ranking extends React.Component {
 
         }
         rightAvatar={
+          <View>
           <Button
             title={"View Profile"}
             
             onPress={() => this.props.navigation.navigate("UserProfile",{username:item.id})}
           />
+          {this.props.navigation.getParam('role')&&
+        <Button
+        title={"Send A Notification"}
+        
+        onPress={() => this.props.navigation.navigate("Usernotification",{username:item.id})}
+      />
+        
+        }
+          
+          </View>
         }
         onPress={() => this.props.navigation.navigate("UserProfile",{username:item.id})}
       />

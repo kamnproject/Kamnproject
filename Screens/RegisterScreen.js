@@ -16,7 +16,7 @@ import { KeyboardAvoidingView } from 'react-native';
 import PasswordInputText from 'react-native-hide-show-password-input';
 import { uploadImageAsync } from '../ImageUtils.js'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-
+// const nodemailer = require("nodemailer");
 
 export default class RegisterScreen extends React.Component {
   re = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/
@@ -38,7 +38,8 @@ export default class RegisterScreen extends React.Component {
     areas: [1],
     lat: "",
     long:"",
-    users: []
+    users: [],
+    Role:""
   }
   area = [1]
   list = [];
@@ -148,8 +149,13 @@ export default class RegisterScreen extends React.Component {
 
 
       //join_date = Date.now()
-        await db.collection('User').doc(this.state.username).set({ Area_id: this.state.selectedans, Badges_earned: [], Current_location: new firebase.firestore.GeoPoint(latitude = this.state.lat, longitude = this.state.long), name, online: false, Phone_no: this.state.phone, Points: 0, Profile_pic: "" ,Work_Status: false})
+        await db.collection('User').doc(this.state.username).set({ Role:this.state.Role, Area_id: this.state.selectedans, Badges_earned: [], Current_location: new firebase.firestore.GeoPoint(latitude = this.state.lat, longitude = this.state.long), name, online: false, Phone_no: this.state.phone, Points: 0, Profile_pic: "" ,Work_Status: false})
         await db.collection('User').doc(this.state.username).collection('User_issues').doc().set({ Date: firebase.firestore.Timestamp.fromDate(new Date()), Message: "", Reply: "" })
+
+       
+       
+       
+       
         this.props.navigation.navigate('Home')
       }
       else {
@@ -179,6 +185,13 @@ export default class RegisterScreen extends React.Component {
     this.state.areas.map((x,i)=>
     x.id==value&&this.setslocation(x) 
     )
+
+  }
+  onValueChange2 = async (value, index) => {
+
+    await this.setState({ Role: value })
+    console.log("selectedans", this.state.Role)
+
 
   }
 setslocation=(x)=>{
@@ -227,7 +240,23 @@ this.setState({long:x.Location._long})
             onChangeText={(lname) => this.setState({ lname })}
           //errorMessage={this.re.test(this.state.firstname)?null: this.state.firsterror}  
           />
+          <Text style={{ marginTop: 5, marginBottom: 2, marginLeft: 2, fontSize: wp('3.5%'), fontWeight: "bold", color: "black" }}>Role: </Text>
+          <Picker
+            mode="dropdown"
+            selectedValue={this.state.Role}
+            style={{
+              backgroundColor: '#ecf0f1',
+              marginLeft: 2,
+              marginBottom: 7,
+              alignSelf: "stretch", borderWidth: 1, borderColor: "#bdc3c7", borderWidth: 0.5, borderRadius: 10,
+            }}
+            onValueChange={this.onValueChange2.bind(this)}>
+            <Picker.Item label="Select" value="select" />
 
+              <Picker.Item label={"Manager"} value={"Manager"}  />
+              <Picker.Item label={"Employee"} value={"Employee"}  />
+            
+          </Picker>
           <Text style={{ marginTop: 5, marginBottom: 3, marginLeft: 2, fontSize: wp('3.5%'), fontWeight: "bold", color: "black" }}> Email: </Text>
           <Input
             containerStyle={this.re.test(this.state.username) ? styles.block : styles.block2}

@@ -27,10 +27,39 @@ export default class Home extends React.Component {
     monthlyperctange:0,
    
   }
-tem =""
+tem ="a@a.com"
 daily_target=[]
+user=""
+managerareaid=""
+countemploee=[]
+countstaff=0
+countraash=[]
+counttrashcan=0
   async componentWillMount() {
+    //const user=db.collection('User').doc(firebase.auth().currentUser.email).get()
+    // await db.collection("User").doc(firebase.auth().currentUser.email)
+    // .onSnapshot(querySnapshot => {
+    //   this.user =querySnapshot.data().Role
+    //   console.log("querySnapshot.data().Role",querySnapshot.data().Role)
+    // })
+    areaid=0
+    //  const querySnapshot = await db.collection("User").doc("amanager@manger.com").get();
+    //const querySnapshot = await db.collection("User").doc("a@a.com").get();
+     const querySnapshot = await db.collection("User").doc("admin@admin.com").get();
+    
+    this.user = querySnapshot.data().Role
+    this.managerareaid= querySnapshot.data().Area_id
+    console.log("Areaid"+this.user)
 
+  this.countemploee= await db.collection('User').where("Area_id","==",this.managerareaid).get()  
+  this.countraash= await db.collection('TrashCan').where("Area_id","==",this.managerareaid).get()
+ 
+  await this.countraash.forEach(doc=> this.counttrashcan+=1)
+  await this.countemploee.forEach(doc=> this.countstaff+=1)
+     //console.log("Count of employees"+ this.countstaff)
+
+     
+    
    // go to db and get one the user daily targets
    db.collection("User").doc("khalid@khalid.com").collection("Daily_targets")
     .onSnapshot(querySnapshot => {
@@ -46,11 +75,7 @@ daily_target=[]
    
     })
 
-    //let temp = firebase.auth().currentUser.email
-    //let temp="khalid@khalid.com"
-    let temp="admin@admin.com"
-    this.tem = temp
-    
+
 
   }
   dailytargetcal=(daily_Target)=>{
@@ -96,10 +121,11 @@ daily_target=[]
   render() {
     // const currentuser=firebase.auth().currentUser.email
     const currentuser="1admin@admin.com"
+
     return (
       
       <View style={styles.container}>
-       {this.tem!=="admin@admin.com"?
+       {this.user==="Employee"&&
        <View>
          <Header
               backgroundColor="#567D46"
@@ -128,20 +154,7 @@ daily_target=[]
                     <Text style={{ fontSize: wp('4.5%'),textAlign:"center" ,fontWeight: "bold",color:"#567D46" }}>Daily</Text>
 
                       </View>
-                      {/* <View>
-                          <ProgressCircle
-                              percent={this.state.dailyperctange}
-                              radius={wp('13%')}
-                              borderWidth={12}
-                              color="#3399FF"
-                              shadowColor="#999"
-                              bgColor="#fff"
-                          >
-                              <Text style={{ fontSize:wp('4.5%'), fontWeight: "bold" }}>{this.state.daily_achieved+"/"+this.state.daily_toachieve}</Text>
-                          </ProgressCircle>
-                    <Text style={{ fontSize: wp('4.5%'),textAlign:"center", fontWeight: "bold",color:"#567D46" }}>Weekly</Text>
-
-                      </View> */}
+       
                       <View>
                           <ProgressCircle
                               percent={this.state.monthlyperctange}
@@ -202,11 +215,11 @@ daily_target=[]
                          backgroundColor: '#DDDDDD',
                          padding: 1,borderRadius:15,backgroundColor:"#567D46",borderColor:"white",borderWidth:2,borderStyle:"solid"
                        }}
-                         onPress={() => this.props.navigation.navigate('Inventory')}
+                       onPress={()=>this.props.navigation.navigate('createissue', {usere:this.tem})}
                        >
                        <View style={{alignItems: 'center',justifyContent:"center"}}>
                        <AntDesign name="layout" borderColor="blue" color="white" size={wp('5.5%')}/>
-                       <Text style={{ fontSize: wp('3.5%'), fontWeight: "bold" ,color:"white",textAlign:"center"}}> Inventory List </Text>
+                       <Text style={{ fontSize: wp('3.5%'), fontWeight: "bold" ,color:"white",textAlign:"center"}}> Contact Manager </Text>
                        </View>
                        </TouchableOpacity>
 
@@ -245,8 +258,11 @@ daily_target=[]
                        </View>
                   </ImageBackground>
                    </View>
-      </View>: 
-      // The Admin Home page
+                      </View>} 
+      {/* // The Admin Home page */}
+      {
+        this.user==="Admin"&&
+      
       <View>
       <Header
            backgroundColor="#567D46"
@@ -306,7 +322,7 @@ daily_target=[]
                       backgroundColor: '#DDDDDD',
                       padding: 1,borderRadius:15,backgroundColor:"#567D46",borderColor:"white",borderWidth:2,borderStyle:"solid"
                     }}
-                      onPress={() => this.props.navigation.navigate('Ranking')}
+                      onPress={() => this.props.navigation.navigate('Ranking',{"role":this.user})}
                     >
                     <View style={{alignItems: 'center',justifyContent:"center"}}>
                     <AntDesign name="layout" borderColor="blue" color="white" size={wp('5.5%')}/>
@@ -316,35 +332,33 @@ daily_target=[]
 
                </View>
                <View style={{flexDirection:"row",justifyContent:"space-evenly",paddingTop:hp("5%")}}>
-                   
-
+               <TouchableOpacity
+                      style={{flexDirection:"column",width:wp("22%"),
+                      height:wp("22%") ,alignItems: 'center',justifyContent:"center",
+                      backgroundColor: '#DDDDDD',
+                      padding: 1,borderRadius:15,backgroundColor:"#567D46",borderColor:"white",borderWidth:2,borderStyle:"solid"
+                    }}
+                      onPress={() => this.props.navigation.navigate('ListofManagers',{"role":this.user})}
+                    >
+                    <View style={{alignItems: 'center',justifyContent:"center"}}>
+                    <Ionicons name="md-person-add" borderColor="blue" color="white" size={wp('5.5%')}/>
+                    <Text style={{ fontSize: wp('3.5%'), fontWeight: "bold" ,color:"white",textAlign:"center"}}>List of Managers </Text>
+                    </View>
+                    </TouchableOpacity>
                     <TouchableOpacity
                       style={{flexDirection:"column",width:wp("22%"),
                       height:wp("22%") ,alignItems: 'center',justifyContent:"center",
                       backgroundColor: '#DDDDDD',
                       padding: 1,borderRadius:15,backgroundColor:"#567D46",borderColor:"white",borderWidth:2,borderStyle:"solid"
                     }}
-                      onPress={() => this.props.navigation.navigate('Feedback')}
+                      onPress={() => this.props.navigation.navigate('FormScreen',{"role":this.user})}
                     >
                     <View style={{alignItems: 'center',justifyContent:"center"}}>
-                    <MaterialIcons name="history" borderColor="blue" color="white" size={wp('5.5%')}/>
-                    <Text style={{ fontSize: wp('3.5%'), fontWeight: "bold" ,color:"white",textAlign:"center"}}> Feedback History </Text>
+                    <Ionicons name="md-person-add" borderColor="blue" color="white" size={wp('5.5%')}/>
+                    <Text style={{ fontSize: wp('3.5%'), fontWeight: "bold" ,color:"white",textAlign:"center"}}>Notify All</Text>
                     </View>
                     </TouchableOpacity>
 
-                    <TouchableOpacity
-                      style={{flexDirection:"column",width:wp("22%"),
-                      height:wp("22%") ,alignItems: 'center',justifyContent:"center",
-                      backgroundColor: '#DDDDDD',
-                      padding: 1,borderRadius:15,backgroundColor:"#567D46",borderColor:"white",borderWidth:2,borderStyle:"solid"
-                    }}
-                      onPress={() => this.props.navigation.navigate('Profile')}
-                    >
-                    <View style={{alignItems: 'center',justifyContent:"center"}}>
-                    <MaterialCommunityIcons name="target" borderColor="blue" color="white" size={wp('5.5%')}/>
-                    <Text style={{ fontSize: wp('3.5%'), fontWeight: "bold" ,color:"white",textAlign:"center"}}> Daily Target History </Text>
-                    </View>
-                    </TouchableOpacity>
                     <TouchableOpacity
                       style={{flexDirection:"column",width:wp("22%"),
                       height:wp("22%") ,alignItems: 'center',justifyContent:"center",
@@ -411,6 +425,155 @@ daily_target=[]
    </View>
     
     
+    }
+    {
+      this.user==="Manager"&&
+      <View>
+      <Header
+           backgroundColor="#567D46"
+           placement="center"
+       leftComponent={<Entypo name="mail" color="white" size={30} onPress={() => this.props.navigation.navigate('Inbox')}/>}
+       centerComponent={{ text: 'Home', style: { color: '#fff',fontSize:25 } }}
+       rightComponent={<Ionicons name="ios-notifications" color="white" size={30} onPress={() => this.props.navigation.navigate('NotificationMain')}/>}
+     />
+       <View style={{flexDirection:"row"}}>
+       <ImageBackground source={this.state.image} style={{ height: hp('100%'),width:wp('100%')}}>
+       <View style={{alignContent:"center",justifyContent:"center",flexDirection:"column",paddingTop:50}}>
+        
+
+             <View style={{flexDirection:"row",justifyContent:"space-evenly"}}>
+                 <View>
+                       <ProgressCircle
+                           percent={"100"}
+                           radius={wp('13%')}
+                           borderWidth={12}
+                           color="#3399FF"
+                           shadowColor="#999"
+                           bgColor="#fff"
+                       >
+                           <Text style={{ fontSize: wp('4.5%'), fontWeight: "bold" }}>{this.counttrashcan}</Text>
+                       </ProgressCircle>
+                 <Text style={{ fontSize: wp('4.5%'),textAlign:"center" ,fontWeight: "bold",color:"#567D46" }}>No of TrashCans</Text>
+
+                   </View>
+
+                   <View>
+                       <ProgressCircle
+                           percent={this.state.monthlyperctange}
+                           radius={wp('13%')}
+                           borderWidth={12}
+                           color="#3399FF"
+                           shadowColor="#999"
+                           bgColor="#fff"
+                       >
+                           <Text style={{ fontSize: wp('4.5%'), fontWeight: "bold" }}>{this.countstaff}</Text>
+                       </ProgressCircle>
+                 <Text style={{ fontSize: wp('4.5%'),textAlign:"center", fontWeight: "bold",color:"#567D46" }}>No of Employees</Text>
+                   </View>
+                   
+               </View>
+               <View style={{alignContent:"center",justifyContent:"center",flexDirection:"row",paddingVertical:50}}>
+         <Text  style={{fontSize: hp('6%'), fontWeight:"bold",color:"#567D46"}}>
+           Welcome Manager
+           </Text>
+        </View>
+               </View>
+               {/* The icons below */}
+               
+               <View style={{flexDirection:"row",justifyContent:"space-evenly",paddingBottom:hp("5%")}}>
+                   
+
+                    <TouchableOpacity
+                      style={{flexDirection:"column",width:wp("22%"),
+                      height:wp("22%") ,alignItems: 'center',justifyContent:"center",
+                      backgroundColor: '#DDDDDD',
+                      padding: 1,borderRadius:15,backgroundColor:"#567D46",borderColor:"white",borderWidth:2,borderStyle:"solid"
+                    }}
+                      onPress={() =>this.props.navigation.navigate("EmployeeList",{areaid:this.managerareaid,role:this.user})}
+                    >
+                    <View style={{alignItems: 'center',justifyContent:"center"}}>
+                    <AntDesign name="profile" borderColor="blue" color="white" size={wp('5.5%')}/>
+                    <Text style={{ fontSize: wp('3.5%'), fontWeight: "bold" ,color:"white",textAlign:"center"}}> My Employee </Text>
+                    </View>
+                    </TouchableOpacity>
+  
+                    <TouchableOpacity
+                      style={{flexDirection:"column",width:wp("22%"),
+                      height:wp("22%") ,alignItems: 'center',justifyContent:"center",
+                      backgroundColor: '#DDDDDD',
+                      padding: 1,borderRadius:15,backgroundColor:"#567D46",borderColor:"white",borderWidth:2,borderStyle:"solid"
+                    }}
+                      onPress={() => this.props.navigation.navigate('EOM')}
+                    >
+                    <View style={{alignItems: 'center',justifyContent:"center"}}>
+                    <Entypo name="medal" borderColor="green" color="white" size={wp('5.5%')}/>
+                    <Text style={{ fontSize: wp('4.5%'), fontWeight: "bold" ,color:"white"}}> EOM </Text>
+                    </View>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                      style={{flexDirection:"column",width:wp("22%"),
+                      height:wp("22%") ,alignItems: 'center',justifyContent:"center",
+                      backgroundColor: '#DDDDDD',
+                      padding: 1,borderRadius:15,backgroundColor:"#567D46",borderColor:"white",borderWidth:2,borderStyle:"solid"
+                    }}
+                      onPress={() => this.props.navigation.navigate('Inventory')}
+                    >
+                    <View style={{alignItems: 'center',justifyContent:"center"}}>
+                    <AntDesign name="layout" borderColor="blue" color="white" size={wp('5.5%')}/>
+                    <Text style={{ fontSize: wp('3.5%'), fontWeight: "bold" ,color:"white",textAlign:"center"}}> My Area Inventory List </Text>
+                    </View>
+                    </TouchableOpacity>
+
+               </View>
+               <View style={{flexDirection:"row",justifyContent:"space-evenly"}}>
+                     
+               <TouchableOpacity
+                      style={{flexDirection:"column",width:wp("22%"),
+                      height:wp("22%") ,alignItems: 'center',justifyContent:"center",
+                      backgroundColor: '#DDDDDD',
+                      padding: 1,borderRadius:15,backgroundColor:"#567D46",borderColor:"white",borderWidth:2,borderStyle:"solid"
+                    }}
+                      onPress={() => this.props.navigation.navigate('EOM')}
+                    >
+                    <View style={{alignItems: 'center',justifyContent:"center"}}>
+                    <Entypo name="medal" borderColor="green" color="white" size={wp('5.5%')}/>
+                    <Text style={{ fontSize: wp('4.5%'), fontWeight: "bold" ,color:"white",textAlign:"center"}}> Daily Target </Text>
+                    </View>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                      style={{flexDirection:"column",width:wp("22%"),
+                      height:wp("22%") ,alignItems: 'center',justifyContent:"center",
+                      backgroundColor: '#DDDDDD',
+                      padding: 1,borderRadius:15,backgroundColor:"#567D46",borderColor:"white",borderWidth:2,borderStyle:"solid"
+                    }}
+                      onPress={() => this.props.navigation.navigate('ContactAdmin',{"usere":"amanager@manger.com"})}
+                    >
+                    <View style={{alignItems: 'center',justifyContent:"center"}}>
+                    <Entypo name="shareable" borderColor="blue" color="white" size={wp('5.5%')}/>
+                    <Text style={{ fontSize: wp('3.5%'), fontWeight: "bold" ,color:"white",textAlign:"center"}}> Contact Admin </Text>
+                    </View>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                      style={{flexDirection:"column",width:wp("22%"),
+                      height:wp("22%") ,alignItems: 'center',justifyContent:"center",
+                      backgroundColor: '#DDDDDD',
+                      padding: 1,borderRadius:15,backgroundColor:"#567D46",borderColor:"white",borderWidth:2,borderStyle:"solid"
+                    }}
+                      onPress={() => this.props.navigation.navigate('Feedback')}
+                    >
+                    <View style={{alignItems: 'center',justifyContent:"center"}}>
+                    <MaterialIcons name="feedback" borderColor="blue" color="white" size={wp('5.5%')}/>
+                    <Text style={{ fontSize: wp('3.5%'), fontWeight: "bold" ,color:"white",textAlign:"center"}}> Feedback </Text>
+                    </View>
+                    </TouchableOpacity>
+
+                    </View>
+               </ImageBackground>
+                </View>
+                   </View>
     }
       </View>
     );

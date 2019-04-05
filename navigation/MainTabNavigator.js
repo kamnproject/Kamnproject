@@ -32,13 +32,17 @@ import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import Entypo from '@expo/vector-icons/Entypo';
 import Foundation from '@expo/vector-icons/Foundation';
 import NotficationScreen from '../Screens/Notification'
-import NotificationMainScreen from '../Screens/NotificationMain'
 // import FormScreen from '../Screens/Notification_form'
 // import IssuesScreen from '../Screens/TrashCanIssues'
 import IssueDetailScreen from  '../Screens/IssueDetails'
 import FixedScreen from '../Screens/IssueFixed'
 //import MapView from 'react-native-maps';
 import StataticsScreen from '../Screens/StaticsMain' 
+import Usernotification from '../Screens/Usernotification'
+import ContactAdmin from '../Screens/ContactAdmin'
+import Sendnotificationarea from '../Screens/Sendnotificationarea'
+import ListofManagers from '../Screens/ListofManagers'
+import FormScreen from "../Screens/Notification_form";
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
   Ranking:RankingScreen,
@@ -55,11 +59,16 @@ const HomeStack = createStackNavigator({
   Area:AreaScreen,
   Register:RegisterScreen,
   Inventory:MainInventory,
-  NotificationMain:NotificationMainScreen,
+  NotificationMain:NotficationScreen,
   AdminStatatics:StataticsScreen,
   CollectedTrashes: CollectedTrashcansScreen,
   // userInbox:userInbox
-  CreateArea:CreateArea
+  CreateArea:CreateArea,
+  Usernotification:Usernotification,
+  ContactAdmin:ContactAdmin,
+  Sendnotificationarea:Sendnotificationarea,
+  ListofManagers:ListofManagers,
+  FormScreen:FormScreen
 },
 {
   mode: 'modal',

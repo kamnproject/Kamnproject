@@ -108,7 +108,8 @@ updateSearch = (search) => {
       />
     );
   };
-  temp = "admin@admin.com"
+  //temp = "admin@admin.com"
+  temp="a@a.com"
   render() {
     return (
       <View style={styles.container}>
