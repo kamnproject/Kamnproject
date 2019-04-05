@@ -29,39 +29,45 @@ export default class inbox extends React.Component {
     User_issue = []
     tem = ""
     
-//    {firebase.auth().currentUser.email === "admin@admin.com"?dfgedf:null}
-    componentWillMount() {
+
+    async componentWillMount() {
         // go to db and get all the users
-       
-        db.collection("User").where("Role","==","Manager").onSnapshot(querySnapshot => {
-
-            this.users = []
-
-            querySnapshot.forEach(doc => {
-
-                this.users.push({
-                    id: doc.id, ...doc.data()
-                })
-
-            })
-            this.setState({ users: this.users })
-
-            console.log("Current users: ",
-                this.users)
             // console.log("Current admin: ", firebase.auth().currentUser.email)
             // let temp = firebase.auth().currentUser.email
-             let temp ="admin@admin.com"
-            // let temp ="amanager@manger.com"
+            let Role=this.props.navigation.getParam('Role')
+            let areaid=this.props.navigation.getParam('areaid')
+            // let areaid="1"
+            // let Role="Employee"
+             let temp ="a@a.com"
+             //let temp ="amanager@manger.com"
         this.tem = temp
             
             console.log("Current temp: ", temp)
-            
-            this.tem=== "admin@admin.com"? <div>
-            {
+  
+        if(Role=== "Admin"){
+           
+
+                db.collection("User").where("Role","==","Manager").onSnapshot(querySnapshot => {
+
+                    this.users = []
+                   
+                    querySnapshot.forEach(doc => {
+
+                        this.users.push({
+                            id: doc.id, ...doc.data()
+                        })
+
+                    })
+                    this.setState({ users: this.users })
+
+                    console.log("Current users: ",
+                        this.users)
+
+                        
                 this.state.users.map((item, i)=>{
             db.collection(`User/${item.id}/User_issues`).orderBy("Date").onSnapshot(querySnapshot => {
                 console.log("Current jadhjasdfhas: ",this.tem)
-
+                
                 querySnapshot.forEach(doc => {
                     this.User_issue.push({
                         id: doc.id, ...doc.data(),
@@ -72,32 +78,86 @@ export default class inbox extends React.Component {
 
                 })
                 this.setState({ User_issues: this.User_issue })
+                
                 this.setState({ filtereddata: this.User_issue })
-
-                console.log("Current messages: ",
-                    this.User_issue.length)
-
-            })
-        })
-    }</div>:
-   // notadmin
-            console.log("normaluser: ",this.tem)
-            db.collection(`User/${this.tem}/User_issues`).orderBy("Date").onSnapshot(querySnapshot => {
-
-                querySnapshot.forEach(doc => {
-                    this.User_issue.push({
-                        id: doc.id, ...doc.data(),
-                        name: doc.name
-                    })
-                })
-                this.setState({ User_issues: this.User_issue })
-this.User_issue=[]
+                
                 console.log("Current messages: ",
                     this.User_issue.length)
 
             })
             
         })
+       
+    })
+   
+            
+        }
+        else if(Role=="Manager"){
+            db.collection("User").where("Area_id","==",areaid).where("Role","==","Employee").onSnapshot(querySnapshot => {
+
+                this.users = []
+            
+                querySnapshot.forEach(doc => {
+            
+                    this.users.push({
+                        id: doc.id, ...doc.data()
+                    })
+            
+                })
+                this.setState({ users: this.users })
+            
+                console.log("Current users: ",
+                    this.users)
+                    this.state.users.map((item, i)=>{
+                        db.collection(`User/${item.id}/User_issues`).orderBy("Date").onSnapshot(querySnapshot => {
+                            console.log("Current jadhjasdfhas: ",this.tem)
+                            
+                            querySnapshot.forEach(doc => {
+                                this.User_issue.push({
+                                    id: doc.id, ...doc.data(),
+                                    username:item.id
+                                    
+            
+                                })
+            
+                            })
+                            this.setState({ User_issues: this.User_issue })
+                            this.setState({ filtereddata: this.User_issue })
+                           
+                            console.log("Current messages: ",
+                                this.User_issue.length)
+            
+                        })
+                        
+                    })
+                        console.log("normaluser: ",this.tem)
+
+                    })   
+                    
+
+
+
+        }
+        else{
+            
+            db.collection(`User/${this.tem}/User_issues`).orderBy("Date").onSnapshot(querySnapshot => {
+                this.User_issue = []
+                querySnapshot.forEach(doc => {
+                    this.User_issue.push({
+                        id: doc.id, ...doc.data(),
+                        username: this.tem
+                    })
+                })
+                this.setState({ User_issues: this.User_issue })
+
+                console.log("Current messages: ",
+                    this.User_issue.length)
+
+            })
+            
+
+
+        } 
     }
     contains =(user, search)=>{
         let result = false
@@ -131,7 +191,7 @@ this.User_issue=[]
                 
                     {/* <Text style={{ fontWeight: "bold", fontSize: 17 }}> {this.tem} </Text> */}
                 </View>
-                {this.tem === "admin@admin.com" ?
+                
                 
                 <View>
                
@@ -143,33 +203,40 @@ this.User_issue=[]
                      containerStyle={height=5}
                      showLoading={true}
                  /> 
-                 <TouchableOpacity
+                  {
+
+this.state.User_issues.map(m =>
+    m.Message!==""&&
+    <View style={{}}>
+    
+        <View key={m.id}>
+            {console.log("m", m.Date.toDate().getDate())}
+          
+            <Text style={{ fontWeight: "bold", fontSize: 20 }}></Text>
+            <Text>
+
+            </Text>
+            {this.props.navigation.getParam('Role')!="Employee"&&<Text style={{ fontSize: wp('4.2%'), fontWeight: "bold", color: "black" }}>From {m.username}: </Text>}
+            <Text  style={{ fontSize: wp('4.2%'), fontWeight: "bold", color: "black" }}>Issue: {m.Message} </Text>
+            
+            
+               {(m.Reply===""&&this.props.navigation.getParam('Role')=="Employee")&&<Text>No Reply Yet</Text>}
+            {m.Reply!==""&&<Text style={{ fontSize: wp('4.2%'), fontWeight: "bold", color: "black" }} >Reply:{m.Reply}</Text>}
+            <Text  style={{ fontSize: wp('3.5%'), fontWeight: "bold", color: "black" }}>Time:{m.Date.toDate().getDate()}{"/"}{m.Date.toDate().getMonth() + 1}{"   "}{m.Date.toDate().getHours()}{":"}{m.Date.toDate().getMinutes()} </Text>
+
+               {(m.Reply===""&&this.props.navigation.getParam('Role')!="Employee")&&
+               <View style={{width: 50,flex:0.2, padding:5}}>
+                         
+                    <TouchableOpacity
                      style={styles.button}
-               onPress={()=>this.props.navigation.navigate('InboxHistory')}> 
-               <Text  style={{ fontSize: wp('3.5%'), fontWeight: "bold", color: "white" }} >View Inbox History</Text>
+               onPress={()=>this.props.navigation.navigate('inboxD', {message:m })}> 
+               <Text  style={{ fontSize: wp('3.5%'), color: "white" }} >Reply</Text>
                </TouchableOpacity>
-                 {
-                    
-                    this.state.filtereddata.map(m=>
-                         <View >
-                          {m.Reply !== ""?
-                          null:
-                          <View>
-                        <View style={{flex:1, flexDirection:"row"}} >
-                            <View style={{flex:0.8}}>                           
-                            <Text style={{ fontSize: 16 }} key={m.id}>
+            </View>}
 
-                                <Text style={{ fontSize: wp('4.2%'), fontWeight: "bold", color: "black" }}>From {m.username}: {'\n'}</Text>
-                               <Text style={{ fontSize: wp('4.2%'), fontWeight: "bold", color: "black" }}>Issue: {m.Message} </Text> 
-                                {/* {m.Message  == !" " ? <Text>{'\n'} </Text>: <Text style={{ fontWeight: "bold" }} >{'\n'}Issue:{m.Message}{'\n'}</Text>} */}
-                                {m.Reply  === "" ? <Text>{'\n'}</Text>: <Text style={{ fontSize: wp('4.2%'), fontWeight: "bold", color: "black" }} >{'\n'}Admin's Reply:{m.Reply}{'\n'}</Text>}
-                                
-                                <Text style={{ fontSize: wp('3.2%'), fontWeight: "bold", color: "black" }}>Time: {m.Date.toDate().getDate()}{"-"}{m.Date.toDate().getMonth() + 1}{"  :"}{m.Date.toDate().getHours()}{":"}{m.Date.toDate().getMinutes()}</Text>
-                                </Text>
-
-                                </View>
-                                {m.Reply == ! " " ? 
-                            <View style={{width: 20,flex:0.2, paddingTop:10}}>
+            {/* {(m.Reply  === ""&&this.props.navigation.getParam('Role')=="Employee") ? <Text>{'\n'}</Text>: <Text style={{ fontSize: wp('4.2%'), fontWeight: "bold", color: "black" }} >{'\n'}Admin's Reply:{m.Reply}{'\n'}</Text>}
+            {(m.Reply == ! " " &&this.props.navigation.getParam('Role')!="Employee") &&
+                            <View style={{width: 50,flex:0.2, paddingTop:10}}>
                          
                     <TouchableOpacity
                      style={styles.button}
@@ -177,75 +244,22 @@ this.User_issue=[]
                <Text  style={{ fontSize: wp('3.5%'), color: "white" }} >Reply</Text>
                </TouchableOpacity>
                  </View>
-                    :null}                   
-                    </View>
-                    <Divider style={{ backgroundColor: '#567D46', height: 2 }} />
-                    </View>
-                        }
-                        
-                        </View>
-                       
-                        
-                    )} 
- 
-                </View>
-          
-                //Not an admin
-                : 
-                <View style ={{ paddingTop: 10 }}>
-                 {/* <View style= {{width:"25%",height: "6%"}}> */}
-
-                    {/* <TouchableOpacity
-                     style={{alignItems: 'center',
-                     backgroundColor: '#567D46',
-                     color:"white",
-                     
-                     width:"25%",height: "6%"
-                   }}
-               onPress={()=>this.props.navigation.navigate('createissue', {usere:this.tem})} >
-               <Text  style={{ fontSize: wp('3.5%'), fontWeight: "bold", color: "white"}} >Report an Issue</Text>
-               </TouchableOpacity> */}
-           
-            {/* </View> */}
-                        {this.state.User_issues.length !=0?<View>
-                {
-
-                    this.state.User_issues.map(m =>
-                        <View style={{paddingTop:10}}>
-                            <Text key={m.id}>
-                                {console.log("m", m.Date.toDate().getDate())}
-                              
-                                <Text style={{ fontWeight: "bold", fontSize: 20 }}></Text>
-                                <Text>
-
-                                </Text>
-
-                                <Text  style={{ fontSize: wp('4.2%'), fontWeight: "bold", color: "black" }}>Issue: {m.Message} </Text>
-                                {m.Reply  === "" ? <Text>{'\n'}</Text>: <Text style={{ fontSize: wp('4.2%'), fontWeight: "bold", color: "black" }} >{'\n'}Admin's Reply:{m.Reply}{'\n'}</Text>}
-                                <Text  style={{ fontSize: wp('3.5%'), fontWeight: "bold", color: "black" }}>Time:{m.Date.toDate().getDate()}{"/"}{m.Date.toDate().getMonth() + 1}{"   "}{m.Date.toDate().getHours()}{":"}{m.Date.toDate().getMinutes()} </Text>
-                                
-                            
-                            </Text>
-                            <Divider style={{ backgroundColor: '#567D46', height: 1 }} />
-
-                        </View>
-                    )}
-                    </View>:
-                  <View style ={{justifyContent: "flex-start", alignItems: "center"}}>
-                    <Card width={"96%"}>                                    
-
-                    <Text style={{ fontSize: wp('4.2%'), fontWeight: "bold", color: "black" }}>Report issue to admin</Text>
-
-                    <Text>{'\n'}</Text>
-                                                 
-                    </Card>
-                    </View>
-                    
-                }
+                    } */}
             
+        
+        </View>
+        <Divider style={{ backgroundColor: '#567D46', height: 1 }} />
+
+    </View>
+)}
+                        
+                    
+ 
+               
                 </View>
-                }
+
                 
+            
                 
 
 

@@ -5,10 +5,11 @@ import { StyleSheet, Text, View, FlatList, ScrollView, TouchableOpacity } from '
 import { Header,ListItem, Divider, Badge, Card, Button } from 'react-native-elements';
 import issueDetail from './IssueDetails'
 import db from '../db'
+import Foundation from "@expo/vector-icons/Foundation";
 import firebase from "firebase";
 // import {Card} from 'react-native-shadow-cards';
 
-export default class IssueFixed extends React.Component {
+export default class AdminTrashcanIssuesHistory extends React.Component {
  state = {
 
 issueFixed: []
@@ -17,7 +18,7 @@ issueFixed: []
 temp = "" 
  componentDidMount() {
   // go to db and get all the users
-  db.collection("Trashcan_Issues").where("Status", "==", "fixed").where("Trashcan_id","==",this.props.navigation.getParam('trashes'))
+  db.collection("Trashcan_Issues").where("Status", "==", "fixed")
     .onSnapshot(querySnapshot => {
       let f = []
       querySnapshot.forEach(doc => {
@@ -63,7 +64,13 @@ temp = ""
   render() {
     return (
       <View style={styles.container}>
-
+<Header
+      backgroundColor="#567D46"
+      placement="left"
+  leftComponent={<Foundation  name="map" size={30} color="white"/>}
+  centerComponent={{ text: 'Map', style: { color: '#fff',fontSize:25 } }}
+  rightComponent={<Ionicons name="ios-notifications" color="white" size={30} onPress={() => this.props.navigation.navigate('Profile')}/>}
+/>
         <Text style={{fontWeight: "bold", marginLeft: 5, marginTop: 5, marginBottom: 8}}> Trashcan Issues supplied</Text>
         
       {/* {

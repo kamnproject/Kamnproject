@@ -102,31 +102,6 @@ handleResetTime=()=>{
     }
   render() {
   
-    // const battery = navigation.getParam('battery')
-    //  const fill = navigation.getParam('fill')
-     
-// const hour = (time/3600/1000)
-// const timestamp = Date(trash.Lasttime_full.toString());
-//  const date = trash.Lasttime_full.moment().format('MMM Do YYY, h:mm:ss a')
-// var formattedTimestamp =new Intl.DateTimeFormat('en-US',{
-//   year: "numeric",
-//   month: "short",
-//   day: "2-digit",
-//   hour: "numeric",
-//   minute: "2-digit",
-//   second: "2-digit"
-// }).format(timestamp);
-
-
-//let sdate = fdate.toDateString()
-    // let date = Date(timeIntervalSince1970: timestamp)
-     
-     //dt = new Date(day*1000)
-    // const fill = navigation.getParam('fill')
-    // const fill = navigation.getParam('fill')
-    // const fill = navigation.getParam('fill')
-    // const fill = navigation.getParam('fill')
-    // const fill = navigation.getParam('fill')
     return (
       <View style={styles.container}>
         <View style={{textAlign:"center"}}> 
@@ -162,6 +137,19 @@ handleResetTime=()=>{
           </View>
           
           <View>
+          <TouchableOpacity
+                         style={{width:wp("30%"),
+                         height:wp("10%"),backgroundColor:"#567D46",borderColor:"white",borderWidth:2,borderStyle:"solid",borderRadius:10,alignItems: 'center',justifyContent:"center"
+                       }}
+                         onPress={() => this.props.navigation.navigate('TrashCanIssues',{trashes:this.trash.id})}
+                         
+                       >
+                       <View style={{alignItems: 'center',justifyContent:"center"}}>
+                       {/* <AntDesign name="profile" borderColor="blue" color="white" size={wp('5.5%')}/> */}
+                       <Text style={{ fontSize: wp('3.5%'), fontWeight: "bold" ,color:"white",textAlign:"center"}}> Trashcan Issues </Text>
+                       
+                       </View>
+                       </TouchableOpacity>
           <TouchableOpacity
                          style={{width:wp("30%"),
                          height:wp("10%"),backgroundColor:"#567D46",borderColor:"white",borderWidth:2,borderStyle:"solid",borderRadius:10,alignItems: 'center',justifyContent:"center"

@@ -1,11 +1,12 @@
 import React from "react";
-import { StyleSheet, Text, View, ScrollView,Button } from "react-native";
+import { StyleSheet, Text, View, ScrollView,Button} from "react-native";
 import { createStackNavigator, createAppContainer } from "react-navigation";
 import {
   createMaterialTopTabNavigator,
   BottomTabBar,
   createDrawerNavigator
 } from "react-navigation";
+import MapView from 'react-native-maps'
 import {
   Header,
   ListItem,
@@ -13,7 +14,7 @@ import {
   Avatar,
   Badge,
   Icon,
-  withBadge, SearchBar
+  withBadge, SearchBar,Card 
 } from "react-native-elements";
 import Entypo from "@expo/vector-icons/Entypo";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -28,9 +29,13 @@ export default class EmployeeList extends React.Component {
     search:"",filtereddata:[]
   };
   areaid=""
+  areainfo={}
+  location={}
   componentWillMount() {
     // go to db and get one the user daily targets
     areaid=this.props.navigation.getParam('areaid')
+    this.areainfo=this.props.navigation.getParam('areainfo')
+    this.location=this.areainfo.Location
 
     db.collection("User").where("Area_id","==",areaid).onSnapshot(querySnapshot => {
       let users = [];
@@ -127,13 +132,14 @@ updateSearch = (search) => {
 
   render() {
     return (
+      <ScrollView>
       <View style={styles.container}>
         <Header
           backgroundColor="#567D46"
           placement="center"
           leftComponent={<Ionicons name="ios-arrow-round-back" size={30} color="white"onPress={() => this.props.navigation.goBack()}/>}
           centerComponent={{
-            text: "Employees List",
+            text: "Area Info",
             style: { color: "#fff", fontSize: 25 }
           }}
           rightComponent={
@@ -145,27 +151,76 @@ updateSearch = (search) => {
             />
           }
           
-        />   
+        /> 
+                <MapView
+        style={{width:"100%",height:150}}
+        region={{
+          latitude: this.location._lat,
+          longitude: this.location._long,
+          latitudeDelta: 0.004,
+          longitudeDelta: 0.004
+        }}
+        showsUserLocation={true}
+      >
+          <MapView.Marker
+   
+     coordinate={{latitude:this.location._lat,longitude:this.location._long}}
+     />
+     </MapView>  
+        <Card
+          containerStyle={{
+            borderRadius: 10,
+            borderWidth: 1,
+            borderColor: "grey",
+            elevation: 10
+          }}
+          
+        >
+
+          <ListItem
+           
+            title={
+              <Text style={{ textAlign: "left", fontWeight: "bold" }}>
+                Area Name: {this.areainfo.Name}
+              </Text>
+            }
+            subtitle={
+              <View>
+                <Text style={{ textAlign: "left" }}> Address: {this.areainfo.Address}</Text>
+                <Text style={{ textAlign: "left" }}>Contact: {this.areainfo.Emergency_contact}</Text>
+
+              </View>
+            }
+           
+          />
+
+
+        </Card>
+
+<View>
                     <SearchBar
                 placeholder="Filter by Name"
                 lightTheme round
                 onChangeText={this.updateSearch}
                 value={this.state.search}
                 containerStyle={height=5}
-                showLoading={true}
+              
             /> 
            <Text> {this.areaid}</Text>
         {/* <Text>Ranking</Text> */}
         {this.props.navigation.getParam('role')&&<Button title={"Notify All"} onPress={() => this.props.navigation.navigate("Sendnotificationarea",{"areaid":this.props.navigation.getParam('areaid')})}/>}
-        <ScrollView>
+        
           {this.state.filtereddata.map((item, i) => (
             <View key={i}>
               {this.listloop(item,i)}
               <Divider style={{ backgroundColor: "black", height: 1 }} />
             </View>
           ))}
-        </ScrollView>
+          
+         </View> 
+         
       </View>
+      </ScrollView>
     );
   }
 }

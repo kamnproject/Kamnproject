@@ -43,7 +43,7 @@ counttrashcan=0
     //   console.log("querySnapshot.data().Role",querySnapshot.data().Role)
     // })
     areaid=0
-    //  const querySnapshot = await db.collection("User").doc("amanager@manger.com").get();
+      //const querySnapshot = await db.collection("User").doc("amanager@manger.com").get();
     //const querySnapshot = await db.collection("User").doc("a@a.com").get();
      const querySnapshot = await db.collection("User").doc("admin@admin.com").get();
     
@@ -61,7 +61,7 @@ counttrashcan=0
      
     
    // go to db and get one the user daily targets
-   db.collection("User").doc("khalid@khalid.com").collection("Daily_targets")
+   db.collection("User").doc("a@a.com").collection("Daily_targets")
     .onSnapshot(querySnapshot => {
       let daily_Target = []
       querySnapshot.forEach(doc => {
@@ -130,7 +130,7 @@ counttrashcan=0
          <Header
               backgroundColor="#567D46"
               placement="center"
-          leftComponent={<Entypo name="mail" color="white" size={30} onPress={() => this.props.navigation.navigate('Inbox')}/>}
+          leftComponent={<Entypo name="mail" color="white" size={30} onPress={() => this.props.navigation.navigate('Inbox',{"Role":this.user})}/>}
           centerComponent={{ text: 'Home', style: { color: '#fff',fontSize:25 } }}
           rightComponent={<Ionicons name="ios-notifications" color="white" size={30} onPress={() => this.props.navigation.navigate('NotificationMain')}/>}
         />
@@ -267,9 +267,9 @@ counttrashcan=0
       <Header
            backgroundColor="#567D46"
            placement="center"
-       leftComponent={<Entypo name="mail" color="white" size={30} onPress={() => this.props.navigation.navigate('Inbox')}/>}
+       leftComponent={<Entypo name="mail" color="white" size={30} onPress={() => this.props.navigation.navigate('Inbox',{"areaid":this.managerareaid,"Role":this.user})}/>}
        centerComponent={{ text: 'Home', style: { color: '#fff',fontSize:25 } }}
-       rightComponent={<Ionicons name="ios-notifications" color="white" size={30} onPress={() => this.props.navigation.navigate('NotificationMain')}/>}
+       rightComponent={<Entypo name="trash" borderColor="blue" color="white" size={wp('5.5%') }onPress={() => this.props.navigation.navigate('AdminTrashCanIssues')}/>}
      />
 
        <View style={{flexDirection:"row"}}>
@@ -338,7 +338,7 @@ counttrashcan=0
                       backgroundColor: '#DDDDDD',
                       padding: 1,borderRadius:15,backgroundColor:"#567D46",borderColor:"white",borderWidth:2,borderStyle:"solid"
                     }}
-                      onPress={() => this.props.navigation.navigate('ListofManagers',{"role":this.user})}
+                      onPress={() => this.props.navigation.navigate('ListofManagers',{"role":this.user,"areaid":this.areaid})}
                     >
                     <View style={{alignItems: 'center',justifyContent:"center"}}>
                     <Ionicons name="md-person-add" borderColor="blue" color="white" size={wp('5.5%')}/>
@@ -420,6 +420,7 @@ counttrashcan=0
                    </TouchableOpacity>
 
                    </View>
+                   
                </ImageBackground>
                </View>
    </View>
@@ -432,7 +433,7 @@ counttrashcan=0
       <Header
            backgroundColor="#567D46"
            placement="center"
-       leftComponent={<Entypo name="mail" color="white" size={30} onPress={() => this.props.navigation.navigate('Inbox')}/>}
+       leftComponent={<Entypo name="mail" color="white" size={30} onPress={() => this.props.navigation.navigate('Inbox',{"areaid":this.managerareaid,"Role":this.user})}/>}
        centerComponent={{ text: 'Home', style: { color: '#fff',fontSize:25 } }}
        rightComponent={<Ionicons name="ios-notifications" color="white" size={30} onPress={() => this.props.navigation.navigate('NotificationMain')}/>}
      />
@@ -444,7 +445,7 @@ counttrashcan=0
              <View style={{flexDirection:"row",justifyContent:"space-evenly"}}>
                  <View>
                        <ProgressCircle
-                           percent={"100"}
+                           percent={100}
                            radius={wp('13%')}
                            borderWidth={12}
                            color="#3399FF"
@@ -459,7 +460,7 @@ counttrashcan=0
 
                    <View>
                        <ProgressCircle
-                           percent={this.state.monthlyperctange}
+                           percent={100}
                            radius={wp('13%')}
                            borderWidth={12}
                            color="#3399FF"
@@ -473,7 +474,7 @@ counttrashcan=0
                    
                </View>
                <View style={{alignContent:"center",justifyContent:"center",flexDirection:"row",paddingVertical:50}}>
-         <Text  style={{fontSize: hp('6%'), fontWeight:"bold",color:"#567D46"}}>
+         <Text  style={{fontSize: hp('6%'), fontWeight:"bold",color:"#567D46",textAlign:"center"}}>
            Welcome Manager
            </Text>
         </View>
@@ -489,7 +490,7 @@ counttrashcan=0
                       backgroundColor: '#DDDDDD',
                       padding: 1,borderRadius:15,backgroundColor:"#567D46",borderColor:"white",borderWidth:2,borderStyle:"solid"
                     }}
-                      onPress={() =>this.props.navigation.navigate("EmployeeList",{areaid:this.managerareaid,role:this.user})}
+                      onPress={() =>this.props.navigation.navigate("EmployeeList",{areaid:this.managerareaid})}
                     >
                     <View style={{alignItems: 'center',justifyContent:"center"}}>
                     <AntDesign name="profile" borderColor="blue" color="white" size={wp('5.5%')}/>
@@ -534,7 +535,7 @@ counttrashcan=0
                       backgroundColor: '#DDDDDD',
                       padding: 1,borderRadius:15,backgroundColor:"#567D46",borderColor:"white",borderWidth:2,borderStyle:"solid"
                     }}
-                      onPress={() => this.props.navigation.navigate('EOM')}
+                      onPress={() => this.props.navigation.navigate('TargetUnacheived',{areaid:this.managerareaid})}
                     >
                     <View style={{alignItems: 'center',justifyContent:"center"}}>
                     <Entypo name="medal" borderColor="green" color="white" size={wp('5.5%')}/>
