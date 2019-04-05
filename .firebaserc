@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "kamn-e4270"
+    "default": "kamn-e4270",
+    "yes": "kamn-e4270"
   }
 }
