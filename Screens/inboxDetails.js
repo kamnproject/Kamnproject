@@ -38,7 +38,7 @@ export default class inboxDetails extends React.Component {
 
   reply = () => {
     db.collection(`User/${this.state.name}/User_issues`).doc(this.state.idd).update({ Reply: this.state.reply })
-    this.props.navigation.navigate('Inbox')
+    this.props.navigation.goBack()
   }
   render() {
 
@@ -92,7 +92,7 @@ export default class inboxDetails extends React.Component {
                 height: "100%",
                 borderRadius: 4
               }}
-              onPress={this.report} >
+              onPress={this.reply} >
               <Text style={{ fontWeight: "bold", color: "white" }} >Send</Text>
             </TouchableOpacity>
 

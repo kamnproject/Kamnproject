@@ -14,11 +14,15 @@ import firebase from "firebase";
 import db from "../db.js";
 import { uploadImageAsync } from "../ImageUtils";
 import { ImagePicker } from "expo";
-
+import MapView from 'react-native-maps'
+import { ScrollView } from "react-native-gesture-handler";
 export default class Userprofile extends React.Component {
   state = {
     user: {},
-    location: {},
+    location: {
+      "_lat":0,
+      "_long":0
+    },
     avatar: ""
   };
   componentDidMount() {
@@ -46,6 +50,7 @@ export default class Userprofile extends React.Component {
 
   render() {
     return (
+      <ScrollView>
       <View style={styles.container}>
         <View style={{ flexDirection: "column" }}>
           <View style={{}}>
@@ -335,7 +340,7 @@ export default class Userprofile extends React.Component {
             </Text>
           </View>
           <View style={{ flexDirection: "row", backgroundColor: "white" }}>
-            <Text
+            {/* <Text
               style={{
                 textAlign: "left",
                 fontSize: 14,
@@ -345,10 +350,26 @@ export default class Userprofile extends React.Component {
               }}
             >
               {this.state.location._lat} N, {this.state.location._long} E
-            </Text>
+            </Text> */}
+            <MapView
+        style={{flex: 1,width:200,height:250}}
+        region={{
+          latitude: this.state.location._lat,
+          longitude: this.state.location._long,
+          latitudeDelta: 0.004,
+          longitudeDelta: 0.004
+        }}
+        showsUserLocation={true}
+      >
+          <MapView.Marker
+   
+     coordinate={{latitude:this.state.location._lat,longitude:this.state.location._long}}
+     />
+     </MapView>
           </View>
         </View>
       </View>
+      </ScrollView>
     );
   }
 }

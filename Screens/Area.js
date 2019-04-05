@@ -104,7 +104,7 @@ updateSearch = (search) => {
 
         }
 
-        onPress={() => this.props.navigation.navigate("EmployeeList",{areaid:item.id})}
+        onPress={() => this.props.navigation.navigate("EmployeeList",{areaid:item.id,areainfo:item})}
       />
     );
   };
