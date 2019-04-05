@@ -1,6 +1,7 @@
 import React from "react";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
+import Foundation from "@expo/vector-icons/Foundation";
 import {
   StyleSheet,
   Text,
@@ -23,40 +24,25 @@ import firebase from "firebase";
 import moment from "moment";
 // import {Card} from 'react-native-shadow-cards';
 
-export default class Issues extends React.Component {
+export default class AdminTrashcanIssues extends React.Component {
   state = {
     issues: [],
-    issueActive: []
+   
   };
   temp = "";
   componentDidMount() {
     // go to db and get all the users
-    db.collection("Trashcan_Issues").where("Trashcan_id","==",this.props.navigation.getParam('trashes')).onSnapshot(querySnapshot => {
+    db.collection("Trashcan_Issues").where("Status","==","active").onSnapshot(querySnapshot => {
       let i = [];
       querySnapshot.forEach(doc => {
         i.push({ id: doc.id, ...doc.data() });
       });
       this.setState({ issues: i });
-      //this.temp = firebase.auth().currentUser.email;
-      this.temp="admin@admin.com"
+
       console.log("Current issue: ", this.state.issues.length);
     });
 
-    {
-      this.temp !== "admin@admin.com";
-
-      db.collection("Trashcan_Issues")
-        .where("Status", "==", "active").where("Trashcan_id","==",this.props.navigation.getParam('trashes'))
-        .onSnapshot(querySnapshot => {
-          let f = [];
-          querySnapshot.forEach(doc => {
-            f.push({ id: doc.id, ...doc.data() });
-          });
-          this.setState({ issueActive: f });
-          this.temp="admin@admin.com"
-          console.log("Current fixed issues: ", this.state.issueActive.length);
-        });
-    }
+   
   }
 
 
@@ -72,6 +58,7 @@ export default class Issues extends React.Component {
             borderColor: "grey",
             elevation: 10
           }}
+          
         >
           <ListItem
            
@@ -89,6 +76,7 @@ export default class Issues extends React.Component {
                  </Text>
               </View>
             }
+            onPress={()=>this.props.navigation.navigate("AdminTrashcanIssuesDetails",{"trashes":i})}
           />
         </Card>
         {/* <Divider style={{ backgroundColor: 'brown',height:1 }} /> */}
@@ -131,13 +119,19 @@ export default class Issues extends React.Component {
   };
 
   handleFixed = () => {
-    this.props.navigation.navigate("FixedScreen",{"trashes":this.props.navigation.getParam('trashes')});
+    this.props.navigation.navigate("AdminTrashcanIssuesHistory");
   };
 
   render() {
     return (
       <View style={styles.container}>
-        {this.temp == "admin@admin.com" ? 
+                 <Header
+      backgroundColor="#567D46"
+      placement="left"
+  leftComponent={<Foundation  name="map" size={30} color="white"/>}
+  centerComponent={{ text: 'Map', style: { color: '#fff',fontSize:25 } }}
+  rightComponent={<Ionicons name="ios-notifications" color="white" size={30} onPress={() => this.props.navigation.navigate('Profile')}/>}
+/>
           <View>
             <View
               style={{ flexDirection: "row", justifyContent: "space-between" }}
@@ -162,10 +156,10 @@ export default class Issues extends React.Component {
             </View>
 
             <ScrollView>
-            {this.state.issueActive.length>0?
+            {this.state.issues.length>0?
               <FlatList
                 style={{ elevation: 10 }}
-                data={this.state.issueActive}
+                data={this.state.issues}
                 keyExtractor={(x, i) => x.id}
                 renderItem={({ item }) => <View>{this.list(item)}</View>}
               />
@@ -174,44 +168,16 @@ export default class Issues extends React.Component {
             }
             </ScrollView>
           </View>
-         : 
-          <View>
-            <Text
-              style={{
-                fontWeight: "bold",
-                marginLeft: 5,
-                marginTop: 5,
-                marginBottom: 8
-              }}
-            >
-              {" "}
-              Trashcan Issues Active
-            </Text>
-
-            <ScrollView>
-            {this.state.issueActive.length>0?
-              <FlatList
-                style={{ elevation: 10 }}
-                data={this.state.issueActive}
-                keyExtractor={(x, i) => x.id}
-                renderItem={({ item }) => (
-                  // onPress = {()=>this.handleDetails(item)}
-
-                  <View>{this.Activelist(item)}</View>
-                )}
-              />
-              :
-              <Text style={{marginLeft: 5}}>There are currently NO active trash can issues  </Text>
-              }
-            </ScrollView>
+         
             
-          </View>
+            
+        
         
           
            
          
 
-        }
+        
       </View>
     );
   }

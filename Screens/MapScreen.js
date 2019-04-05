@@ -10,7 +10,9 @@ import TrashCanDetail from './TrashCanDetail'
 import Foundation from '@expo/vector-icons/Foundation';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import CreateTrashcanIssues from './CreateTrashcanIssue'
-
+import TrashCanIssues from '../Screens/TrashCanIssues'
+import IssueDetailScreen from  '../Screens/IssueDetails'
+import FixedScreen from '../Screens/IssueFixed'
 
 export default class Trashlist extends React.Component {
   render() {
@@ -47,7 +49,10 @@ const AppNavigator = createStackNavigator({
 const AppNavigator2 = createStackNavigator({
   Trashcans :Trashes,
   TrashDetail : TrashCanDetail,
-  TrashCanCreate:CreateTrashcanIssues
+  TrashCanCreate:CreateTrashcanIssues,
+  TrashCanIssues:TrashCanIssues,
+  IssueDetailScreen:IssueDetailScreen,
+  FixedScreen: FixedScreen
   }, {
     initialRouteName: 'Trashcans',
     headerMode:'none'

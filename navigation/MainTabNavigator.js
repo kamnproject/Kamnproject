@@ -34,8 +34,7 @@ import Foundation from '@expo/vector-icons/Foundation';
 import NotficationScreen from '../Screens/Notification'
 // import FormScreen from '../Screens/Notification_form'
 // import IssuesScreen from '../Screens/TrashCanIssues'
-import IssueDetailScreen from  '../Screens/IssueDetails'
-import FixedScreen from '../Screens/IssueFixed'
+
 //import MapView from 'react-native-maps';
 import StataticsScreen from '../Screens/StaticsMain' 
 import Usernotification from '../Screens/Usernotification'
@@ -43,6 +42,11 @@ import ContactAdmin from '../Screens/ContactAdmin'
 import Sendnotificationarea from '../Screens/Sendnotificationarea'
 import ListofManagers from '../Screens/ListofManagers'
 import FormScreen from "../Screens/Notification_form";
+import TargetUnacheived from "../Screens/TargetUnachieved"
+import TrashcanMap from"../Screens/TrashcanMap"
+import AdminTrashCanIssues from "../Screens/AdminTrashcanIssues"
+import AdminTrashcanIssuesDetails from "../Screens/AdminTrashcanIssuesDetails"
+import AdminTrashcanIssuesHistory from "../Screens/AdminTrashcanIssuesHistory"
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
   Ranking:RankingScreen,
@@ -68,7 +72,12 @@ const HomeStack = createStackNavigator({
   ContactAdmin:ContactAdmin,
   Sendnotificationarea:Sendnotificationarea,
   ListofManagers:ListofManagers,
-  FormScreen:FormScreen
+  FormScreen:FormScreen,
+  TargetUnacheived:TargetUnacheived,
+  TrashcanMap:TrashcanMap,
+  AdminTrashCanIssues:AdminTrashCanIssues,
+  AdminTrashcanIssuesDetails:AdminTrashcanIssuesDetails,
+  AdminTrashcanIssuesHistory:AdminTrashcanIssuesHistory
 },
 {
   mode: 'modal',
