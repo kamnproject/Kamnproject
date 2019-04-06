@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity,Button,Alert } from "react-native";
 import { createStackNavigator, createAppContainer } from "react-navigation";
 import {
   createMaterialTopTabNavigator,
@@ -16,6 +16,9 @@ import { uploadImageAsync } from "../ImageUtils";
 import { ImagePicker } from "expo";
 import MapView from 'react-native-maps'
 import { ScrollView } from "react-native-gesture-handler";
+import LoginScreen from '../Screens/LoginScreen'
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+
 export default class Profile extends React.Component {
   state = {
     user: {},
@@ -74,6 +77,21 @@ export default class Profile extends React.Component {
         .update({ avatar: this.state.user.id });
     }
   };
+  Logout=()=>{
+
+      firebase.auth().signOut().then(function() {
+        // Sign-out successful.
+        Alert.alert("Successfully Signed Out")
+        
+      }).catch(function(error) {
+        // An error happened.
+        console.log(error.toString())
+      });
+      this.props.navigation.navigate('Main')
+        
+
+
+  }
 
   render() {
     return (
@@ -95,6 +113,7 @@ export default class Profile extends React.Component {
                 text: "My Profile",
                 style: { color: "#fff", fontSize: 25 }
               }}
+
             />
           </View>
 
@@ -160,7 +179,33 @@ export default class Profile extends React.Component {
               />
             </TouchableOpacity>
           </View>
-
+          <View style={{width:wp("100%"),flexDirection:"row"}}>
+          <View style={{width:wp("50%"),}}>
+          <TouchableOpacity
+    style={{width:wp("50%"),
+    height:wp("7%") ,
+    borderRadius:15,backgroundColor:"#567D46",alignItems: 'center',justifyContent:"center",borderColor:"white",borderWidth:2,borderStyle:"solid"
+}}
+onPress={this.Logout}
+    
+><View style={{alignItems: 'center',justifyContent:"center",margin:5}}>
+                       <Text style={{ fontSize: wp('3%'), fontWeight: "bold" ,color:"white"}}>Sign Out</Text>
+                       </View></TouchableOpacity>
+            </View>
+            <View style={{width:wp("50%"),}}>
+          <TouchableOpacity
+    style={{width:wp("50%"),
+    height:wp("7%") ,
+    borderRadius:15,backgroundColor:"#567D46",alignItems: 'center',justifyContent:"center",borderColor:"white",borderWidth:2,borderStyle:"solid"
+}}
+onPress={this.Logout}
+    
+><View style={{alignItems: 'center',justifyContent:"center",margin:5}}>
+                       <Text style={{ fontSize: wp('3%'), fontWeight: "bold" ,color:"white"}}>Reset Password</Text>
+                       </View></TouchableOpacity>
+            </View>
+            </View>
+   
           <View
             style={{ flexDirection: "row", justifyContent: "space-evenly" }}
           >
@@ -176,7 +221,7 @@ export default class Profile extends React.Component {
                 borderRightColor: "lightgray",
                 borderWidth: 2,
                 borderStyle: "solid",
-                borderTopColor: "white",
+                borderTopColor: "black",
                 borderBottomColor: "lightgray"
               }}
               disable={true}
@@ -206,7 +251,7 @@ export default class Profile extends React.Component {
                 borderRightColor: "lightgray",
                 borderWidth: 2,
                 borderStyle: "solid",
-                borderTopColor: "white",
+                borderTopColor: "black",
                 borderBottomColor: "lightgray"
               }}
               disable={true}
@@ -235,7 +280,7 @@ export default class Profile extends React.Component {
                 backgroundColor: "white",
                 borderRightColor: "lightgray",
                 borderWidth: 2,
-                borderTopColor: "white",
+                borderTopColor: "black",
                 borderBottomColor: "lightgray"
               }}
               disable={true}
@@ -254,6 +299,7 @@ export default class Profile extends React.Component {
               </View>
             </TouchableOpacity>
           </View>
+        
           <View style={{ flexDirection: "row", backgroundColor: "#567D46" }}>
             <Text
               style={{

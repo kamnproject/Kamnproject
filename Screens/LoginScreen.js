@@ -127,17 +127,17 @@ const styles = StyleSheet.create({
   block: {
     
     backgroundColor: '#fff',
-    width:180,
+    width:wp("80%"),
     
     borderWidth:1,
     borderColor:"black",
-    borderRadius:10,
+    borderRadius:15,
     
   },
   block2: {
     
     backgroundColor: 'white',
-    width:"80%",
+    width:wp("80%"),
     borderWidth:1,
     borderColor:"#567D46",
     borderRadius:15,
