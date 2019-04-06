@@ -48,6 +48,7 @@ import AdminTrashCanIssues from "../Screens/AdminTrashcanIssues"
 import AdminTrashcanIssuesDetails from "../Screens/AdminTrashcanIssuesDetails"
 import AdminTrashcanIssuesHistory from "../Screens/AdminTrashcanIssuesHistory"
 import MyEmployee from '../Screens/MyEmployee'
+
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
   Ranking:RankingScreen,
@@ -79,7 +80,8 @@ const HomeStack = createStackNavigator({
   AdminTrashCanIssues:AdminTrashCanIssues,
   AdminTrashcanIssuesDetails:AdminTrashcanIssuesDetails,
   AdminTrashcanIssuesHistory:AdminTrashcanIssuesHistory,
-  MyEmployee:MyEmployee
+  MyEmployee:MyEmployee,
+
 },
 {
   mode: 'modal',
