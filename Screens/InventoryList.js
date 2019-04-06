@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View, ScrollView,Button } from "react-native";
+import { StyleSheet, Text, View, ScrollView,Button,TouchableOpacity } from "react-native";
 import { createStackNavigator, createAppContainer } from "react-navigation";
 import {
   createMaterialTopTabNavigator,
@@ -21,6 +21,7 @@ import Foundation from "@expo/vector-icons/Foundation";
 import firebase from "firebase";
 import db from "../db.js";
 import _ from "lodash";
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 export default class InventoryList extends React.Component {
   state = {
@@ -31,19 +32,19 @@ export default class InventoryList extends React.Component {
   // currentuser=firebase.auth().currentUser.email
   currentuser="admin@admin.com"
   //currentuser="khalid@khalid.com"
-  componentDidMount() {
+  Role=""
+  areaid=""
+  async componentWillMount() {
+    const querySnapshot = await db.collection("User").doc(firebase.auth().currentUser.email).get();
+    //const querySnapshot = await db.collection("User").doc("a@a.com").get();
+     //const querySnapshot = await db.collection("User").doc("admin@admin.com").get();
     
-    let oneuser = "";
-    if(this.currentuser!="admin@admin.com"){
-    db.collection("User").onSnapshot(querySnapshot =>   { 
-      querySnapshot.forEach(doc => {
-        if(doc.id==this.currentuser){
-          oneuser=doc.data().Area_id
-        }
+    this.Role = querySnapshot.data().Role
+    this.areaid= querySnapshot.data().Area_id
 
-      }
-    );
-    db.collection("Inventory").where("Area_id","==",oneuser).onSnapshot(querySnapshot => {
+    if(this.Role=="Manager"){
+
+    db.collection("Inventory").where("Area_id","==",this.areaid).onSnapshot(querySnapshot => {
       let users = [];
       querySnapshot.forEach(doc => {
         users.push({ id: doc.id, ...doc.data() });
@@ -53,15 +54,10 @@ export default class InventoryList extends React.Component {
 
       console.log("users", this.state.users.length);
     });
-    console.log("Area_id", oneuser);
-    }
+    //console.log("Area_id", oneuser);
   
-  );
-    
-  console.log("Area_id2", oneuser);
-    
-    // go to db and get one the user daily targets
-}
+  }
+
 else{
 
 this.ListInventoryHistory()
@@ -91,10 +87,13 @@ this.ListInventoryHistory()
    }
 
    adminlistloop = (item,i) => {
-
+     let name=""
+    this.state.Inventory.map(x=>x.id===item.Inventory_id?name=x.Item_name:null)
+    let areaid=""
+    this.state.Inventory.map(x=>(x.id===item.Inventory_id)?areaid=x.Area_id:"")
     return (
       <ListItem // key={i}
-        title={"Name: "+this.state.Inventory.map(x=>(x.id===item.Inventory_id)?x.Item_name:"")}
+        title={"Name: "+name}
         subtitle={
           "Taken By: " +
           item.Employee_id
@@ -103,7 +102,8 @@ this.ListInventoryHistory()
           item.Date_time+
           "\n" +
           "Area_id: "+
-          this.state.Inventory.map(x=>(x.id===item.Inventory_id)?x.Area_id:"")+
+          areaid
+         +
           "\n" +
           "Purpose:"+
           item.Purpose +
@@ -123,11 +123,15 @@ this.ListInventoryHistory()
 
     return (
       <ListItem // key={i}
-        title={item.Item_name}
+        title={<Text style={{fontSize: wp('3%')}}>{item.Item_name}</Text>}
         subtitle={
+          <View>
+            <Text style={{fontSize: wp('3%')}}>{
           "Quantity: " +
           item.Quantity 
-          
+        }
+        </Text>
+        </View>
         }
         titleStyle={{ textAlign: "left" }}
         subtitleStyle={{ textAlign: "left" }}
@@ -141,10 +145,16 @@ this.ListInventoryHistory()
 
         }
         rightAvatar={
+<TouchableOpacity
+                         style={{flexDirection:"column",alignItems: 'center',justifyContent:"center",
+                         backgroundColor: '#DDDDDD', marginTop:5,
+                         padding: 1,borderRadius:15,backgroundColor:"#567D46",borderColor:"white",borderWidth:2,borderStyle:"solid",width:wp("20%"),height:wp("10%"),
+                       }}
+                       onPress={() => this.props.navigation.navigate("Inventorytake",{item:item})}
+                       >
+                       <Text style={{ fontSize: wp('3.5%'),textAlign:"center", fontWeight: "bold",color:"white" }} >Take</Text>
+                       </TouchableOpacity>
 
-          <Button title={"Take"}
-          onPress={() => this.props.navigation.navigate("Inventorytake",{item:item})}
-        />
 
           
       }
@@ -159,12 +169,13 @@ this.ListInventoryHistory()
       <View style={styles.container}>
         {/* <Text>Ranking</Text> */}
         <ScrollView>
-        {this.currentuser!="admin@admin.com"?
+        {this.Role=="Manager"?
         <View>
-        <View style={{flexDirection:"row",paddingLeft:20}}>
-         <Text style={{ fontSize: 18, fontWeight: "bold",textAlign:"center" }}>Inventory Taking  </Text>
-
-         </View>
+  
+  <View style={{textAlign:"center"}}> 
+        <Text style={{textAlign:"center", fontSize:20,fontWeight:"bold"}}>Take Inventory </Text>
+       
+       </View>
          
          { this.state.users.map((item, i) => (
             <View key={i}>
@@ -174,10 +185,11 @@ this.ListInventoryHistory()
           ))}
           </View>:
           <View>
-            <View style={{flexDirection:"row",paddingLeft:20}}>
-         <Text style={{ fontSize: 18, fontWeight: "bold",textAlign:"center" }}>Inventory Taken </Text>
 
-         </View>
+         <View style={{textAlign:"center"}}> 
+        <Text style={{textAlign:"center", fontSize:20,fontWeight:"bold"}}>Inventory Taken</Text>
+       
+       </View>
           { this.state.Requestlist.map((item, i) => (
             <View key={i}>
               {this.adminlistloop(item,i)}

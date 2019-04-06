@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View, ScrollView,Button } from "react-native";
+import { StyleSheet, Text, View, ScrollView,Button,TouchableOpacity } from "react-native";
 import { createStackNavigator, createAppContainer } from "react-navigation";
 import {
   createMaterialTopTabNavigator,
@@ -20,6 +20,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import Foundation from "@expo/vector-icons/Foundation";
 import firebase from "firebase";
 import db from "../db.js";
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import _ from "lodash";
 export default class Ranking extends React.Component {
   state = {
@@ -61,16 +62,21 @@ export default class Ranking extends React.Component {
     color = this.Randcolor(item.online);
     return (
       <ListItem // key={i}
-        title={"Name:" + item.name}
+        title={<Text style={{fontSize: wp('3%')}}>{ "Name:" + item.name }</Text>}
         subtitle={
+          <View>
+            <Text style={{fontSize: wp('3%')}}>{
           "Email: " +
           item.id +
           "\n" +
           "Area_id:" +
           item.Area_id +
           "\n" +
-          "Points:" +
-          item.Points
+          "Role:" +
+          item.Role
+            }
+          </Text>
+          </View>
         }
         titleStyle={{ textAlign: "left" }}
         subtitleStyle={{ textAlign: "left" }}
@@ -84,22 +90,31 @@ export default class Ranking extends React.Component {
 
         }
         rightAvatar={
-          <View>
-          <Button
-            title={"View Profile"}
-            
+<View style={{flexDirection:"column"}}>
+
+<TouchableOpacity
+              style={{flexDirection:"column",alignItems: 'center',justifyContent:"center",
+              backgroundColor: '#DDDDDD',
+              padding: 1,borderRadius:15,backgroundColor:"#567D46",borderColor:"white",borderWidth:2,borderStyle:"solid",width:wp("25%"),height:wp("10%"),
+            }}
             onPress={() => this.props.navigation.navigate("UserProfile",{username:item.id})}
-          />
-          {this.props.navigation.getParam('role')&&
-        <Button
-        title={"Send A Notification"}
-        
-        onPress={() => this.props.navigation.navigate("Usernotification",{username:item.id})}
-      />
-        
-        }
-          
-          </View>
+            >
+            <Text style={{ fontSize: wp('3.5%'),textAlign:"center", fontWeight: "bold",color:"white" }} >View Profile</Text>
+            </TouchableOpacity>
+{this.props.navigation.getParam('role')=="Admin"&&
+<TouchableOpacity
+              style={{flexDirection:"column",alignItems: 'center',justifyContent:"center",
+              backgroundColor: '#DDDDDD', marginTop:5,
+              padding: 1,borderRadius:15,backgroundColor:"#567D46",borderColor:"white",borderWidth:2,borderStyle:"solid",width:wp("25%"),height:wp("10%"),
+            }}
+            onPress={() => this.props.navigation.navigate("Usernotification",{username:item.id})}
+            >
+            <Text style={{ fontSize: wp('3.5%'),textAlign:"center", fontWeight: "bold",color:"white" }} >Notify</Text>
+            </TouchableOpacity>
+
+}
+
+</View>
         }
         onPress={() => this.props.navigation.navigate("UserProfile",{username:item.id})}
       />
@@ -112,20 +127,11 @@ export default class Ranking extends React.Component {
         <Header
           backgroundColor="#567D46"
           placement="center"
-          leftComponent={<Entypo name="price-ribbon" size={30} color="white" />}
+          leftComponent={<Ionicons name="ios-arrow-round-back" size={30} color="white"onPress={() => this.props.navigation.goBack()}/>}
           centerComponent={{
             text: "Ranking",
             style: { color: "#fff", fontSize: 25 }
           }}
-          rightComponent={
-            <Ionicons
-              name="ios-notifications"
-              color="white"
-              size={30}
-              onPress={() => this.props.navigation.navigate("Profile")}
-            />
-          }
-          
         />
 
         {/* <Text>Ranking</Text> */}

@@ -54,7 +54,8 @@ export default class StataticsInventory extends React.Component {
   state={
     Inventory_History:[],
     tableData:[],
-    imageURI :"sd"
+    imageURI :"sd",
+    flag:false
   }
   Inventory_History=[]
   tableData= [
@@ -74,7 +75,7 @@ export default class StataticsInventory extends React.Component {
       //callback function to get the result URL of the screnshot
 
       // ,
-      uri=> this.setState({ imageURI : uri }),
+      uri=> this.setState({ imageURI : uri,flag:true  }),
       
     
       error => console.error("Oops, Something Went Wrong", error)
@@ -85,6 +86,7 @@ export default class StataticsInventory extends React.Component {
   uri=""
   upload=async()=>{
     const result=await uploadImageAsync("screenshotsbyadmin",this.state.imageURI,Math.random()*10000000)
+    this.setState({flag:false})
     await db.collection('AdminScreenshots').doc().set({ url:result,category:"inventory" })
     Alert.alert("Image Saved")
     console.log("URL",result)
@@ -266,26 +268,29 @@ permonth1= ()=>{
     
     return (
       <View style={styles.container}>
-        <View>
+        <View style={{flexDirection:"row",justifyContent:"space-between",margin:5}}>
         <TouchableOpacity
                          style={{flexDirection:"column",alignItems: 'center',justifyContent:"center",
                          backgroundColor: '#DDDDDD',
-                         padding: 1,borderRadius:15,backgroundColor:"#567D46",borderColor:"white",borderWidth:2,borderStyle:"solid"
+                         padding: 1,borderRadius:15,backgroundColor:"#567D46",borderColor:"white",borderWidth:2,borderStyle:"solid",width:wp("40%"),height:wp("10%"),
                        }}
                        onPress={this.takeScreenShot}
                        >
                        <Text style={{ fontSize: wp('4.5%'),textAlign:"center", fontWeight: "bold",color:"white" }} >Take Screenshot</Text>
                        </TouchableOpacity>
                        <Text>{""}</Text>
-                       <TouchableOpacity
-                         style={{flexDirection:"column",alignItems: 'center',justifyContent:"center",
-                         backgroundColor: '#DDDDDD',
-                         padding: 1,borderRadius:15,backgroundColor:"#567D46",borderColor:"white",borderWidth:2,borderStyle:"solid"
-                       }}
-                       onPress={this.upload}
-                       >
-                       <Text style={{ fontSize: wp('4.5%'),textAlign:"center", fontWeight: "bold",color:"white" }} >Save to Gallery</Text>
-                       </TouchableOpacity>
+                       {this.state.flag&&
+                      <TouchableOpacity
+                      style={{flexDirection:"column",alignItems: 'center',justifyContent:"center",width:wp("40%"),height:wp("10%"),
+                      backgroundColor: '#DDDDDD',
+                      padding: 1,borderRadius:15,backgroundColor:"#567D46",borderColor:"white",borderWidth:2,borderStyle:"solid"
+                    }}
+                    onPress={this.upload}
+                    >
+                    <Text style={{ fontSize: wp('4.5%'),textAlign:"center", fontWeight: "bold",color:"white" }} >Save to Gallery</Text>
+                    </TouchableOpacity>
+                      }
+                       
           </View>
         <ScrollView>
        

@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View, ScrollView,Button } from "react-native";
+import { StyleSheet, Text, View, ScrollView,Button,TouchableOpacity } from "react-native";
 import { createStackNavigator, createAppContainer } from "react-navigation";
 import {
   createMaterialTopTabNavigator,
@@ -21,6 +21,7 @@ import Foundation from "@expo/vector-icons/Foundation";
 import firebase from "firebase";
 import db from "../db.js";
 import _ from "lodash";
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 export default class SuppliedHistory extends React.Component {
   state = {
@@ -59,10 +60,13 @@ export default class SuppliedHistory extends React.Component {
   }
 
   listloop = (item,i) => {
-
+    let name=""
+    this.state.Inventory.map(x=>(x.id===item.Inventory_id)?name=x.Item_name:"")
+    let area=""
+    this.state.Inventory.map(x=>(x.id===item.Inventory_id)?area=x.Area_id:"")
     return (
       <ListItem // key={i}
-      title={"Name: "+this.state.Inventory.map(x=>(x.id===item.Inventory_id)?x.Item_name:"")}
+      title={"Name: "+name}
       subtitle={
         "Requested By: " +
         item.Employee_id
@@ -71,7 +75,8 @@ export default class SuppliedHistory extends React.Component {
         item.Date_time+
         "\n" +
         "Area_id: "+
-        this.state.Inventory.map(x=>(x.id===item.Inventory_id)?x.Area_id:"")+
+        area
+        +
         "\n" +
         "Purpose:"+
         item.Purpose +
@@ -94,7 +99,22 @@ export default class SuppliedHistory extends React.Component {
         <ScrollView>
         <View style={{flexDirection:"row",justifyContent:"space-between"}}>
          <Text style={{ fontSize: 18, fontWeight: "bold",textAlign:"center" }}>Inventory Supplied  </Text>
-         <Button title={"Go Back"} onPress={()=>this.props.navigation.goBack()}></Button>
+         
+         <View style={{flexDirection:"row-reverse"}}>
+                       <TouchableOpacity
+                         style={{width:wp("30%"),
+                         height:wp("10%"),float:"right",backgroundColor:"#567D46",borderColor:"white",borderWidth:2,borderStyle:"solid",borderRadius:10,alignItems: 'center',justifyContent:"center"
+                       }}
+                       onPress={()=>this.props.navigation.goBack()}
+                         
+                       >
+                       <View style={{alignItems: 'center',justifyContent:"center"}}>
+                       {/* <AntDesign name="profile" borderColor="blue" color="white" size={wp('5.5%')}/> */}
+                       <Text style={{ fontSize: wp('3.5%'), fontWeight: "bold" ,color:"white",textAlign:"center"}}> Go Back</Text>
+                       
+                       </View>
+                       </TouchableOpacity>
+</View>
          </View>
          {/* <SearchBar
                 placeholder="Filter by Month"

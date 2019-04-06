@@ -212,16 +212,10 @@ this.setState({long:x.Location._long})
       <ScrollView>
         <Header
           backgroundColor='#567D46'
-          placement="left"
-          leftComponent={<Entypo name="add-user" size={30} color="white" />}
+          placement="center"
+          leftComponent={<Ionicons name="ios-arrow-round-back" size={30} color="white"onPress={() => this.props.navigation.goBack()}/>}
           centerComponent={{ text: 'Create User', style: { color: '#fff', fontSize: 25 } }}
-          rightComponent={<Ionicons name="ios-notifications" color="white" size={30} onPress={() => this.props.navigation.navigate('Profile')} />}
         />
-  
-
-          <Text style={{ marginTop: 8, marginLeft: 2, fontSize: wp('4.5%'), fontWeight: "bold", color: "black" }}>Create an Employee Account</Text>
-
-
           <Text style={{ marginTop: 5, marginBottom: 2, marginLeft: 2, fontSize: wp('3.5%'), fontWeight: "bold", color: "black" }}> First Name: </Text>
           <Input
 
