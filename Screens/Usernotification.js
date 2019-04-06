@@ -38,8 +38,6 @@ areaid: ""
 
 }
 
-
-
 componentWillMount = () => {
   // go to db and get all the users
   db.collection(`User`).onSnapshot(querySnapshot => {

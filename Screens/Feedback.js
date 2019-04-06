@@ -34,51 +34,50 @@ export default class Feedback extends React.Component {
 
     users = []
     questans = []
-      //tem = "admin@admin.com"
-   tem="khalid@khalid.com"
+    user=""
+    managerareaid=""
+//     tem = "admin@admin.com"
+  tem=""
+  
+     
     //    {firebase.auth().currentUser.email === "admin@admin.com"?dfgedf:null}
-    componentWillMount() {
+    async componentWillMount() {
+         let temp = firebase.auth().currentUser.email
+         this.tem = temp
+        
         // go to db and get all the feedback
+    //     Role=this.props.navigation.getParam('Role')
+    // areaid=this.props.navigation.getParam('areaid')
+    const querySnapshot = await db.collection("User").doc(this.tem).get();
+    
+    this.user = querySnapshot.data().Role
+    this.managerareaid= querySnapshot.data().Area_id
+
         this.Todaydate()
 
-        db.collection("User").onSnapshot(querySnapshot => {
-
+        if(this.user=="Manager"){
+            db.collection("User").where("Area_id","==",this.managerareaid).where("Role","==","Employee").onSnapshot(querySnapshot => {
             this.users = []
-
             querySnapshot.forEach(doc => {
-
                 this.users.push({
                     id: doc.id, ...doc.data(),
-
                 })
-
             })
             this.setState({ users: this.users })
-
-
             console.log("Current feedback: ",
                 this.users.length)
             console.log("Current admin: ")
-            //     let temp = firebase.auth().currentUser.email
-            // this.tem = temp
-            // let temp = "noor@noor.com"
-            // this.tem = temp
+  
+            
 
             console.log("Current temp: ")
-
-            // {
-            //     this.state.feedback.map((item, i)=>{
-            //         console.log("Current issuee: ", item.id)
-
-            //     })
-            //   }
+ 
             console.log("todayyyyyyyyyyyyyyyyyyyyyyyy: ",
                             this.state.today)
                        
-                           
-            this.tem === "admin@admin.com" ? <div>
+                        })             
                
-                {this.state.users.map((item, i) => {
+                this.state.users.map((item, i) => {
                  this.questans = []
                     db.collection(`User/${item.id}/Daily_Feedbacks`).orderBy("date").onSnapshot(querySnapshot => {
                            
@@ -92,44 +91,42 @@ export default class Feedback extends React.Component {
                         })
 
                         this.setState({ Question_Answer: this.questans })
-                        // this.setState({ filtereddata: this.questans })
 
-                        // console.log("Current messages: ",
-                        //     this.questans.length)
                             console.log("laaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaasssssssssssssttttttttttttt: ",
                             this.questans[this.questans.length-1].date)
-                        // console.log("Current feed: ",
-                        //     this.questans)
-                        // console.log("id item: ",
-                        //     this.questans.Answer)
+
                     })
 
 
                 })
-                }
-            </div>
-                :
+            }
                 //not admin
-
-                db.collection(`User/${this.tem}/Daily_Feedbacks`).orderBy("date").onSnapshot(querySnapshot => {
-                    console.log("Current jadhjasdfhas: ", this.tem)
-                    querySnapshot.forEach(doc => {
-                        this.questans.push({
-                            id: doc.id, ...doc.data()
-                        })
-                    })
-                    this.setState({ Question_Answer: this.questans })
-
-
-                    console.log("Current messages: ",
-                        this.questans.length)
-                    console.log("Current feed: ",
-                        this.questans)
+                else{
                    
-                })
+                    db.collection(`User/${this.tem}/Daily_Feedbacks`).orderBy("date").onSnapshot(querySnapshot => {
+                        console.log("Current jadhjasdfhas: ", this.tem)
+                        querySnapshot.forEach(doc => {
+                            this.questans.push({
+                                id: doc.id, ...doc.data()
+                            })
+                        })
+                        this.setState({ Question_Answer: this.questans })
+    
+    
+                        console.log("Current messages: ",
+                            this.questans.length)
+                        console.log("Current feed: ",
+                            this.questans)
+                       
+                    })
+    
+                        
+                    }
+
+               
 
 
-        })
+       
 
     }
     contains = (user, search) => {
@@ -196,9 +193,10 @@ export default class Feedback extends React.Component {
                     centerComponent={{ text: 'Daily Feedback', style: { color: '#fff', fontSize: 25 } }}
                 />
 
-                {this.tem !== "admin@admin.com" ?
+                { this.user==="Employee" ?
 
                     <ScrollView>
+                       {  console.log("this.props.navigation.getParam('Role')",this.user)}
                         <View>
                         <Text style={{ fontSize: wp('3.5%'), fontWeight: "bold" ,color:"black"}}>Date: {this.state.today}/2019 </Text>
                            
@@ -257,7 +255,7 @@ export default class Feedback extends React.Component {
                     :
                     <ScrollView>
                         <View>
-                        <Text style={{ fontSize: wp('3.5%'), fontWeight: "bold" ,color:"black"}}>Date: {this.state.today}/2019 </Text>
+                        <Text style={{ fontSize: wp('3.5%'), fontWeight: "bold" ,color:"black"}}>Dateeeee: {this.state.today}/2019 </Text>
 
                             {
                                 this.state.Question_Answer.map((m, i) => <View>
