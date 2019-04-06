@@ -44,8 +44,8 @@ counttrashcan=0
     // })
     areaid=0
       //const querySnapshot = await db.collection("User").doc("amanager@manger.com").get();
-    //const querySnapshot = await db.collection("User").doc("a@a.com").get();
-     const querySnapshot = await db.collection("User").doc("admin@admin.com").get();
+   const querySnapshot = await db.collection("User").doc("a@a.com").get();
+    //  const querySnapshot = await db.collection("User").doc("admin@admin.com").get();
     
     this.user = querySnapshot.data().Role
     this.managerareaid= querySnapshot.data().Area_id
@@ -130,8 +130,8 @@ counttrashcan=0
          <Header
               backgroundColor="#567D46"
               placement="center"
-          leftComponent={<Entypo name="mail" color="white" size={30} onPress={() => this.props.navigation.navigate('Inbox',{"Role":this.user})}/>}
-          centerComponent={{ text: 'Home', style: { color: '#fff',fontSize:25 } }}
+          leftComponent={<Entypo name="mail" color="white" size={30} onPress={() => this.props.navigation.navigate('Inbox',{"areaid":this.managerareaid,"Role":this.user})}/>}
+          centerComponent={{ text: 'Home', style: { color: '#fff',fontSize:25 }}}
           rightComponent={<Ionicons name="ios-notifications" color="white" size={30} onPress={() => this.props.navigation.navigate('NotificationMain')}/>}
         />
           <View style={{flexDirection:"row"}}>
@@ -251,7 +251,7 @@ counttrashcan=0
                        >
                        <View style={{alignItems: 'center',justifyContent:"center"}}>
                        <MaterialIcons name="feedback" borderColor="blue" color="white" size={wp('5.5%')}/>
-                       <Text style={{ fontSize: wp('3.5%'), fontWeight: "bold" ,color:"white",textAlign:"center"}}> Daily Feedback </Text>
+                       <Text  style={{ fontSize: wp('3.5%'), fontWeight: "bold" ,color:"white",textAlign:"center"}}> Daily Feedback </Text>
                        </View>
                        </TouchableOpacity>
 
@@ -563,7 +563,7 @@ counttrashcan=0
                       backgroundColor: '#DDDDDD',
                       padding: 1,borderRadius:15,backgroundColor:"#567D46",borderColor:"white",borderWidth:2,borderStyle:"solid"
                     }}
-                      onPress={() => this.props.navigation.navigate('Feedback')}
+                      onPress={() => this.props.navigation.navigate('Feedback',{"areaid":this.managerareaid,"Role":this.user})}
                     >
                     <View style={{alignItems: 'center',justifyContent:"center"}}>
                     <MaterialIcons name="feedback" borderColor="blue" color="white" size={wp('5.5%')}/>

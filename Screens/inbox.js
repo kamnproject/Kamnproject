@@ -45,8 +45,6 @@ export default class inbox extends React.Component {
             console.log("Current temp: ", temp)
   
         if(Role=== "Admin"){
-           
-
                 db.collection("User").where("Role","==","Manager").onSnapshot(querySnapshot => {
 
                     this.users = []
@@ -56,31 +54,22 @@ export default class inbox extends React.Component {
                         this.users.push({
                             id: doc.id, ...doc.data()
                         })
-
                     })
                     this.setState({ users: this.users })
 
                     console.log("Current users: ",
-                        this.users)
-
-                        
+                        this.users)                        
                 this.state.users.map((item, i)=>{
             db.collection(`User/${item.id}/User_issues`).orderBy("Date").onSnapshot(querySnapshot => {
-                console.log("Current jadhjasdfhas: ",this.tem)
-                
+                console.log("Current jadhjasdfhas: ",this.tem)                
                 querySnapshot.forEach(doc => {
                     this.User_issue.push({
                         id: doc.id, ...doc.data(),
                         username:item.id
-                        
-
                     })
-
                 })
-                this.setState({ User_issues: this.User_issue })
-                
-                this.setState({ filtereddata: this.User_issue })
-                
+                this.setState({ User_issues: this.User_issue })               
+                this.setState({ filtereddata: this.User_issue })                
                 console.log("Current messages: ",
                     this.User_issue.length)
 
