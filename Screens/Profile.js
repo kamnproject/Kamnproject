@@ -23,17 +23,19 @@ export default class Profile extends React.Component {
       "_lat":0,
       "_long":0
     },
-    avatar: ""
+    avatar: "",
+   me:"https://firebasestorage.googleapis.com/v0/b/kamn-e4270.appspot.com/o/images%2Fme.png?alt=media&token=5d03c5f4-6440-49e7-819e-f591ce36cf75",
+    
   };
   componentDidMount() {
-    let username=this.props.navigation.getParam('username')
+    let username=firebase.auth().currentUser.email
     // go to db and get one the user daily targets
-    if(this.props.navigation.getParam('username')){
-      username=this.props.navigation.getParam('username')
-    }
-    else{
-      username="a@a.com"
-    }
+    // if(this.props.navigation.getParam('username')){
+    //   username=this.props.navigation.getParam('username')
+    // }
+    // else{
+    //   username="a@a.com"
+    // }
     
 
     db.collection("User")
@@ -93,14 +95,6 @@ export default class Profile extends React.Component {
                 text: "My Profile",
                 style: { color: "#fff", fontSize: 25 }
               }}
-              rightComponent={
-                <Ionicons
-                  name="ios-notifications"
-                  color="white"
-                  size={30}
-                  onPress={() => this.props.navigation.navigate("Profile")}
-                />
-              }
             />
           </View>
 
@@ -389,11 +383,19 @@ export default class Profile extends React.Component {
           longitudeDelta: 0.004
         }}
         showsUserLocation={true}
+        provider={"google"}
       >
+      
+
           <MapView.Marker
    
      coordinate={{latitude:this.state.location._lat,longitude:this.state.location._long}}
-     />
+     >
+     <Image
+        style={{width:20, height:35}}
+        source={{uri:this.state.me}}
+      />
+     </MapView.Marker>
      </MapView>
           </View>
         </View>

@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View, ScrollView,Button } from "react-native";
+import { StyleSheet, Text, View, ScrollView,Button,TouchableOpacity } from "react-native";
 import { createStackNavigator, createAppContainer } from "react-navigation";
 import {
   createMaterialTopTabNavigator,
@@ -21,6 +21,7 @@ import Foundation from "@expo/vector-icons/Foundation";
 import firebase from "firebase";
 import db from "../db.js";
 import _ from "lodash";
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 export default class EOM extends React.Component {
   state = {
@@ -85,8 +86,10 @@ updateSearch = (search) => {
     color = this.Randcolor(item.online);
     return (
       <ListItem // key={i}
-        title={item.Month}
+        title={ <Text style={{fontSize: wp('3%')}}>{item.Month }</Text> }
         subtitle={
+          <View>
+          <Text style={{fontSize: wp('3%')}}>{
           "Employee_id: " +
           item.Employee_id +
           "\n" +
@@ -95,6 +98,9 @@ updateSearch = (search) => {
           "\n" +
           "Year:" +
           item.Year
+        }
+        </Text>
+        </View>
         }
         titleStyle={{ textAlign: "left" }}
         subtitleStyle={{ textAlign: "left" }}
@@ -108,11 +114,15 @@ updateSearch = (search) => {
 
         }
         rightAvatar={
-          <Button
-            title={"View Profile"}
-            
-            onPress={() => this.props.navigation.navigate("UserProfile",{username:item.Employee_id})}
-          />
+          <TouchableOpacity
+                         style={{flexDirection:"column",alignItems: 'center',justifyContent:"center",
+                         backgroundColor: '#DDDDDD',
+                         padding: 1,borderRadius:15,backgroundColor:"#567D46",borderColor:"white",borderWidth:2,borderStyle:"solid",width:wp("25%"),height:wp("10%"),
+                       }}
+                       onPress={() => this.props.navigation.navigate("UserProfile",{username:item.Employee_id})}
+                       >
+                       <Text style={{ fontSize: wp('3.5%'),textAlign:"center", fontWeight: "bold",color:"white" }} >View Profile</Text>
+                       </TouchableOpacity>
         }
         onPress={() => this.props.navigation.navigate("UserProfile",{username:item.Employee_id})}
       />
@@ -125,19 +135,12 @@ updateSearch = (search) => {
         <Header
           backgroundColor="#567D46"
           placement="center"
-          leftComponent={<Entypo name="price-ribbon" size={30} color="white" />}
+          leftComponent={<Ionicons name="ios-arrow-round-back" size={30} color="white"onPress={() => this.props.navigation.goBack()}/>}
           centerComponent={{
-            text: "Ranking",
+            text: "EOM",
             style: { color: "#fff", fontSize: 25 }
           }}
-          rightComponent={
-            <Ionicons
-              name="ios-notifications"
-              color="white"
-              size={30}
-              onPress={() => this.props.navigation.navigate("Profile")}
-            />
-          }
+          
         />   
                     <SearchBar
                 placeholder="Filter by Month"
@@ -145,7 +148,6 @@ updateSearch = (search) => {
                 onChangeText={this.updateSearch}
                 value={this.state.search}
                 containerStyle={height=5}
-                showLoading={true}
             /> 
         {/* <Text>Ranking</Text> */}
         <ScrollView>

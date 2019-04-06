@@ -24,19 +24,26 @@ import db from "../db.js";
 import _ from "lodash";
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
-export default class EmployeeList extends React.Component {
+export default class MyEmployee extends React.Component {
   state = {
     users: [],
     search:"",filtereddata:[]
   };
   areaid=""
   areainfo={}
-  location={}
-  componentWillMount() {
+  location={
+    "_lat":0,
+    "_long":0
+  }
+  async componentWillMount() {
     // go to db and get one the user daily targets
     areaid=this.props.navigation.getParam('areaid')
-    this.areainfo=this.props.navigation.getParam('areainfo')
-    this.location=this.areainfo.Location
+    const areainfo1= await db.collection("Area").doc(this.props.navigation.getParam('areaid')).get()
+    this.areainfo=areainfo1.data()
+
+   // this.props.navigation.getParam('areainfo')
+
+    this.location=areainfo1.data().Location
 
     db.collection("User").where("Area_id","==",areaid).onSnapshot(querySnapshot => {
       let users = [];
@@ -154,7 +161,7 @@ updateSearch = (search) => {
           placement="center"
           leftComponent={<Ionicons name="ios-arrow-round-back" size={30} color="white"onPress={() => this.props.navigation.goBack()}/>}
           centerComponent={{
-            text: "Area Info",
+            text: "My Employees",
             style: { color: "#fff", fontSize: 25 }
           }}
           

@@ -138,14 +138,6 @@ updateSearch = (search) => {
             text: "Collected Trashcans",
             style: { color: "#fff", fontSize: 25 }
           }}
-          rightComponent={
-            <Ionicons
-              name="ios-notifications"
-              color="white"
-              size={30}
-              onPress={() => this.props.navigation.navigate("Profile")}
-            />
-          }
         />   
                     <SearchBar
                 placeholder="Filter by Area Name"

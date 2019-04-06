@@ -23,6 +23,7 @@ import db from "../db";
 import firebase from "firebase";
 import moment from "moment";
 // import {Card} from 'react-native-shadow-cards';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 export default class AdminTrashcanIssues extends React.Component {
   state = {
@@ -127,34 +128,31 @@ export default class AdminTrashcanIssues extends React.Component {
       <View style={styles.container}>
                  <Header
       backgroundColor="#567D46"
-      placement="left"
-  leftComponent={<Foundation  name="map" size={30} color="white"/>}
-  centerComponent={{ text: 'Map', style: { color: '#fff',fontSize:25 } }}
-  rightComponent={<Ionicons name="ios-notifications" color="white" size={30} onPress={() => this.props.navigation.navigate('Profile')}/>}
+      placement="center"
+  leftComponent={<Ionicons name="ios-arrow-round-back" size={30} color="white"onPress={() => this.props.navigation.goBack()}/>}
+  centerComponent={{ text: 'Trashcan Issues', style: { color: '#fff',fontSize:25 } }}
+  //rightComponent={<Ionicons name="ios-notifications" color="white" size={30} onPress={() => this.props.navigation.navigate('Profile')}/>}
 />
           <View>
-            <View
-              style={{ flexDirection: "row", justifyContent: "space-between" }}
-            >
-              <Text
-                style={{
-                  fontWeight: "bold",
-                  marginLeft: 5,
-                  marginTop: 5,
-                  marginBottom: 8
-                }}
-              >
-                {" "}
-                Trashcan Issues
-              </Text>
-
-              <Button
-                containerStyle={{ margin: 8, width: 200, marginRight: 10 }}
-                onPress={this.handleFixed}
-                title="Trashcan Issues Supplied"
-              />
-            </View>
-
+          {/* <View style={{textAlign:"center"}}> 
+        <Text style={{textAlign:"center", fontSize:25,fontWeight:"bold"}}>Trash Can Details</Text>
+       
+       </View> */}
+<View style={{flexDirection:"row-reverse"}}>
+                       <TouchableOpacity
+                         style={{width:wp("30%"),
+                         height:wp("10%"),float:"right",backgroundColor:"#567D46",borderColor:"white",borderWidth:2,borderStyle:"solid",borderRadius:10,alignItems: 'center',justifyContent:"center"
+                       }}
+                       onPress={this.handleFixed}
+                         
+                       >
+                       <View style={{alignItems: 'center',justifyContent:"center"}}>
+                       {/* <AntDesign name="profile" borderColor="blue" color="white" size={wp('5.5%')}/> */}
+                       <Text style={{ fontSize: wp('3.5%'), fontWeight: "bold" ,color:"white",textAlign:"center"}}> Issues History </Text>
+                       
+                       </View>
+                       </TouchableOpacity>
+</View>
             <ScrollView>
             {this.state.issues.length>0?
               <FlatList

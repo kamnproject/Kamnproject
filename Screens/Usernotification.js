@@ -19,6 +19,7 @@ import {
 } from "react-native-elements";
 import db from "../db";
 import firebase from 'firebase'
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 export default class Usernotification extends React.Component {
 
 state = {
@@ -144,11 +145,18 @@ handleSend = async () => {
 
 </Card>
 
-<Button 
-  containerStyle={{marginTop: 8, width: '90%', alignContent: "center", marginLeft: 20}}
-  onPress = {this.handleSend}
-  title="Send"
-/>
+<View style={{alignItems: 'center',justifyContent:"center",marginTop:5}}>
+<TouchableOpacity
+    style={{width:wp("95%"),
+    height:wp("7%") ,
+    borderRadius:15,backgroundColor:"#567D46",alignItems: 'center',justifyContent:"center"
+}}
+onPress = {this.handleSend}
+    
+><View style={{alignItems: 'center',justifyContent:"center",margin:5}}>
+                       <Text style={{ fontSize: wp('3%'), fontWeight: "bold" ,color:"white"}}>Send</Text>
+                       </View></TouchableOpacity>
+                       </View>
 
 </ScrollView>
       </View>

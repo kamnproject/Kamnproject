@@ -104,7 +104,7 @@ updateSearch = (search) => {
 
         }
 
-        onPress={() => this.props.navigation.navigate("EmployeeList",{areaid:item.id,areainfo:item})}
+        onPress={() => this.props.navigation.navigate("EmployeeList",{areaid:item.id,areainfo:item,role:this.props.navigation.getParam('role')})}
       />
     );
   };
@@ -121,14 +121,7 @@ updateSearch = (search) => {
             text: "Areas",
             style: { color: "#fff", fontSize: 25 }
           }}
-          rightComponent={
-            <Ionicons
-              name="ios-notifications"
-              color="white"
-              size={30}
-              onPress={() => this.props.navigation.navigate("Profile")}
-            />
-          }
+         
         />   
                     <SearchBar
                 placeholder="Filter by Area Name"
@@ -136,7 +129,6 @@ updateSearch = (search) => {
                 onChangeText={this.updateSearch}
                 value={this.state.search}
                 containerStyle={height=5}
-                showLoading={true}
             /> 
               {
                   this.temp == "admin@admin.com" ?

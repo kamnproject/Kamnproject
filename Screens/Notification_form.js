@@ -10,6 +10,7 @@ import Entypo from '@expo/vector-icons/Entypo';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import {  Input, Button, CheckBox, Card } from 'react-native-elements';
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import {
   Header,
   Avatar,
@@ -159,10 +160,9 @@ handleSend = async () => {
       <View style={styles.container}>
                   <Header
       backgroundColor='#567D46'
-      placement="left"
-  leftComponent={<MaterialCommunityIcons  name="inbox" size={30} color="white"/>}
-  centerComponent={{ text: 'Inbox', style: { color: '#fff',fontSize:25 } }}
-  rightComponent={<Ionicons name="ios-notifications" color="white" size={30} onPress={() => this.props.navigation.navigate('Profile')}/>}
+      placement="center"
+  leftComponent={<Ionicons name="ios-arrow-round-back" size={30} color="white"onPress={() => this.props.navigation.goBack()}/>}
+  centerComponent={{ text: 'Send Notification', style: { color: '#fff',fontSize:25 } }}
 />
 
   <ScrollView>
@@ -231,7 +231,8 @@ handleSend = async () => {
       title=  'User'
       checkedIcon='dot-circle-o'
       uncheckedIcon='circle-o'
-      checked={this.state.checked}
+      checkedColor={"#567D46"}
+      checked={this.state.flagUser}
       onPress= {this.handleShowUser}
       containerStyle = {{width: 110}}
     />
@@ -240,7 +241,8 @@ handleSend = async () => {
       title='Area'
       checkedIcon='dot-circle-o'
       uncheckedIcon='circle-o'
-      checked={this.state.checked}
+      checkedColor={"#567D46"}
+      checked={this.state.flagArea}
       onPress= {this.handleShowArea}
       containerStyle = {{width: 105}}
     />
@@ -249,7 +251,8 @@ handleSend = async () => {
       title='All'
       checkedIcon='dot-circle-o'
       uncheckedIcon='circle-o'
-      checked={this.state.checked}
+      checkedColor={"#567D46"}
+      checked={this.state.flagAll}
       onPress= {this.handleShowAll}
       containerStyle = {{width: 105}}
     />
@@ -320,11 +323,18 @@ null
 
 </Card>
 
-<Button 
-  containerStyle={{marginTop: 8, width: '90%', alignContent: "center", marginLeft: 20}}
-  onPress = {this.handleSend}
-  title="Send"
-/>
+<View style={{alignItems: 'center',justifyContent:"center",marginTop:5}}>
+<TouchableOpacity
+    style={{width:wp("95%"),
+    height:wp("7%") ,
+    borderRadius:15,backgroundColor:"#567D46",alignItems: 'center',justifyContent:"center"
+}}
+onPress = {this.handleSend}
+    
+><View style={{alignItems: 'center',justifyContent:"center",margin:5}}>
+                       <Text style={{ fontSize: wp('3%'), fontWeight: "bold" ,color:"white"}}>Send</Text>
+                       </View></TouchableOpacity>
+                       </View>
 
 </ScrollView>
       </View>

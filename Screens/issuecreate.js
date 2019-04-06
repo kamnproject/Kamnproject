@@ -1,5 +1,5 @@
 import React  from 'react';
-import { StyleSheet, Text, View,TextInput, Button ,TouchableOpacity} from 'react-native';
+import { StyleSheet, Text, View,TextInput, Button ,TouchableOpacity,Alert} from 'react-native';
 import { Header,Overlay,Input,Card } from 'react-native-elements';
 import Entypo from '@expo/vector-icons/Entypo';
 import firebase, { firestore } from 'firebase'
@@ -28,15 +28,17 @@ export default class issueCreate extends React.Component {
       componentWillMount() {
      
         const {navigation} = this.props;
-        this.issue = navigation.getParam("usere","default")
+        this.issue = firebase.auth().currentUser.email
     
-        this.setState({ name: this.issue })
+        this.setState({ name: firebase.auth().currentUser.email })
         }  
        
         report = async () => {
             {
                 db.collection(`User/${this.state.name}/User_issues`).doc().set({ Date: new Date(), Message: this.state.message, Reply: "" })
-                this.props.navigation.navigate('Inbox')
+                Alert.alert("Your Isssue has been reported.")
+                this.props.navigation.goBack()
+                
             }
            
         }
@@ -46,10 +48,10 @@ export default class issueCreate extends React.Component {
 <View style ={{justifyContent: "flex-start", alignItems: "center",}}>
 <Header
       backgroundColor='#567D46'
-      placement="left"
-  leftComponent={<Ionicons name="ios-arrow-round-back" size={30} color="white"onPress={() => this.props.navigation.navigate('Inbox')}/>}
+      placement="center"
+  leftComponent={<Ionicons name="ios-arrow-round-back" size={30} color="white"onPress={() => this.props.navigation.goBack()}/>}
   centerComponent={{ text: 'Issue', style: { color: '#fff',fontSize:25 } }}
-  rightComponent={<Ionicons name="ios-notifications" color="white" size={30} onPress={() => this.props.navigation.navigate('Profile')}/>}
+  
 />
     <Card width={"96%"} >
 

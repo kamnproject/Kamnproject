@@ -47,6 +47,7 @@ import TrashcanMap from"../Screens/TrashcanMap"
 import AdminTrashCanIssues from "../Screens/AdminTrashcanIssues"
 import AdminTrashcanIssuesDetails from "../Screens/AdminTrashcanIssuesDetails"
 import AdminTrashcanIssuesHistory from "../Screens/AdminTrashcanIssuesHistory"
+import MyEmployee from '../Screens/MyEmployee'
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
   Ranking:RankingScreen,
@@ -77,7 +78,8 @@ const HomeStack = createStackNavigator({
   TrashcanMap:TrashcanMap,
   AdminTrashCanIssues:AdminTrashCanIssues,
   AdminTrashcanIssuesDetails:AdminTrashcanIssuesDetails,
-  AdminTrashcanIssuesHistory:AdminTrashcanIssuesHistory
+  AdminTrashcanIssuesHistory:AdminTrashcanIssuesHistory,
+  MyEmployee:MyEmployee
 },
 {
   mode: 'modal',
@@ -112,7 +114,7 @@ MapStack.navigationOptions = {
   tabBarIcon: ({ focused,tintColor }) => (
    
     <Foundation  
-    name={Platform.OS === 'ios' ? 'ios-link' : 'map'}
+    name={Platform.OS === 'ios' ? 'map' : 'map'}
     size={20} 
     color={tintColor}/>
   ),
@@ -146,7 +148,7 @@ MyProfleStack.navigationOptions = {
   tabBarIcon: ({ focused,tintColor }) => (
     <MaterialCommunityIcons
       focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-face' : 'face-profile'}
+      name={Platform.OS === 'ios' ? 'face-profile' : 'face-profile'}
       size={25}
       color={tintColor}
     />

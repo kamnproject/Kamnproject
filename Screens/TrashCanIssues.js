@@ -22,6 +22,7 @@ import db from "../db";
 import firebase from "firebase";
 import moment from "moment";
 // import {Card} from 'react-native-shadow-cards';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 export default class Issues extends React.Component {
   state = {
@@ -154,11 +155,19 @@ export default class Issues extends React.Component {
                 Trashcan Issues
               </Text>
 
-              <Button
-                containerStyle={{ margin: 8, width: 200, marginRight: 10 }}
-                onPress={this.handleFixed}
-                title="Trashcan Issues Supplied"
-              />
+                              <TouchableOpacity
+                style={{
+                    alignItems: 'center',
+                    justifyContent:'center',
+                backgroundColor: '#567D46',
+                color:"white",
+                width:wp("30%"),
+                height:wp("10%"),
+                borderRadius:5
+                }}
+                onPress={this.handleFixed} >
+                <Text  style={{ fontSize: wp('3.5%'), fontWeight: "bold", color: "white" }} >Trashcan Issues Supplied</Text>
+                </TouchableOpacity>
             </View>
 
             <ScrollView>

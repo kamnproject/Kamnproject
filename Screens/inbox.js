@@ -38,7 +38,7 @@ export default class inbox extends React.Component {
             let areaid=this.props.navigation.getParam('areaid')
             // let areaid="1"
             // let Role="Employee"
-             let temp ="a@a.com"
+             let temp =firebase.auth().currentUser.email
              //let temp ="amanager@manger.com"
         this.tem = temp
             
@@ -171,10 +171,10 @@ export default class inbox extends React.Component {
             <View>
                 <Header
       backgroundColor='#567D46'
-      placement="left"
-  leftComponent={<MaterialCommunityIcons  name="inbox" size={30} color="white"/>}
+      placement="center"
+  leftComponent={<Ionicons name="ios-arrow-round-back" size={30} color="white"onPress={() => this.props.navigation.goBack()}/>}
   centerComponent={{ text: 'Inbox', style: { color: '#fff',fontSize:25 } }}
-  rightComponent={<Ionicons name="ios-notifications" color="white" size={30} onPress={() => this.props.navigation.navigate('Profile')}/>}
+  //rightComponent={<Ionicons name="ios-notifications" color="white" size={30} onPress={() => this.props.navigation.navigate('Profile')}/>}
 />
                 <View>
                 
@@ -190,13 +190,13 @@ export default class inbox extends React.Component {
                      onChangeText={this.updateSearch}
                      value={this.state.search}
                      containerStyle={height=5}
-                     showLoading={true}
+                     //showLoading={true}
                  /> 
                   {
 
 this.state.User_issues.map(m =>
     m.Message!==""&&
-    <View style={{}}>
+    <View key={m.id} style={{}}>
     
         <View key={m.id}>
             {console.log("m", m.Date.toDate().getDate())}
@@ -205,13 +205,13 @@ this.state.User_issues.map(m =>
             <Text>
 
             </Text>
-            {this.props.navigation.getParam('Role')!="Employee"&&<Text style={{ fontSize: wp('4.2%'), fontWeight: "bold", color: "black" }}>From {m.username}: </Text>}
-            <Text  style={{ fontSize: wp('4.2%'), fontWeight: "bold", color: "black" }}>Issue: {m.Message} </Text>
+            {this.props.navigation.getParam('Role')!="Employee"&&<Text style={{ fontWeight: "bold", color: "black" }}>From {m.username}: </Text>}
+            <Text  style={{ fontWeight: "bold", color: "black" }}>Issue: {m.Message} </Text>
             
             
                {(m.Reply===""&&this.props.navigation.getParam('Role')=="Employee")&&<Text>No Reply Yet</Text>}
-            {m.Reply!==""&&<Text style={{ fontSize: wp('4.2%'), fontWeight: "bold", color: "black" }} >Reply:{m.Reply}</Text>}
-            <Text  style={{ fontSize: wp('3.5%'), fontWeight: "bold", color: "black" }}>Time:{m.Date.toDate().getDate()}{"/"}{m.Date.toDate().getMonth() + 1}{"   "}{m.Date.toDate().getHours()}{":"}{m.Date.toDate().getMinutes()} </Text>
+            {m.Reply!==""&&<Text style={{ fontWeight: "bold", color: "black" }} >Reply:{m.Reply}</Text>}
+            <Text  style={{  fontWeight: "bold", color: "black" }}>Time:{m.Date.toDate().getDate()}{"/"}{m.Date.toDate().getMonth() + 1}{"   "}{m.Date.toDate().getHours()}{":"}{m.Date.toDate().getMinutes()} </Text>
 
                {(m.Reply===""&&this.props.navigation.getParam('Role')!="Employee")&&
                <View style={{width: 50,flex:0.2, padding:5}}>
@@ -219,18 +219,18 @@ this.state.User_issues.map(m =>
                     <TouchableOpacity
                      style={styles.button}
                onPress={()=>this.props.navigation.navigate('inboxD', {message:m })}> 
-               <Text  style={{ fontSize: wp('3.5%'), color: "white" }} >Reply</Text>
+               <Text  style={{  color: "white" }} >Reply</Text>
                </TouchableOpacity>
             </View>}
 
-            {/* {(m.Reply  === ""&&this.props.navigation.getParam('Role')=="Employee") ? <Text>{'\n'}</Text>: <Text style={{ fontSize: wp('4.2%'), fontWeight: "bold", color: "black" }} >{'\n'}Admin's Reply:{m.Reply}{'\n'}</Text>}
+            {/* {(m.Reply  === ""&&this.props.navigation.getParam('Role')=="Employee") ? <Text>{'\n'}</Text>: <Text style={{ fontWeight: "bold", color: "black" }} >{'\n'}Admin's Reply:{m.Reply}{'\n'}</Text>}
             {(m.Reply == ! " " &&this.props.navigation.getParam('Role')!="Employee") &&
                             <View style={{width: 50,flex:0.2, paddingTop:10}}>
                          
                     <TouchableOpacity
                      style={styles.button}
                onPress={()=>this.props.navigation.navigate('inboxD', {message:m })}> 
-               <Text  style={{ fontSize: wp('3.5%'), color: "white" }} >Reply</Text>
+               <Text  style={{  color: "white" }} >Reply</Text>
                </TouchableOpacity>
                  </View>
                     } */}

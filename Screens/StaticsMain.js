@@ -18,9 +18,8 @@ export default class StaticsMain extends React.Component {
          <Header
       backgroundColor="#567D46"
       placement="center"
-  leftComponent={<Ionicons name="ios-notifications" color="white" size={30} onPress={() => this.props.navigation.goBack()}/>}
+  leftComponent={<Ionicons name="ios-arrow-round-back" size={30} color="white"onPress={() => this.props.navigation.goBack()}/>}
   centerComponent={{ text: 'Statics', style: { color: '#fff',fontSize:25 } }}
-  rightComponent={<Ionicons name="ios-notifications" color="white" size={30} onPress={() => this.props.navigation.navigate('Profile')}/>}
 />
        <AppContainer2/>
        </View>

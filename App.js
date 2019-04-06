@@ -12,11 +12,14 @@ export default class App extends React.Component {
     console.log("Camera permission 1: ", prompt)
     const result = await Permissions.getAsync(Permissions.CAMERA_ROLL)
     console.log("Camera permission 2: ", result)
+    
 
   }
   render() {
     if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
+      //console.disableYellowBox = true
       return (
+        
         <AppLoading
           startAsync={this._loadResourcesAsync}
           onError={this._handleLoadingError}
