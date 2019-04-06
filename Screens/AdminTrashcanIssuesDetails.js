@@ -24,6 +24,8 @@ import firebase from "firebase";
 import moment from "moment";
 // import {Card} from 'react-native-shadow-cards';
 import MapView from 'react-native-maps'
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+
 export default class AdminTrashcanIssuesDetails extends React.Component {
   state = {
     issues: [],
@@ -82,12 +84,13 @@ this.setState({long:trashcan.data().Location._long})
       <ScrollView>
                  <Header
       backgroundColor="#567D46"
-      placement="left"
-  leftComponent={<Foundation  name="map" size={30} color="white"/>}
-  centerComponent={{ text: 'Map', style: { color: '#fff',fontSize:25 } }}
-  rightComponent={<Ionicons name="ios-notifications" color="white" size={30} onPress={() => this.props.navigation.navigate('Profile')}/>}
+      placement="center"
+  leftComponent={<Ionicons name="ios-arrow-round-back" size={30} color="white"onPress={() => this.props.navigation.goBack()}/>}
+  centerComponent={{ text: 'Issue Details', style: { color: '#fff',fontSize:25 } }}
+ // rightComponent={<Ionicons name="ios-notifications" color="white" size={30} onPress={() => this.props.navigation.navigate('Profile')}/>}
 />
-    <Button title="Fix it" onPress={this.handleIssue}/>
+   
+
             <Card
           containerStyle={{
             borderRadius: 10,
@@ -97,18 +100,12 @@ this.setState({long:trashcan.data().Location._long})
           }}
           
         >
-                    
-                    <Text
-                style={{
-                  fontWeight: "bold",
-                  marginLeft: 5,
-                  marginTop: 5,
-                  marginBottom: 8
-                }}
-              >
-                {" "}
-                Trashcan Issues
-              </Text>
+
+        <View style={{textAlign:"center"}}> 
+        <Text style={{textAlign:"center", fontSize:20,fontWeight:"bold"}}>Trashcan Issue</Text>
+       
+       </View>
+
           <ListItem
            
             title={
@@ -127,6 +124,21 @@ this.setState({long:trashcan.data().Location._long})
             }
            
           />
+                         <View style={{flexDirection:"row-reverse"}}>
+                       <TouchableOpacity
+                         style={{width:wp("30%"),
+                         height:wp("10%"),float:"right",backgroundColor:"#567D46",borderColor:"white",borderWidth:2,borderStyle:"solid",borderRadius:10,alignItems: 'center',justifyContent:"center"
+                       }}
+                       onPress={this.handleIssue}
+                         
+                       >
+                       <View style={{alignItems: 'center',justifyContent:"center"}}>
+                       {/* <AntDesign name="profile" borderColor="blue" color="white" size={wp('5.5%')}/> */}
+                       <Text style={{ fontSize: wp('3.5%'), fontWeight: "bold" ,color:"white",textAlign:"center"}}>Fix it </Text>
+                       
+                       </View>
+                       </TouchableOpacity>
+                       </View>
         </Card>
          
         <Card
@@ -139,17 +151,11 @@ this.setState({long:trashcan.data().Location._long})
           
         >
                     
-                    <Text
-                style={{
-                  fontWeight: "bold",
-                  marginLeft: 5,
-                  marginTop: 5,
-                  marginBottom: 8
-                }}
-              >
-                {" "}
-                Trashcan Details
-              </Text>
+
+              <View style={{textAlign:"center"}}> 
+        <Text style={{textAlign:"center", fontSize:20,fontWeight:"bold"}}>Trashcan Details</Text>
+       
+       </View>
           <ListItem
            
             title={
@@ -159,7 +165,7 @@ this.setState({long:trashcan.data().Location._long})
             }
             subtitle={
               <View>
-                <Text style={{ textAlign: "left" }}> Trashcan_id: {this.state.trashcan.id}</Text>
+                <Text style={{ textAlign: "left" }}>Trashcan_id: {this.state.trashcan.id}</Text>
                 <Text style={{ textAlign: "left" }}>Status: {this.state.Status}</Text>
 
               </View>
@@ -175,6 +181,7 @@ this.setState({long:trashcan.data().Location._long})
           longitudeDelta: 0.004
         }}
         showsUserLocation={true}
+        provider={"google"}
       >
           <MapView.Marker
    

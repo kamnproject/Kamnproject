@@ -19,9 +19,8 @@ export default class MainInventory extends React.Component {
          <Header
       backgroundColor="#567D46"
       placement="center"
-  leftComponent={<Foundation  name="map" size={30} color="white"/>}
+  leftComponent={<Ionicons name="ios-arrow-round-back" size={30} color="white"onPress={() => this.props.navigation.goBack()}/>}
   centerComponent={{ text: 'Inventory', style: { color: '#fff',fontSize:25 } }}
-  rightComponent={<Ionicons name="ios-notifications" color="white" size={30} onPress={() => this.props.navigation.navigate('Profile')}/>}
 />
        <AppContainer2/>
        </View>

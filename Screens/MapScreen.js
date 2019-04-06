@@ -20,10 +20,10 @@ export default class Trashlist extends React.Component {
         <View style = {styles.container} >
          <Header
       backgroundColor="#567D46"
-      placement="left"
+      placement="center"
   leftComponent={<Foundation  name="map" size={30} color="white"/>}
   centerComponent={{ text: 'Map', style: { color: '#fff',fontSize:25 } }}
-  rightComponent={<Ionicons name="ios-notifications" color="white" size={30} onPress={() => this.props.navigation.navigate('Profile')}/>}
+ 
 />
        <AppContainer2/>
        </View>

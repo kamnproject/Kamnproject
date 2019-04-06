@@ -25,7 +25,7 @@ temp = ""
         f.push({ id: doc.id, ...doc.data() })
       })
       this.setState({ issueFixed: f })
-      this.temp = firebase.auth().currentUser.email 
+      //this.temp = firebase.auth().currentUser.email 
       console.log("Current fixed issues: ", this.state.issueFixed.length)
     })
   }
@@ -66,13 +66,16 @@ temp = ""
       <View style={styles.container}>
 <Header
       backgroundColor="#567D46"
-      placement="left"
-  leftComponent={<Foundation  name="map" size={30} color="white"/>}
-  centerComponent={{ text: 'Map', style: { color: '#fff',fontSize:25 } }}
-  rightComponent={<Ionicons name="ios-notifications" color="white" size={30} onPress={() => this.props.navigation.navigate('Profile')}/>}
+      placement="center"
+  leftComponent={<Ionicons name="ios-arrow-round-back" size={30} color="white"onPress={() => this.props.navigation.goBack()}/>}
+  centerComponent={{ text: 'Fixed Issues', style: { color: '#fff',fontSize:25 } }}
+  //rightComponent={<Ionicons name="ios-notifications" color="white" size={30} onPress={() => this.props.navigation.navigate('Profile')}/>}
 />
-        <Text style={{fontWeight: "bold", marginLeft: 5, marginTop: 5, marginBottom: 8}}> Trashcan Issues supplied</Text>
-        
+        {/* <Text style={{fontWeight: "bold", marginLeft: 5, marginTop: 5, marginBottom: 8}}> Trashcan Issues supplied</Text> */}
+        {/* <View style={{textAlign:"center"}}> 
+        <Text style={{textAlign:"center", fontSize:25,fontWeight:"bold"}}>Trashcan Issues supplied</Text>
+       
+       </View> */}
       {/* {
         this.temp == "admin@admin.com" ? */}
   

@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View, ScrollView,Button,Alert } from "react-native";
+import { StyleSheet, Text, View, ScrollView,Button,Alert,TouchableOpacity } from "react-native";
 import { createStackNavigator, createAppContainer } from "react-navigation";
 import {
   createMaterialTopTabNavigator,
@@ -21,6 +21,7 @@ import Foundation from "@expo/vector-icons/Foundation";
 import firebase from "firebase";
 import db from "../db.js";
 import _ from "lodash";
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 export default class InventoryRequest extends React.Component {
   state = {
@@ -30,14 +31,16 @@ export default class InventoryRequest extends React.Component {
     lessinventory:[]
   
   };
-  currentuser="admin@admin.com"
-  //currentuser="amanager@manger.com"
-   //currentuser="khalid@khalid.com"
-  componentDidMount() {
-    // let currentuser=firebase.auth().currentUser.email
+  Role=""
+  areaid=""
+  async componentWillMount() {
+    const querySnapshot = await db.collection("User").doc(firebase.auth().currentUser.email).get();
+    //const querySnapshot = await db.collection("User").doc("a@a.com").get();
+     //const querySnapshot = await db.collection("User").doc("admin@admin.com").get();
     
-    let oneuser = "";
-    if(this.currentuser!="admin@admin.com"){
+    this.Role = querySnapshot.data().Role
+    this.areaid= querySnapshot.data().Area_id
+    if(this.Role!="Admin"){
 
       db.collection("User").onSnapshot(querySnapshot =>   { 
         querySnapshot.forEach(doc => {
@@ -47,7 +50,7 @@ export default class InventoryRequest extends React.Component {
   
         }
       );
-      db.collection("Inventory").where("Area_id","==",oneuser).onSnapshot(querySnapshot => {
+      db.collection("Inventory").where("Area_id","==",this.areaid).onSnapshot(querySnapshot => {
         let users = [];
         querySnapshot.forEach(doc => {
           users.push({ id: doc.id, ...doc.data() });
@@ -56,19 +59,20 @@ export default class InventoryRequest extends React.Component {
         this.setState({ users: users });
         console.log("users", this.state.users.length);
       });
-      console.log("Area_id", oneuser);
+
       }
     
     );
-      
-    console.log("Area_id2", oneuser);
+
     }
     else{
       
      this.LessInventorycount()
       this.ListInventoryHistory()
       }
+
     }
+    
     LessInventorycount=async ()=>{
 
       let lessinventory = [];
@@ -108,9 +112,21 @@ export default class InventoryRequest extends React.Component {
   
           }
           rightAvatar={
-            <Button title={"Supply"}
-            onPress={()=>this.addinventory(item)}
-          />
+
+          <TouchableOpacity
+        style={{width:wp("30%"),
+        height:wp("10%"),float:"right",backgroundColor:"#567D46",borderColor:"white",borderWidth:2,borderStyle:"solid",borderRadius:10,alignItems: 'center',justifyContent:"center"
+      }}
+      onPress={()=>this.addinventory(item)}
+        
+      >
+      <View style={{alignItems: 'center',justifyContent:"center"}}>
+      {/* <AntDesign name="profile" borderColor="blue" color="white" size={wp('5.5%')}/> */}
+      <Text style={{ fontSize: wp('3.5%'), fontWeight: "bold" ,color:"white",textAlign:"center"}}>Supply</Text>
+      
+      </View>
+      </TouchableOpacity>
+          
           }
   
         />
@@ -173,9 +189,20 @@ db.collection("Inventory").onSnapshot(querySnapshot => {
 
         }
         rightAvatar={
-          <Button title={"Request"}
-          onPress={() => this.props.navigation.navigate("Requestform",{item:item})}
-        />
+  
+        <TouchableOpacity
+        style={{width:wp("30%"),
+        height:wp("10%"),float:"right",backgroundColor:"#567D46",borderColor:"white",borderWidth:2,borderStyle:"solid",borderRadius:10,alignItems: 'center',justifyContent:"center"
+      }}
+      onPress={() => this.props.navigation.navigate("Requestform",{item:item})}
+        
+      >
+      <View style={{alignItems: 'center',justifyContent:"center"}}>
+      {/* <AntDesign name="profile" borderColor="blue" color="white" size={wp('5.5%')}/> */}
+      <Text style={{ fontSize: wp('3.5%'), fontWeight: "bold" ,color:"white",textAlign:"center"}}>Request</Text>
+      
+      </View>
+      </TouchableOpacity>
         }
 
       />
@@ -183,10 +210,13 @@ db.collection("Inventory").onSnapshot(querySnapshot => {
   };
 
   adminlistloop = (item,i) => {
-
+    let name=""
+    this.state.Inventory.map(x=>x.id===item.Inventory_id?name=x.Item_name:null)
+    let areaid=""
+    this.state.Inventory.map(x=>(x.id===item.Inventory_id)?areaid=x.Area_id:"")
     return (
       <ListItem // key={i}
-        title={"Name: "+this.state.Inventory.map(x=>(x.id===item.Inventory_id)?x.Item_name:"")}
+        title={"Name: "+name}
         subtitle={
           "Requested By: " +
           item.Employee_id
@@ -194,8 +224,8 @@ db.collection("Inventory").onSnapshot(querySnapshot => {
           +"Date_Time:"+
           item.Date_time+
           "\n" +
-          "Area_id: "+
-          this.state.Inventory.map(x=>(x.id===item.Inventory_id)?x.Area_id:"")+
+          "Area_id: "+areaid
+         +
           "\n" +
           "Purpose:"+
           item.Purpose +
@@ -207,9 +237,19 @@ db.collection("Inventory").onSnapshot(querySnapshot => {
         subtitleStyle={{ textAlign: "left" }}
        
         rightAvatar={
-          <Button title={"Supply"}
-          onPress={() => this.handleRequest(item)}
-        />
+        <TouchableOpacity
+                         style={{width:wp("20%"),
+                         height:wp("10%"),float:"right",backgroundColor:"#567D46",borderColor:"white",borderWidth:2,borderStyle:"solid",borderRadius:10,alignItems: 'center',justifyContent:"center"
+                       }}
+                       onPress={() => this.handleRequest(item)}
+                         
+                       >
+                       <View style={{alignItems: 'center',justifyContent:"center"}}>
+                       {/* <AntDesign name="profile" borderColor="blue" color="white" size={wp('5.5%')}/> */}
+                       <Text style={{ fontSize: wp('3.5%'), fontWeight: "bold" ,color:"white",textAlign:"center"}}> Supply</Text>
+                       
+                       </View>
+                       </TouchableOpacity>
         }
 
       />
@@ -241,7 +281,7 @@ db.collection("Inventory").onSnapshot(querySnapshot => {
       <View style={styles.container}>
         {/* <Text>Ranking</Text> */}
 
-        {this.currentuser!="admin@admin.com"?
+        {this.Role=="Manager"&&
         <View>
         <View style={{flexDirection:"row",paddingLeft:20}}>
          <Text style={{ fontSize: 18, fontWeight: "bold",textAlign:"center"  }}>Inventory Request </Text>
@@ -253,9 +293,33 @@ db.collection("Inventory").onSnapshot(querySnapshot => {
               <Divider style={{ backgroundColor: "black", height: 1 }} />
             </View>
           ))}
-          </View>:
-        <View>
-          <Button title={"Supplied Items History"} onPress={()=>this.props.navigation.navigate("SuppliedHistory")}></Button>
+          </View>
+          
+        }
+         {this.Role=="Employee"?
+         <View style={{flexDirection:"row",paddingLeft:20}}>
+         <Text style={{ fontSize: 18, fontWeight: "bold",textAlign:"center"  }}>All the Requests are made by your area Manager. Pls Contact him. </Text>
+
+         </View>
+
+
+        :this.Role=="Admin"&&<View>
+<View style={{flexDirection:"row-reverse"}}>
+                       <TouchableOpacity
+                         style={{width:wp("30%"),
+                         height:wp("10%"),float:"right",backgroundColor:"#567D46",borderColor:"white",borderWidth:2,borderStyle:"solid",borderRadius:10,alignItems: 'center',justifyContent:"center"
+                       }}
+                       onPress={()=>this.props.navigation.navigate("SuppliedHistory")}
+                         
+                       >
+                       <View style={{alignItems: 'center',justifyContent:"center"}}>
+                       {/* <AntDesign name="profile" borderColor="blue" color="white" size={wp('5.5%')}/> */}
+                       <Text style={{ fontSize: wp('3.5%'), fontWeight: "bold" ,color:"white",textAlign:"center"}}> Supplied Items History</Text>
+                       
+                       </View>
+                       </TouchableOpacity>
+</View>
+
           <View style={{height:"50%",borderColor:"#567D46",borderWidth:2,borderRadius:15,borderStyle:"solid",margin:2}}>
         <ScrollView >
         <View style={{flexDirection:"row",justifyContent:"space-between"}}>

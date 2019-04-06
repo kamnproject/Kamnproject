@@ -191,10 +191,9 @@ export default class Feedback extends React.Component {
             <View>
                 <Header
                     backgroundColor='#567D46'
-                    placement="left"
-                    leftComponent={<MaterialIcons name="feedback" size={30} color="white" />}
+                    placement="center"
+                    leftComponent={<Ionicons name="ios-arrow-round-back" size={30} color="white"onPress={() => this.props.navigation.goBack()}/>}
                     centerComponent={{ text: 'Daily Feedback', style: { color: '#fff', fontSize: 25 } }}
-                    rightComponent={<Ionicons name="ios-notifications" color="white" size={30} onPress={() => this.props.navigation.navigate('Profile')} />}
                 />
 
                 {this.tem !== "admin@admin.com" ?

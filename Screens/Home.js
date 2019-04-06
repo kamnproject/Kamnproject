@@ -35,20 +35,17 @@ countemploee=[]
 countstaff=0
 countraash=[]
 counttrashcan=0
+name=""
   async componentWillMount() {
-    //const user=db.collection('User').doc(firebase.auth().currentUser.email).get()
-    // await db.collection("User").doc(firebase.auth().currentUser.email)
-    // .onSnapshot(querySnapshot => {
-    //   this.user =querySnapshot.data().Role
-    //   console.log("querySnapshot.data().Role",querySnapshot.data().Role)
-    // })
+
     areaid=0
-      //const querySnapshot = await db.collection("User").doc("amanager@manger.com").get();
+      const querySnapshot = await db.collection("User").doc(firebase.auth().currentUser.email).get();
     //const querySnapshot = await db.collection("User").doc("a@a.com").get();
-     const querySnapshot = await db.collection("User").doc("admin@admin.com").get();
+     //const querySnapshot = await db.collection("User").doc("admin@admin.com").get();
     
     this.user = querySnapshot.data().Role
     this.managerareaid= querySnapshot.data().Area_id
+    this.name = querySnapshot.data().name
     console.log("Areaid"+this.user)
 
   this.countemploee= await db.collection('User').where("Area_id","==",this.managerareaid).get()  
@@ -172,7 +169,7 @@ counttrashcan=0
                   </View>
                   <View style={{alignContent:"center",justifyContent:"center",flexDirection:"row",paddingVertical:50}}>
             <Text  style={{fontSize: hp('6%'), fontWeight:"bold",color:"#567D46"}}>
-              Welcome
+             {"Welcome "+this.name}
               </Text>
            </View>
                   </View>
@@ -308,7 +305,7 @@ counttrashcan=0
                       backgroundColor: '#DDDDDD',
                       padding: 1,borderRadius:15,backgroundColor:"#567D46",borderColor:"white",borderWidth:2,borderStyle:"solid"
                     }}
-                      onPress={() => this.props.navigation.navigate('Area')}
+                      onPress={() => this.props.navigation.navigate('Area',{role:this.user})}
                     >
                     <View style={{alignItems: 'center',justifyContent:"center"}}>
                     <Entypo name="shareable" borderColor="blue" color="white" size={wp('5.5%')}/>
@@ -326,7 +323,7 @@ counttrashcan=0
                     >
                     <View style={{alignItems: 'center',justifyContent:"center"}}>
                     <AntDesign name="layout" borderColor="blue" color="white" size={wp('5.5%')}/>
-                    <Text style={{ fontSize: wp('3.5%'), fontWeight: "bold" ,color:"white",textAlign:"center"}}> Employee Ranking and List </Text>
+                    <Text style={{ fontSize: wp('3.5%'), fontWeight: "bold" ,color:"white",textAlign:"center"}}>Ranking</Text>
                     </View>
                     </TouchableOpacity>
 
@@ -490,7 +487,7 @@ counttrashcan=0
                       backgroundColor: '#DDDDDD',
                       padding: 1,borderRadius:15,backgroundColor:"#567D46",borderColor:"white",borderWidth:2,borderStyle:"solid"
                     }}
-                      onPress={() =>this.props.navigation.navigate("EmployeeList",{areaid:this.managerareaid})}
+                      onPress={() =>this.props.navigation.navigate("MyEmployee",{areaid:this.managerareaid,role:this.user})}
                     >
                     <View style={{alignItems: 'center',justifyContent:"center"}}>
                     <AntDesign name="profile" borderColor="blue" color="white" size={wp('5.5%')}/>
