@@ -139,14 +139,7 @@ updateSearch = (search) => {
             style: { color: "#fff", fontSize: 25 }
           }}
         />   
-                    <SearchBar
-                placeholder="Filter by Area Name"
-                lightTheme round
-                onChangeText={this.updateSearch}
-                value={this.state.search}
-                containerStyle={height=5}
-                showLoading={true}
-            /> 
+
         {/* <Text>Ranking</Text> */}
         <ScrollView>
           {this.state.trashes.map((item, i) => (

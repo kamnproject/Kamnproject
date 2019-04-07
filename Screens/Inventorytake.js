@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View, ScrollView,Button,TextInput,KeyboardAvoidingView,TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, ScrollView,Button,TextInput,KeyboardAvoidingView,TouchableOpacity,Alert } from "react-native";
 import { createStackNavigator, createAppContainer } from "react-navigation";
 import {
   createMaterialTopTabNavigator,
@@ -45,23 +45,16 @@ export default class InventoryTake extends React.Component {
       const result=await db.collection('Inventory').doc(this.state.item.id).set({Area_id:changeditem.Area_id,Item_id:changeditem.Item_id,Item_name:changeditem.Item_name,Quantity:changeditem.Quantity})
       this.setState({doneflag:true})
     }
-    
+    Alert.alert("Taken Inventory recorded")
+    this.props.navigation.goBack()
    
   }
 
   render() {
     return (
-      <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
-      {!this.state.doneflag?
-          <Card
-          containerStyle={{
-            borderRadius: 10,
-            borderWidth: 1,
-            borderColor: "grey",
-            elevation: 10
-          }}
-          
-        >
+      <KeyboardAvoidingView style={{flex:1}} behavior="padding" enabled>
+
+<View style={{flex:1,justifyContent: 'center'}}>
        <View style={{textAlign:"center"}}> 
         <Text style={{textAlign:"center", fontSize:20,fontWeight:"bold"}}>Take Inventory Form </Text>
        
@@ -118,29 +111,9 @@ export default class InventoryTake extends React.Component {
                        </TouchableOpacity>
 
          </View>
-         </Card>:
-    <View style={styles.container}>
-    <View style={{flexDirection:"row",padding:20}}>
-    <Text>You have submitted the form </Text>
-    </View>
-    <View style={{flexDirection:"row",padding:20}}>
-    <Text>Now Press the back button to go back</Text>
-    </View>
-    <View style={{flexDirection:"row",padding:20}}>
-         {/* <Button title="Go Back" onPress={() => this.props.navigation.goBack()} style={{  fontSize: 18, fontWeight: "bold" }}/> */}
-
+         
          </View>
-         <TouchableOpacity
-                         style={{flexDirection:"column",alignItems: 'center',justifyContent:"center",
-                         backgroundColor: '#DDDDDD', marginTop:5,
-                         padding: 1,borderRadius:15,backgroundColor:"#567D46",borderColor:"white",borderWidth:2,borderStyle:"solid",width:wp("15%"),height:wp("10%"),
-                       }}
-                       onPress={() => this.props.navigation.goBack()}
-                       >
-                       <Text style={{ fontSize: wp('3.5%'),textAlign:"center", fontWeight: "bold",color:"white" }} >Go Back</Text>
-                       </TouchableOpacity>
-         </View>
-  }
+  
          </KeyboardAvoidingView>
     );
   }
