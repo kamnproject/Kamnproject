@@ -48,6 +48,7 @@ import AdminTrashCanIssues from "../Screens/AdminTrashcanIssues"
 import AdminTrashcanIssuesDetails from "../Screens/AdminTrashcanIssuesDetails"
 import AdminTrashcanIssuesHistory from "../Screens/AdminTrashcanIssuesHistory"
 import MyEmployee from '../Screens/MyEmployee'
+import ResetPassword from "../Screens/ResetPassword"
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
@@ -81,6 +82,7 @@ const HomeStack = createStackNavigator({
   AdminTrashcanIssuesDetails:AdminTrashcanIssuesDetails,
   AdminTrashcanIssuesHistory:AdminTrashcanIssuesHistory,
   MyEmployee:MyEmployee,
+  ResetPassword:ResetPassword
 
 },
 {
