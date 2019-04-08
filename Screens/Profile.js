@@ -210,7 +210,7 @@ onPress={this.Logout}
     height:wp("7%") ,
     borderRadius:15,backgroundColor:"#567D46",alignItems: 'center',justifyContent:"center",borderColor:"white",borderWidth:2,borderStyle:"solid"
 }}
-onPress={this.Logout}
+onPress={ ()=>this.props.navigation.navigate('ResetPassword') }
     
 ><View style={{alignItems: 'center',justifyContent:"center",margin:5}}>
                        <Text style={{ fontSize: wp('3%'), fontWeight: "bold" ,color:"white"}}>Reset Password</Text>
