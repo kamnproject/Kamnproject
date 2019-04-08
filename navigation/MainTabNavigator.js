@@ -48,7 +48,9 @@ import AdminTrashCanIssues from "../Screens/AdminTrashcanIssues"
 import AdminTrashcanIssuesDetails from "../Screens/AdminTrashcanIssuesDetails"
 import AdminTrashcanIssuesHistory from "../Screens/AdminTrashcanIssuesHistory"
 import MyEmployee from '../Screens/MyEmployee'
-
+import inboxmanager from '../Screens/inboxmanager'
+import inboxemployee from '../Screens/inboxemployee'
+import inboxadmin from '../Screens/inboxadmin'
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
   Ranking:RankingScreen,
@@ -68,7 +70,9 @@ const HomeStack = createStackNavigator({
   NotificationMain:NotficationScreen,
   AdminStatatics:StataticsScreen,
   CollectedTrashes: CollectedTrashcansScreen,
-  // userInbox:userInbox
+  inboxadmin:inboxadmin,
+  inboxemployee:inboxemployee,
+  inboxmanager:inboxmanager,
   CreateArea:CreateArea,
   Usernotification:Usernotification,
   ContactAdmin:ContactAdmin,
@@ -81,6 +85,7 @@ const HomeStack = createStackNavigator({
   AdminTrashcanIssuesDetails:AdminTrashcanIssuesDetails,
   AdminTrashcanIssuesHistory:AdminTrashcanIssuesHistory,
   MyEmployee:MyEmployee,
+
 
 },
 {

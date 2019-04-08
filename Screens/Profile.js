@@ -26,12 +26,20 @@ export default class Profile extends React.Component {
       "_lat":0,
       "_long":0
     },
+    usr:"",
+
     avatar: "",
    me:"https://firebasestorage.googleapis.com/v0/b/kamn-e4270.appspot.com/o/images%2Fme.png?alt=media&token=5d03c5f4-6440-49e7-819e-f591ce36cf75",
     
   };
-  componentDidMount() {
-    let username=firebase.auth().currentUser.email
+ 
+
+  componentWillMount() {
+    let username= firebase.auth().currentUser.email
+    this.setState({usr:username})
+    //let temp ="amanager@manger.com"
+
+
     // go to db and get one the user daily targets
     // if(this.props.navigation.getParam('username')){
     //   username=this.props.navigation.getParam('username')
@@ -91,6 +99,9 @@ export default class Profile extends React.Component {
         
 
 
+  }
+  avatarURL = (email) => {
+    return "avatars%2F" +email.replace("@", "%40")
   }
 
   render() {
@@ -166,11 +177,12 @@ export default class Profile extends React.Component {
               paddingBottom: 25
             }}
           >
+          {console.log("this.tem",this.tem)}
             <TouchableOpacity onPress={this.pickAvatar}>
-              <Image
+               <Image
                 style={{ height: 120, width: 120, borderRadius: 150 }}
-                source={require("../assets/home.png")}
-              />
+                source={{ uri: `https://firebasestorage.googleapis.com/v0/b/kamn-e4270.appspot.com/o/${this.avatarURL(this.state.usr)}?alt=media&token=81094000-1bce-48b8-98a0-7f437fce10fc` }}
+              /> 
               <MaterialCommunityIcons
                 style={{ paddingLeft: 100 }}
                 name="camera"
