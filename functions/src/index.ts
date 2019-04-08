@@ -165,100 +165,48 @@ res.status(200).send();
   });
  
 
-export const createTarget = functions.https.onRequest(async (req, res) => {
-  const querySnapshot = await admin
-    .firestore()
-    .collection("User")
-    .get();
-  const users = [];
-  querySnapshot.forEach(doc => {
-    users.push({
-      id: doc.id,
-      ...doc.data()
-    });
-  });
+  export const CheckDailyTarget = functions.https.onRequest(async (req, res) => {
 
-  var myDate = new Date();
-  let formatedTime = myDate.toDateString();
-  users.map((item, i) => {
-    admin
-      .firestore()
-      .collection(`User/${item.id}/Daily_targets`)
-      .doc(formatedTime)
-      .set({ Target_achieved: 0, Target_todo: 20, date: new Date() });
-  });
-
-  res.status(200).send();
-});
-export const CheckDailyTarget = functions.https.onRequest(async (req, res) => {
-  const querySnapshot = await admin
-    .firestore()
-    .collection("User")
-    .get();
-  const users = [];
-  const fedback = [];
-  querySnapshot.forEach(doc => {
-    users.push({
-      id: doc.id,
-      ...doc.data()
-    });
-  });
-
-  var myDate = new Date();
-  let formatedTime = myDate.toDateString();
-  //const Target_achieved=0
-
-  users.map((item, i) => {
-    admin
-      .firestore()
-      .collection(`User/${item.id}/Daily_Feedbacks`)
-      .orderBy("date")
-      .onSnapshot(querySnapshot => {
-        querySnapshot.forEach(doc => {
-          fedback.push({
-            id: doc.id,
-            ...doc.data(),
-            username: item.id,
-            name: item.name
-          });
-        });
-
-        let lastone = this.fedback[this.fedback.length - 1].Target_achieved;
-        if (lastone < 20) {
-          let Target_achieved = 20 - lastone;
-          admin
-            .firestore()
-            .collection(`User/${item.id}/Daily_targets`)
-            .doc(formatedTime)
-            .update({
-              Target_achieved: Target_achieved,
-              Target_todo: 20,
-              date: new Date()
-            });
-          admin
-            .firestore()
-            .collection("notification")
-            .doc()
-            .set({
-              Area_id: "",
-              Date_time: new Date(),
-              Message: "You havent achieved your yesturday's daily target",
-              Type: "For You only",
-              title: "Hi" + " " + item.name,
-              Employee_id: item.id
-            });
-        } else {
-          admin
-            .firestore()
-            .collection(`User/${item.id}/Daily_targets`)
-            .doc(formatedTime)
-            .update({ Target_achieved: 0, Target_todo: 20, date: new Date() });
+    const querySnapshot = await admin.firestore().collection("User").get()
+    const users = []
+    //const targt =[]
+    querySnapshot.forEach(doc => {
+        users.push({
+            id: doc.id, ...doc.data()
+        })
+    })
+    var myDate = new Date();
+    let formatedTime=myDate.toDateString();
+    // const Target_achieved=0
+    let lastone=0    
+       users.map(async (item, i) => {
+           const daily_target=await admin.firestore().collection("User").doc(item.id).collection("Daily_targets").orderBy("date","desc").limit(1).get()
+           lastone = daily_target.docs[0].data().Target_achieved
+            //admin.firestore().collection(`User/${item.id}/Daily_targets`).orderBy("date","desc").onSnapshot(querySnapshot => {
+                                
+                // querySnapshot.forEach(doc => {
+                //     targt.push({
+                //         id: doc.id, ...doc.data(),
+                //         username: item.id,
+                //         name: item.name
+                //     })
+                // })
+          
+        //lastone =targt[targt.length-1].Target_achieved
+       
+        if(lastone<20&& lastone>=0){
+           const  target_achieved= 20-lastone
+           const target_todo = 20+target_achieved
+           admin.firestore().collection(`User/${item.id}/Daily_targets`).doc(formatedTime).set({ Target_achieved: 0 , Target_todo: target_todo , date:new Date()})
+           admin.firestore().collection("notification").doc().set({ Area_id:"",Date_time: new Date(), Message: "You havent achieved your yesturday's daily target", Type:"For You only", title: "Hi" +" " +item.name, Employee_id:item.id  })
+        }else{
+            admin.firestore().collection(`User/${item.id}/Daily_targets`).doc(formatedTime).set({ Target_achieved: 0, Target_todo: 20, date:new Date()})
         }
-      });
+    }) 
+    //})
+res.status(200).send();
+})
 
-    res.status(200).send();
-  });
-});
 export const createDailyFeedback = functions.https.onRequest(
   async (req, res) => {
     const querySnapshot = await admin

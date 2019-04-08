@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View,ActivityIndicator } from 'react-native';
 import { Header } from 'react-native-elements';
 import Entypo from '@expo/vector-icons/Entypo';
 import AntDesign from '@expo/vector-icons/AntDesign';
@@ -14,8 +14,13 @@ import db from '../db.js'
 import ProgressCircle from 'react-native-progress-circle'
 import { TouchableOpacity } from 'react-native';
 import { ImageBackground } from 'react-native';
-
+import MainService from "../MainService";
+import AnimatedLoader from 'react-native-animated-loader';
 export default class Home extends React.Component {
+constructor(){
+  super();
+  MainService.load(v=>this.setState({loaded:true}))
+}
   state = {
     image:require('../assets/back.jpg'),
     daily_Target:[],
@@ -25,7 +30,7 @@ export default class Home extends React.Component {
     monthly_toachieve:0,
     monthly_achieved:0,
     monthlyperctange:0,
-   
+   loaded:false
   }
 tem ="a@a.com"
 daily_target=[]
@@ -60,7 +65,7 @@ name=""
      
     
    // go to db and get one the user daily targets
-   db.collection("User").doc("a@a.com").collection("Daily_targets")
+   db.collection("User").doc(firebase.auth().currentUser.email).collection("Daily_targets")
     .onSnapshot(querySnapshot => {
       let daily_Target = []
       querySnapshot.forEach(doc => {
@@ -124,6 +129,9 @@ name=""
     return (
       
       <View style={styles.container}>
+      {this.state.loaded?
+      <View>
+      
        {this.user==="Employee"&&
        <View>
          <Header
@@ -575,6 +583,12 @@ name=""
                 </View>
                    </View>
     }
+    
+    </View>:
+   <View style={[styles.container, styles.horizontal]}>
+   <ActivityIndicator size="large" color="#567D46" />
+   </View>
+      }
       </View>
     );
   }
@@ -583,9 +597,21 @@ name=""
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor:"black",
+    //backgroundColor:"black",
     flexDirection:"column"
     // alignItems: 'center',
     // justifyContent: 'center',
   },
+  container2: {
+    flex: 1,
+    backgroundColor:"white",
+    flexDirection:"column",
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  horizontal: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    padding: 10
+  }
 });

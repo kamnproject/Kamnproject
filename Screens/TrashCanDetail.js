@@ -213,7 +213,7 @@ handleResetTime=()=>{
     </View>}
      rightAvatar={<Badge  status={this.trash.Fill_percentage>30 & this.trash.Fill_percentage<60 ?"warning":this.trash.Fill_percentage>60?"error":"success" }/>}
      title={<Text style={{textAlign:"left",fontWeight:"bold"}}>{"Collected by:  "+l.Employee_id}</Text>}
-     subtitle={<Text style={{textAlign:"left"}}>{"Time of full: "+l.Time_of_full}</Text>}
+     subtitle={<Text style={{textAlign:"left"}}>{"Time of full: "+l.Time_of_full.toDate().toString()}</Text>}
     // <Text style={{textAlign:"left"}}>{"Date: "+"23 March 2019"}</Text> <Text style={{textAlign:"left"}}>{"Time: "+"06:50 PM"}</Text>}
      
    />

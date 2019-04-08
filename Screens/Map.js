@@ -152,7 +152,7 @@ handleBoth=(trash)=>{
     }
 
   
-  db.collection("User").onSnapshot(querySnapshot => {
+  db.collection("User").where("Role","==","Employee").onSnapshot(querySnapshot => {
     let users = []
     querySnapshot.forEach(doc => {
       users.push({

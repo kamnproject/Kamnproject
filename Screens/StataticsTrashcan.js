@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View, ScrollView,Button,Alert,TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, ScrollView,Button,Alert,TouchableOpacity ,ActivityIndicator} from "react-native";
 import { createStackNavigator, createAppContainer } from "react-navigation";
 import {
   createMaterialTopTabNavigator,
@@ -27,6 +27,7 @@ import { Dimensions } from 'react-native'
 import { captureScreen } from "react-native-view-shot";
 import { uploadImageAsync } from '../ImageUtils.js'
 import ProgressCircle from 'react-native-progress-circle'
+import MainService from "../MainService";
 const screenWidth = Dimensions.get('window').width
 import {
   LineChart,
@@ -55,6 +56,10 @@ const chartConfig2 = {
 
 }
 export default class Statatics extends React.Component {
+  constructor(){
+    super();
+    MainService.load(v=>this.setState({loaded:true}))
+  }
   state={
     CollectedTrashcans:[],
     tableData:[],
@@ -62,7 +67,8 @@ export default class Statatics extends React.Component {
     month:[0,0,0,0,0,0],
     Trashcan_Issues:[],
     Trashcan_Issuesmonth:[0,0,0,0,0,0],
-    flag:false
+    flag:false,
+    loaded:false
   }
   takeScreenShot=async()=>{
     //handler to take screnshot
@@ -213,6 +219,8 @@ export default class Statatics extends React.Component {
     
     return (
       <View style={styles.container}>
+      {this.state.loaded?
+      <View>
         <View style={{flexDirection:"row",justifyContent:"space-between",margin:5}}>
         <TouchableOpacity
                          style={{flexDirection:"column",alignItems: 'center',justifyContent:"center",
@@ -279,9 +287,17 @@ export default class Statatics extends React.Component {
           <Row data={['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun']} style={styles.head} textStyle={styles.text}/>
           <Rows data={[this.state.month]} textStyle={styles.text}/>
         </Table>
-      </View> 
+      </View>
+      <View style={styles.container2}>
+        <Text style={{color:"white"}}>asdssadsasadsdsdadsasadsdsddsadsasddas</Text>
+      </View>  
                           
           </ScrollView>
+          </View>:
+   <View style={[styles.container, styles.horizontal]}>
+   <ActivityIndicator size="large" color="#567D46" />
+   </View>
+      }
       </View>
     );
   }
@@ -291,6 +307,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff"
+  },
+  horizontal: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    padding: 10
   },
   container2: { flex: 1, padding: 10, paddingTop: 10, backgroundColor: '#fff' },
   head: { height: 40, backgroundColor: '#f1f8ff' },
