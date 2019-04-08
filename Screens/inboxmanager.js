@@ -131,9 +131,45 @@ export default class inboxmanager extends React.Component {
                </TouchableOpacity>
                {console.log(" .User_issues",this.state.User_issues.length )}
           
-{this.state.User_issues.map(m =>
+ {/* {this.state.User_issues.map(m => 
+//     m.Message!==""&& m.Reply===""&&
+//     <View key={m.id} style={{}}>
+    
+//         <View key={m.id}>
+//             {console.log("m", m.Date.toDate().getDate())}
+          
+//             <Text style={{ fontWeight: "bold", fontSize: 20 }}></Text>
+           
+//             {(this.user=="Manager")&& <Text style={{ fontSize: wp('3.5%'), fontWeight: "bold",color:"white" }}>From {m.username}: </Text>}
+//             <Text  style={{ fontWeight: "bold", color: "black" }}>Issue: {m.Message} </Text>
+            
+//             {m.Reply!==""&&<Text style={{ fontSize: wp('3.5%'), fontWeight: "bold",color:"white" }} >Reply:{m.Reply}</Text>}
+//             <Text  style={{ fontSize: wp('3.5%'), fontWeight: "bold",color:"white" }}>Time:{m.Date.toDate().getDate()}{"/"}{m.Date.toDate().getMonth() + 1}{"   "}{m.Date.toDate().getHours()}{":"}{m.Date.toDate().getMinutes()} </Text>
+
+//                {(this.user!="Employee")&&m.Reply==="" &&
+//                <View style={{width: 50,flex:0.2, padding:5}}>
+                         
+//                     <TouchableOpacity
+//                      style={styles.button}
+               //onPress={()=>this.props.navigation.navigate('inboxD', {message:m })}
+//                onPress={()=>this.props.reply(m)}
+//                > 
+              
+//                <Text  style={{  color: "white" }} >Reply</Text>
+//                </TouchableOpacity>
+//             </View>}      
+//         </View>
+//         <Divider style={{ backgroundColor: '#567D46', height: 1 }} />
+
+      
+//     </View>
+
+// )}       */}
+  {
+
+this.state.User_issues.map(m =>
     m.Message!==""&& m.Reply===""&&
-    <View key={m.id} style={{}}>
+    <View style={{}}>
     
         <View key={m.id}>
             {console.log("m", m.Date.toDate().getDate())}
@@ -142,33 +178,31 @@ export default class inboxmanager extends React.Component {
             <Text>
 
             </Text>
-            {this.user!="Employee"&&<Text style={{ fontSize: wp('3.5%'), fontWeight: "bold",color:"white" }}>From {m.username}: </Text>}
-            <Text  style={{ fontWeight: "bold", color: "black" }}>Issue: {m.Message} </Text>
+            {this.user!="Employee"&&<Text style={{ fontSize: wp('4.2%'), fontWeight: "bold", color: "black" }}>From {m.username}: </Text>}
+            <Text  style={{ fontSize: wp('4.2%'), fontWeight: "bold", color: "black" }}>Issue: {m.Message} </Text>
             
             
                {(m.Reply===""&&this.user=="Employee")&&<Text>No Reply Yet</Text>}
-            {m.Reply!==""&&<Text style={{ fontSize: wp('3.5%'), fontWeight: "bold",color:"white" }} >Reply:{m.Reply}</Text>}
-            <Text  style={{ fontSize: wp('3.5%'), fontWeight: "bold",color:"white" }}>Time:{m.Date.toDate().getDate()}{"/"}{m.Date.toDate().getMonth() + 1}{"   "}{m.Date.toDate().getHours()}{":"}{m.Date.toDate().getMinutes()} </Text>
+            {m.Reply!==""&&<Text style={{ fontSize: wp('4.2%'), fontWeight: "bold", color: "black" }} >Reply:{m.Reply}</Text>}
+            <Text  style={{ fontSize: wp('3.5%'), fontWeight: "bold", color: "black" }}>Time:{m.Date.toDate().getDate()}{"/"}{m.Date.toDate().getMonth() + 1}{"   "}{m.Date.toDate().getHours()}{":"}{m.Date.toDate().getMinutes()} </Text>
 
-               {(this.user!="Employee")&&
+               {(m.Reply===""&&this.user!="Employee")&&
                <View style={{width: 50,flex:0.2, padding:5}}>
                          
                     <TouchableOpacity
                      style={styles.button}
-               //onPress={()=>this.props.navigation.navigate('inboxD', {message:m })}
-               onPress={()=>this.props.reply(m)}
-               > 
-              
-               <Text  style={{  color: "white" }} >Reply</Text>
+                     onPress={()=>this.props.reply(m)}> 
+               <Text  style={{ fontSize: wp('3.5%'), color: "white" }} >Reply</Text>
                </TouchableOpacity>
-            </View>}      
+            </View>}
+
+     
+        
         </View>
         <Divider style={{ backgroundColor: '#567D46', height: 1 }} />
 
-      
     </View>
-
-)}       
+)}
 
 
             </View>

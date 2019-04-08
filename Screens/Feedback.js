@@ -56,49 +56,28 @@ export default class Feedback extends React.Component {
         this.Todaydate()
 
         if(this.user=="Manager"){
-            db.collection("User").where("Area_id","==",this.managerareaid).where("Role","==","Employee").onSnapshot(querySnapshot => {
+            db.collection("User").where("Area_id","==",this.managerareaid).where("Role","==","Employee").onSnapshot(async querySnapshot => {
             this.users = []
+
+            let users= []
             querySnapshot.forEach(doc => {
-                this.users.push({
+               users.push({
                     id: doc.id, ...doc.data(),
                 })
             })
             this.setState({ users: this.users })
             console.log("Current feedback: ",
                 this.users.length)
+                this.user = users
             console.log("Current admin: ")
-  
-            
-
-            console.log("Current temp: ")
  
             console.log("todayyyyyyyyyyyyyyyyyyyyyyyy: ",
                             this.state.today)
-                       
+                            await this.filterlist(users)
                         })             
-               
-                this.state.users.map((item, i) => {
-                 this.questans = []
-                    db.collection(`User/${item.id}/Daily_Feedbacks`).orderBy("date").onSnapshot(querySnapshot => {
-                           
-                        console.log("Current jadhjasdfhas: ", this.tem)
-                        querySnapshot.forEach(doc => {
-                            this.questans.push({
-                                id: doc.id, ...doc.data(),
-                                username: item.id,
-                                name: item.name
-                            })
-                        })
-
-                        this.setState({ Question_Answer: this.questans })
-
-                            console.log("laaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaasssssssssssssttttttttttttt: ",
-                            this.questans[this.questans.length-1].date)
-
-                    })
-
-
-                })
+                        
+                        
+     
             }
                 //not admin
                 else{
@@ -126,6 +105,36 @@ export default class Feedback extends React.Component {
                
        
 
+    }
+    filterlist =(users)=>{
+
+        console.log("Current gggggggggggggggggggggggggggggggg: ",
+                        this.state.users.length)
+        users.map((item, i) => {
+            this.questans = []
+            console.log("item.id: ",
+            item.id)
+                  
+               db.collection(`User/${item.id}/Daily_Feedbacks`).orderBy("date").onSnapshot(querySnapshot => {
+
+                   console.log("Curre.nt jadhjasdfhas: ", this.tem)
+                   querySnapshot.forEach(doc => {
+                       this.questans.push({
+                           id: doc.id, ...doc.data(),
+                           username: item.id,
+                           name: item.name
+                       })
+                   })
+
+                   this.setState({ Question_Answer: this.questans })
+                   console.log("todayyyyyy: ",
+                   this.questans)
+              
+
+               })
+
+
+           })
     }
     contains = (user, search) => {
         let result = false
@@ -253,6 +262,7 @@ export default class Feedback extends React.Component {
                     :
                     <ScrollView>
                         <View>
+
                         <Text style={{ fontSize: wp('3.5%'), fontWeight: "bold" ,color:"black"}}>Date: {this.state.today}/2019 </Text>
 
                             {
