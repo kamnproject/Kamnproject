@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View, ScrollView,Button,TouchableOpacity} from "react-native";
+import { StyleSheet, Text, View, ScrollView,Button,TouchableOpacity,Image,} from "react-native";
 import { createStackNavigator, createAppContainer } from "react-navigation";
 import {
   createMaterialTopTabNavigator,
@@ -78,6 +78,9 @@ export default class MyEmployee extends React.Component {
    return result
     
 }
+avatarURL = (email) => {
+  return "avatars%2F" +email.replace("@", "%40")
+}
 updateSearch = (search) => {
     
        const data= _.filter(this.state.users, user=>{
@@ -112,17 +115,22 @@ updateSearch = (search) => {
         titleStyle={{ textAlign: "left" }}
         subtitleStyle={{ textAlign: "left" }}
         leftAvatar={
-            <Avatar
-            rounded
-            title={(i+1)+""}
-            size="medium"
-            placeholderStyle={backgroundColor="red"}
-          />
+          //   <Avatar
+          //   rounded
+          //   title={(i+1)+""}
+          //   size="medium"
+          //   placeholderStyle={backgroundColor="red"}
+          // />
+          <Image
+          style={{ width: 25, height: 25 }}
+          source={{ uri: `https://firebasestorage.googleapis.com/v0/b/cp3700-f5264.appspot.com/o/${this.avatarURL(item.id)}?alt=media&token=c2f678a6-16ba-436b-86b9-7e7653cec231` }}
+        />
+  
 
         }
         rightAvatar={
           <View style={{flexDirection:"column"}}>
-
+          
            <TouchableOpacity
                          style={{flexDirection:"column",alignItems: 'center',justifyContent:"center",
                          backgroundColor: '#DDDDDD',
@@ -134,6 +142,7 @@ updateSearch = (search) => {
                        </TouchableOpacity>
           {this.props.navigation.getParam('role')=="Admin"&&
       <TouchableOpacity
+      
                          style={{flexDirection:"column",alignItems: 'center',justifyContent:"center",
                          backgroundColor: '#DDDDDD', marginTop:5,
                          padding: 1,borderRadius:15,backgroundColor:"#567D46",borderColor:"white",borderWidth:2,borderStyle:"solid",width:wp("25%"),height:wp("10%"),
@@ -143,10 +152,10 @@ updateSearch = (search) => {
                        <Text style={{ fontSize: wp('3.5%'),textAlign:"center", fontWeight: "bold",color:"white" }} >Notify</Text>
                        </TouchableOpacity>
         
-        }
-          
+        }  
           </View>
         }
+        
         onPress={() => this.props.navigation.navigate("UserProfile",{username:item.id})}
       />
     );

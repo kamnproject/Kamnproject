@@ -124,8 +124,6 @@ export default class Feedback extends React.Component {
                     }
 
                
-
-
        
 
     }
@@ -255,7 +253,7 @@ export default class Feedback extends React.Component {
                     :
                     <ScrollView>
                         <View>
-                        <Text style={{ fontSize: wp('3.5%'), fontWeight: "bold" ,color:"black"}}>Dateeeee: {this.state.today}/2019 </Text>
+                        <Text style={{ fontSize: wp('3.5%'), fontWeight: "bold" ,color:"black"}}>Date: {this.state.today}/2019 </Text>
 
                             {
                                 this.state.Question_Answer.map((m, i) => <View>

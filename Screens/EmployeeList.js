@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View, ScrollView,Button,TouchableOpacity} from "react-native";
+import { StyleSheet, Text, View, ScrollView,Button,Image,TouchableOpacity} from "react-native";
 import { createStackNavigator, createAppContainer } from "react-navigation";
 import {
   createMaterialTopTabNavigator,
@@ -82,6 +82,9 @@ updateSearch = (search) => {
     
     
   };
+  avatarURL = (email) => {
+    return "avatars%2F" +email.replace("@", "%40")
+  }
   listloop = (item,i) => {
     color = this.Randcolor(item.online);
     return (
@@ -105,12 +108,16 @@ updateSearch = (search) => {
         titleStyle={{ textAlign: "left" }}
         subtitleStyle={{ textAlign: "left" }}
         leftAvatar={
-            <Avatar
-            rounded
-            title={(i+1)+""}
-            size="medium"
-            placeholderStyle={backgroundColor="red"}
-          />
+          //   <Avatar
+          //   rounded
+          //   title={(i+1)+""}
+          //   size="medium"
+          //   placeholderStyle={backgroundColor="red"}
+          // />
+          <Image
+          style={{ width: 25, height: 25 }}
+          source={{ uri: `https://firebasestorage.googleapis.com/v0/b/cp3700-f5264.appspot.com/o/${this.avatarURL(item.id)}?alt=media&token=c2f678a6-16ba-436b-86b9-7e7653cec231` }}
+        />
 
         }
         rightAvatar={

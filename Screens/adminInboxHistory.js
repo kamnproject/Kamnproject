@@ -31,81 +31,109 @@ export default class AdminInboxHistroy extends React.Component {
     users = []
     User_issue = []
     tem = ""
+    user=""
+    managerareaid=""
     
 //    {firebase.auth().currentUser.email === "admin@admin.com"?dfgedf:null}
-    componentWillMount() {
+    async componentWillMount() {
         // go to db and get all the users
-       
-        db.collection("User").onSnapshot(querySnapshot => {
+        let temp = firebase.auth().currentUser.email
+         this.tem = temp
+        
+        // go to db and get all the feedback
+    //     Role=this.props.navigation.getParam('Role')
+    // areaid=this.props.navigation.getParam('areaid')
+    const querySnapshot = await db.collection("User").doc(this.tem).get();
+    
+    this.user = querySnapshot.data().Role
+    this.managerareaid= querySnapshot.data().Area_id
 
-            this.users = []
+        
+        console.log("Current temp: ", temp)
 
-            querySnapshot.forEach(doc => {
+        if(this.user=== "Admin"){
+            db.collection("User").where("Role","==","Manager").onSnapshot(querySnapshot => {
 
-                this.users.push({
-                    id: doc.id, ...doc.data()
-                })
-
-            })
-            this.setState({ users: this.users })
-
-            console.log("Current users: ",
-                this.users)
-            // console.log("Current admin: ", firebase.auth().currentUser.email)
-            // let temp = firebase.auth().currentUser.email
-            let temp ="admin@admin.com"
-
-        this.tem = temp
-            
-            console.log("Current temp: ", temp)
-     
-            // {
-            //     this.state.users.map((item, i)=>{
-            //         console.log("Current issuee: ", item.id)
-             
-            //     })
-            //   }
-            
-            this.tem=== "admin@admin.com"? <div>
+                this.users = []
                
-            {
-                this.state.users.map((item, i)=>{
-            db.collection(`User/${item.id}/User_issues`).orderBy("Date").onSnapshot(querySnapshot => {
-                console.log("Current jadhjasdfhas: ",this.tem)
-
                 querySnapshot.forEach(doc => {
-                    this.User_issue.push({
-                        id: doc.id, ...doc.data(),
-                        username:item.id
 
-                    })
-
-                })
-                this.setState({ User_issues: this.User_issue })
-                this.setState({ filtereddata: this.User_issue })
-
-                console.log("Current messages: ",
-                    this.User_issue.length)
-
-            })
-        })
-    }</div>:
-            console.log("normaluser: ",this.tem)
-            db.collection(`User/${this.tem}/User_issues`).orderBy("Date").onSnapshot(querySnapshot => {
-
-                querySnapshot.forEach(doc => {
-                    this.User_issue.push({
+                    this.users.push({
                         id: doc.id, ...doc.data()
                     })
                 })
-                this.setState({ User_issues: this.User_issue })
+                this.setState({ users: this.users })
 
-                console.log("Current messages: ",
-                    this.User_issue.length)
-
+                console.log("Current users: ",
+                    this.users)                        
+            this.state.users.map((item, i)=>{
+        db.collection(`User/${item.id}/User_issues`).orderBy("Date").onSnapshot(querySnapshot => {
+            console.log("Current jadhjasdfhas: ",this.tem)                
+            querySnapshot.forEach(doc => {
+                this.User_issue.push({
+                    id: doc.id, ...doc.data(),
+                    username:item.id
+                })
             })
-            
+            this.setState({ User_issues: this.User_issue })               
+            this.setState({ filtereddata: this.User_issue })                
+            console.log("Current messages: ",
+                this.User_issue.length)
+
         })
+        
+    })
+   
+})
+
+        
+    }
+    else if(this.user=="Manager"){
+        db.collection("User").where("Area_id","==",this.managerareaid).where("Role","==","Employee").onSnapshot(querySnapshot => {
+
+            this.users = []
+        
+            querySnapshot.forEach(doc => {
+        
+                this.users.push({
+                    id: doc.id, ...doc.data()
+                })
+        
+            })
+            this.setState({ users: this.users })
+        
+            console.log("Current users: ",
+                this.users)
+                this.state.users.map((item, i)=>{
+                    db.collection(`User/${item.id}/User_issues`).orderBy("Date").onSnapshot(querySnapshot => {
+                        console.log("Current jadhjasdfhas: ",this.tem)
+                        
+                        querySnapshot.forEach(doc => {
+                            this.User_issue.push({
+                                id: doc.id, ...doc.data(),
+                                username:item.id
+                                
+        
+                            })
+        
+                        })
+                        this.setState({ User_issues: this.User_issue })
+                        this.setState({ filtereddata: this.User_issue })
+                       
+                        console.log("Current messages: ",
+                            this.User_issue.length)
+        
+                    })
+                    
+                })
+                    console.log("normaluser: ",this.tem)
+
+                })   
+                
+
+
+
+    }
     }
      reply = (m) =>{
        
@@ -161,7 +189,6 @@ export default class AdminInboxHistroy extends React.Component {
                 
                     <Text style={{ fontWeight: "bold", fontSize: 17 }}> {this.tem} </Text>
                 </View>
-                {this.tem === "admin@admin.com" &&
                 <View>
                 <SearchBar
                      placeholder="Filter by Name"
@@ -175,8 +202,8 @@ export default class AdminInboxHistroy extends React.Component {
                     
                     this.state.filtereddata.map(m=>
                          <View >
-                          {m.Reply === ""?
-                          null:
+                          {m.Reply !== ""&&
+                       
                           <View>
                         <View style={{flex:1, flexDirection:"row"}}>
                             <View style={{flex:0.8}}>                           
@@ -207,11 +234,10 @@ export default class AdminInboxHistroy extends React.Component {
                     
             
                 </View>
-                //Not an admin
+
 
                 
-                
-                    }
+           
 
             </View>
             </ScrollView>  

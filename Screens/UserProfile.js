@@ -24,13 +24,14 @@ export default class Userprofile extends React.Component {
       "_long":0
     },
     avatar: "",
+    usr:"",
    me:"https://firebasestorage.googleapis.com/v0/b/kamn-e4270.appspot.com/o/images%2Fme.png?alt=media&token=5d03c5f4-6440-49e7-819e-f591ce36cf75",
     
   };
   currentuser="admin@admin.com"
   componentDidMount() {
     let username=this.props.navigation.getParam('username')
-
+    this.setState({usr:username})
     db.collection("User")
       .where(
         firebase.firestore.FieldPath.documentId(),
@@ -49,7 +50,9 @@ export default class Userprofile extends React.Component {
         console.log("user", location);
       });
   }
-
+  avatarURL = (email) => {
+    return "avatars%2F" +email.replace("@", "%40")
+  }
 
   render() {
     return (
@@ -126,11 +129,10 @@ export default class Userprofile extends React.Component {
             }}
           >
             <TouchableOpacity onPress={this.pickAvatar}>
-              <Image
+            <Image
                 style={{ height: 120, width: 120, borderRadius: 150 }}
-                source={require("../assets/home.png")}
-              />
-
+                source={{ uri: `https://firebasestorage.googleapis.com/v0/b/kamn-e4270.appspot.com/o/${this.avatarURL(this.state.usr)}?alt=media&token=81094000-1bce-48b8-98a0-7f437fce10fc` }}
+              /> 
             </TouchableOpacity>
           </View>
 

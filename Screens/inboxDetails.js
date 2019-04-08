@@ -25,10 +25,13 @@ export default class inboxDetails extends React.Component {
   users = []
   User_issue = []
   tem = ""
-
+  user=""
+  managerareaid=""
   issue = []
-  componentWillMount() {
-
+  async componentWillMount() {
+    const querySnapshot = await db.collection("User").doc(firebase.auth().currentUser.email).get();
+    this.user = querySnapshot.data().Role
+    this.managerareaid= querySnapshot.data().Area_id
     const { navigation } = this.props;
     this.issue = navigation.getParam("message", "default")
 
@@ -38,7 +41,7 @@ export default class inboxDetails extends React.Component {
 
   reply = () => {
     db.collection(`User/${this.state.name}/User_issues`).doc(this.state.idd).update({ Reply: this.state.reply })
-    this.props.navigation.goBack()
+    this.props.navigation.navigate('Home',{"areaid":this.managerareaid,"Role":this.user})   
   }
   render() {
 
