@@ -44,11 +44,11 @@ export default class Notification extends React.Component {
 
   componentWillMount = async () => {
     // go to db and get all the users
-    //this.temp = firebase.auth().currentUser.email
+    this.temp = firebase.auth().currentUser.email
     //this.temp = "khalid@khalid.com";
     await this.methodNotification();
     await this.methodArea();
-    this.temp="amanager@manger.com"
+    //this.temp="amanager@manger.com"
     //this.temp="admin@admin.com"
 
   };
@@ -227,7 +227,7 @@ export default class Notification extends React.Component {
                                 </Text>
 
                                 <Text style={{ textAlign: "left" }}>
-                                  Type: {item.Type}
+                                  Type: {item.Type==""?<Text>For you</Text>:item.Type}
                                 </Text>
                               </View>
                             }
