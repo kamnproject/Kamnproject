@@ -28,8 +28,8 @@ export default class Detail extends React.Component {
     }
     secondsTaken=0
     minutesTaken=0
-    //username = firebase.auth().currentUser.email
-username = "a@a.com"
+    username = firebase.auth().currentUser.email
+//username = "a@a.com"
 time=0
 
 
