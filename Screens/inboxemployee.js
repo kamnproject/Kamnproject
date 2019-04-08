@@ -101,9 +101,8 @@ this.state.User_issues.map(m =>
                         
                                     </Text>
                                     {/* {this.user!="Employee"&&<Text style={{ fontSize: wp('3.5%'), fontWeight: "bold",color:"black" }}>From {m.username}: </Text>} */}
-                                    <Text  style={{ fontSize: wp('3.5%'), fontWeight: "bold",color:"black" }}>Issue: {m.Message} </Text>
-                                    
-                                    
+                                    {(m.username==this.tem)? <Text  style={{ fontSize: wp('3.5%'), fontWeight: "bold",color:"black" }}>Your Message: {m.Message} </Text>:<Text  style={{ fontSize: wp('3.5%'), fontWeight: "bold",color:"black" }}>Issue: {m.Message} </Text>}
+                                 
                                        {(m.Reply===""&&this.user=="Employee")&&<Text>No Reply Yet</Text>}
                                     {m.Reply!==""&&<Text style={{ fontSize: wp('3.5%'), fontWeight: "bold",color:"black" }} >Reply:{m.Reply}</Text>}
                                     <Text style={{ fontSize: wp('3.5%'), fontWeight: "bold",color:"black" }}>Time:{m.Date.toDate().getDate()}{"/"}{m.Date.toDate().getMonth() + 1}{"   "}{m.Date.toDate().getHours()}{":"}{m.Date.toDate().getMinutes()} </Text>
@@ -132,7 +131,7 @@ this.state.User_issues.map(m =>
                 <View key={m.id}>
                     {console.log("m", m.Date.toDate().getDate())}
             
-                    <Text  style={{ fontSize: wp('3.5%'), fontWeight: "bold",color:"black" }}>Issue: {m.Message} </Text>
+                    {(m.username==this.tem)? <Text  style={{ fontSize: wp('3.5%'), fontWeight: "bold",color:"black" }}>Your Message: {m.Message} </Text>:<Text  style={{ fontSize: wp('3.5%'), fontWeight: "bold",color:"black" }}>Issue: {m.Message} </Text>}
                       
                        {(m.Reply===""&&this.user=="Employee")&&<Text>No Reply Yet</Text>}
                     {m.Reply!==""&&<Text style={{ fontSize: wp('3.5%'), fontWeight: "bold",color:"black" }} >Reply:{m.Reply}</Text>}

@@ -108,6 +108,7 @@ updateSearch = (search) => {
             <Avatar
             rounded
             subtitle={item.Year}
+            title={(i+1)+""}
             size="medium"
             placeholderStyle={backgroundColor="red"}
           />

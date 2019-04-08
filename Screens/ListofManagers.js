@@ -94,17 +94,15 @@ export default class ListofManagers extends React.Component {
         titleStyle={{ textAlign: "left" }}
         subtitleStyle={{ textAlign: "left" }}
         leftAvatar={
-          //   <Avatar
-          //   rounded
-          //   title={(i+1)+""}
-          //   size="medium"
-          //   placeholderStyle={backgroundColor="red"}
-          // />
-<Image
-          style={{ width: 25, height: 25 }}
-          source={{ uri: `https://firebasestorage.googleapis.com/v0/b/cp3700-f5264.appspot.com/o/${this.avatarURL(item.id)}?alt=media&token=c2f678a6-16ba-436b-86b9-7e7653cec231` }}
-        />
+            <Avatar
+            rounded
+            title={(i+1)+""}
+            size="medium"
+            placeholderStyle={backgroundColor="red"}
+          />
+
         }
+        
         rightAvatar={
           <View style={{flexDirection:"column"}}>
 

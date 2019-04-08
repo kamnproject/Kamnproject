@@ -149,7 +149,7 @@ export default class RegisterScreen extends React.Component {
 
 
       //join_date = Date.now()
-        await db.collection('User').doc(this.state.username).set({ Role:this.state.Role, Area_id: this.state.selectedans, Badges_earned: [], Current_location: new firebase.firestore.GeoPoint(latitude = this.state.lat, longitude = this.state.long), name, online: false, Phone_no: this.state.phone, Points: 0, Profile_pic: "" ,Work_Status: false})
+        await db.collection('User').doc(this.state.username).set({ Role:this.state.Role, Area_id: this.state.selectedans, Badges_earned: [], Current_location: new firebase.firestore.GeoPoint(latitude = this.state.lat, longitude = this.state.long), name, online: false, Phone_no: this.state.phone, Points: 0, avatar: "default.png" ,Work_Status: false})
         await db.collection('User').doc(this.state.username).collection('User_issues').doc().set({ Date: firebase.firestore.Timestamp.fromDate(new Date()), Message: "", Reply: "" })
 
        
