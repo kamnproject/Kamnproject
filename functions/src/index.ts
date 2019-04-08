@@ -91,11 +91,11 @@ export const ChangeTemp = functions.https.onRequest(async (req, res) => {
     let hour = new Date().getHours();
     let Temperature = 0;
     if (hour < 10) {
-      Temperature = doc.data().Temperature - Math.floor(Math.random() * 2);
+      Temperature = 26 - Math.floor(Math.random() * 2);
     } else if (hour > 12 && hour < 16) {
-      Temperature = doc.data().Temperature + Math.floor(Math.random() * 2);
+      Temperature = 26 + Math.floor(Math.random() * 4);
     } else if (hour > 16) {
-      Temperature = doc.data().Temperature - Math.floor(Math.random() * 2);
+      Temperature = 26 - Math.floor(Math.random() * 2);
     }
 
     admin

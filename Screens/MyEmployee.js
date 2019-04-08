@@ -184,6 +184,7 @@ updateSearch = (search) => {
           longitudeDelta: 0.004
         }}
         showsUserLocation={true}
+        provider={"google"}
       >
           <MapView.Marker
    

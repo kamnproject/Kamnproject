@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View, ScrollView,Button,TextInput,KeyboardAvoidingView,TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, ScrollView,Button,TextInput,KeyboardAvoidingView,TouchableOpacity,Alert } from "react-native";
 import { createStackNavigator, createAppContainer } from "react-navigation";
 import {
   createMaterialTopTabNavigator,
@@ -43,23 +43,16 @@ export default class InventoryRequestform extends React.Component {
      
       this.setState({doneflag:true})
     }
-    
+    Alert.alert("Request Has been placed")
+    this.props.navigation.goBack()
    
   }
 
   render() {
     return (
-      <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
-      {!this.state.doneflag?
-          <Card
-          containerStyle={{
-            borderRadius: 10,
-            borderWidth: 1,
-            borderColor: "grey",
-            elevation: 10
-          }}
-          
-        >
+      <KeyboardAvoidingView style={{flex:1}} behavior="padding" enabled>
+      <View style={{flex:1,justifyContent: 'center'}}>
+
        <View style={{textAlign:"center"}}> 
         <Text style={{textAlign:"center", fontSize:20,fontWeight:"bold"}}>Request Inventory Form </Text>
        
@@ -116,37 +109,17 @@ export default class InventoryRequestform extends React.Component {
                        </TouchableOpacity>
 
          </View>
-         </Card>:
-    <View style={styles.container}>
-    <View style={{flexDirection:"row",padding:20}}>
-    <Text>You have submitted the form </Text>
-    </View>
-    <View style={{flexDirection:"row",padding:20}}>
-    <Text>Now Press the back button to go back</Text>
-    </View>
-    <View style={{flexDirection:"row",padding:20}}>
-         {/* <Button title="Go Back" onPress={() => this.props.navigation.goBack()} style={{  fontSize: 18, fontWeight: "bold" }}/> */}
+         </View>
+       
 
-         </View>
-         <TouchableOpacity
-                         style={{flexDirection:"column",alignItems: 'center',justifyContent:"center",
-                         backgroundColor: '#DDDDDD', marginTop:5,
-                         padding: 1,borderRadius:15,backgroundColor:"#567D46",borderColor:"white",borderWidth:2,borderStyle:"solid",width:wp("15%"),height:wp("10%"),
-                       }}
-                       onPress={() => this.props.navigation.goBack()}
-                       >
-                       <Text style={{ fontSize: wp('3.5%'),textAlign:"center", fontWeight: "bold",color:"white" }} >Go Back</Text>
-                       </TouchableOpacity>
-         </View>
-  }
-         </KeyboardAvoidingView>
+  </KeyboardAvoidingView>     
     );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-     flex: 1,
+     //flex: 1,
     backgroundColor: "#fff"
   }
 });
