@@ -114,7 +114,7 @@ trash=[]
 		Alert.alert(errorMessage);
 	}
 area_ids=""
-email="amanager@manger.com"
+email=firebase.auth().currentUser.email
 handlePress=(trash)=>{
   console.warn("sdasdas")
   this.props.navigation.navigate('TrashDetail',{trashes:trash})
